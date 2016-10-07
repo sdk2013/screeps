@@ -68,9 +68,11 @@ function initialize(){
     Creep.prototype.pull = function(target){
         var creep = this
         if(target instanceof Structure){
-            var result = creep.withdraw(target, RESOURCE_ENERGY)
+            var result = creep.withdraw(target, RESOURCE_ENERGY);
         }else if(target instanceof Creep){
-            var result = target.transfer(creep, RESOURCE_ENERGY)
+            var result = target.transfer(creep, RESOURCE_ENERGY);
+        }else if(target instanceof Resource){
+            var result = target.pickup(target);
         }
         if(result == -7){
             console.log(creep.name + " pull failed. Target: " + target.id + "  Resource: Energy (default)")
