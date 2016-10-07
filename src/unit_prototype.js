@@ -24,7 +24,7 @@ var unitPrototype = {
 		    this.creep.say(this.creep.memory.toSay);
 		}else{
 			var sing = require("sing")
-			sing.lesMis.call(this.creep)
+			sing.sing(this.creep);
 		}
 	},
 	

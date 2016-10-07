@@ -19,10 +19,7 @@ var guard = {
 	    tasks.runTasks(creep);
 	},
 	
-	onSpawn: function(){
-	    var spawner = require('spawner')
-	    //spawner.addToQueue("guardbuddy", 1, {role:"guardbuddy", target: creep.id}, -1, false);
-	},
+	onSpawn: function(){},
 
 	partWeights: function(){
 	    return [[MOVE, 1]]

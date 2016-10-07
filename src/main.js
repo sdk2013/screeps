@@ -2,6 +2,7 @@
 1.1.0 Changelog
 
 Tasks and search modules implemented
+Allowed all creeps to sing (Sing module implemented)
 
 TODO: Develop/Finalize Overlord AI
 

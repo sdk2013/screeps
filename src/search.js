@@ -17,6 +17,7 @@ module.exports = {
                     .filter(f => f.name.includes(creep.memory.task) )
                     .filter(f => f.findInRange(FIND_MY_CREEPS).length == 0)
                     .value();
+        return flags;
     }
     /*
      *  This finds all potential energy sources for miners in a room, sorts them into a priority queue, and returns the array
