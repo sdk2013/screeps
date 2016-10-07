@@ -7,7 +7,7 @@ var combat = {
 						.value()
 		return targets
 	},
-	fireEveryThing: function(target){
+	fireEverything: function(target){
 		var creep = this;
 		try{creep.attack(target)}catch(e){}
 		try{creep.rangedAttack(target)}catch(e){}

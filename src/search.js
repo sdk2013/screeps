@@ -262,10 +262,14 @@ module.exports = {
      */
     findHarvestSources: function(){
         var creep = this
-        var targets = _(this.room.find(FIND_SOURCES))
-                    .filter(r => r.pos.findInRange(FIND_MY_CREEPS).length == 0)
+        var sources = _(this.room.find(FIND_SOURCES))
+                    .filter(r => r.pos.findInRange(FIND_MY_CREEPS , 2).length == 0)
                     .sortBy(r => r.pos.getRangeTo(creep.pos) )
                     .value()
+        var rez = _(this.room.find(FIND_DROPPED_ENERGY))
+                    .filter(r => r.amount > creep.carryCapacity)
+                    .value()
+        var targets = sources.concat(rez)
         return targets;
     }
 };

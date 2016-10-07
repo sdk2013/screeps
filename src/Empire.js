@@ -8,13 +8,16 @@
  */
 
 module.exports = {
-    buildCreep: function(unitType, memoryObject){
-        if(memoryObject == undefined || memoryObject == null){
+    buildCreep: function(unitType, memoryObject, roomName){
+        if(memoryObject == null){
             memoryObject = {role: unitType}
+        }
+        if(roomName == null){
+            roomName = -1
         }
         var spawner = require('spawner')
         try {  
-            spawner.addToQueue(unitType, memoryObject, -1, false)
+            spawner.addToQueue(unitType, memoryObject, roomName, false)
             return unitType + " added to queue."
         } catch(e) { 
             console.log("Buildcreep requires: unitType, scaling, [memoryObject], [targetRoomId], priority")
