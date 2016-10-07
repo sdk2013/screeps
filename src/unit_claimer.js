@@ -1,6 +1,7 @@
 var unit_claimer = {
 	beforeAge: function(){
 		var spawner = require("spawner")
+		var creep = this.creep;
 		spawner.addToQueue("claimer", {role:"claimer", task: creep.memory.task, reserveRoomName: creep.memory.reserveRoomName}, -1, false);
 	},
 	
