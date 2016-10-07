@@ -25,8 +25,7 @@ var collector = {
         if(total == creep.carryCapacity && creep.memory.task == "gatherEnergy"){
             creep.memory.task = "fill";
         }
-        var result = 
-        
+        var result = tasks.runTasks(creep);
 	},
 	
 	onSpawn: function(){},
