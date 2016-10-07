@@ -5,6 +5,7 @@ var unit_claimer = {
 	},
 	
 	behavior: function(){
+		var creep = this.creep;
 		require('tasks').runTasks(creep);
 	},
 	
