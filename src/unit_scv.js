@@ -32,20 +32,36 @@ var scv = {
     behavior: function(){
         var creep = this.creep;
         var task = creep.memory.task;
-        if(task == null){
-            creep.memory.task = "upgrade"
-        }
-        if(creep.totalEnergy() == 0 && creep.memory.task != "fetchEnergy"){
-            delete creep.memory.fortifyTarget;
-            creep.memory.oldTask = creep.memory.task;
-            creep.memory.task = "fetchEnergy";
-        }
-        if(creep.memory.task == "fetchEnergy" && creep.totalEnergy() == creep.capacity() ){
-            creep.memory.task = creep.memory.oldTask;
+        var local = (creep.memory.mode != "remote")
+        if(local){
+            if(task == null){
+                creep.memory.task = "upgrade"
+            }
+            if(creep.totalEnergy() == 0 && creep.memory.task != "fetchEnergy"){
+                delete creep.memory.fortifyTarget;
+                creep.memory.oldTask = creep.memory.task;
+                creep.memory.task = "fetchEnergy";
+            }
+            if(creep.memory.task == "fetchEnergy" && creep.totalEnergy() == creep.capacity() ){
+                creep.memory.task = creep.memory.oldTask;
+            }
+        }else{
+            if(creep.memory.task == null || (creep.totalEnergy() == 0 && creep.memory.task != "harvest") ){
+                creep.memory.task = "harvest";
+            }
+            if(creep.totalEnergy() == creep.carryCapacity && creep.memory.task == "harvest"){
+                creep.memory.task = "construction"
+            }
         }
         var result = tasks.runTasks(creep);
-        if(result == "ERR_NO_TARGETS" && creep.memory.task != "upgrade"){
-            creep.memory.task = "upgrade";
+        if(local){
+            if(result == "ERR_NO_TARGETS" && creep.memory.task != "upgrade"){
+                creep.memory.task = "upgrade";
+            }
+        }else{
+            if(result == "ERR_NO_TARGETS" && creep.memory.task == "construction"){
+                creep.memory.task = "upgrade"
+            }
         }
     },
     partWeights: function(){
