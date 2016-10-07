@@ -27,7 +27,7 @@ var miner = {
         if(result == "ERR_NOT_IN_ROOM" && creep.memory.task == "offload"){
             creep.memory.builtcan == true;
         }
-        if(creep.memory.builtcan == true && creep.memory.supportOrdered != true){}
+        if(creep.memory.builtcan == true && creep.memory.supportOrdered != true){
             creep.memory.supportOrdered = true;
             var spawner = require("spawner");
             spawner.addToQueue("collector", {role:"collector", gatherRoomName: creep.room.name}, -1, false)
