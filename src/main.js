@@ -72,8 +72,8 @@ function initialize(){
         }
         this.moveTo(target, arguments)
     }
-    Creep.prototype.goto = function(roomName, arguments){
-        var targetPos = new RoomPosition(25, 25, roomName)
+    Creep.prototype.goto = function(targetRoom, arguments){
+        var targetPos = new RoomPosition(25, 25, targetRoom.name)
         creep.repairMoveTo(targetPos, arguments);
     }
 
