@@ -72,6 +72,10 @@ function initialize(){
         }
         this.moveTo(target, arguments)
     }
+    Creep.prototype.goto = function(roomName, arguments){
+        var targetPos = new RoomPosition(25, 25, roomName)
+        creep.repairMoveTo(targetPos, arguments);
+    }
 
     
     // remove lodash and function call overhead from original
