@@ -5,15 +5,17 @@ var sing = {
 		}
 		var songCount = 2;
 		if(Memory.songNumber == null){
-			var x = Math.floor(Math.random() * songCount) + 1;
-			var status;
-			switch(x){
-				case 1:
-					status = this.lesMis(creep);
-					break;
-				default:
-					status = this.lesMis(creep);
-			}
+			Memory.songNumber = (Math.floor(Math.random() * songCount)) + 1
+		}
+		var status;
+		switch(Memory.songNumber){
+			case 1:
+				status = this.lesMis(creep);
+				break;
+			case 2:
+				status = this.houndDog(creep)
+			default:
+				status = this.lesMis(creep);
 		}
 		if(status == "DONE"){
 			Memory.songNumber = null;
@@ -38,6 +40,7 @@ var sing = {
 			"ing of the","drums","There is a","life about","to start","when to-","morrow","comes!","", "", "", ""]
 	    if(Memory.songLine >= lesMisLyrics.length){
 	    	Memory.songLine = 0;
+	    	Memory.songNumber = null;
 	    	return "DONE"
 	    }
 	    creep.say(lesMisLyrics[Memory.songLine], true)
@@ -81,6 +84,7 @@ var sing = {
 						"And you", "aint no", "friend of", "mine!", "", "", "", ""]
 		if(Memory.songLine >= houndDogLyrics.length){
 	    	Memory.songLine = 0;
+	    	Memory.songNumber = null;
 	    	return "DONE"
 	    }
 	    creep.say(houndDogLyrics[Memory.songLine], true)
