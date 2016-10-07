@@ -27,7 +27,7 @@ var scv = {
     beforeAge: function(){
         var spawner = require('spawner')
         var creep = this.creep
-        spawner.addToQueue("scv", _.cloneDeep(creep.memory), creep.memory.spawnRoom, true)
+        spawner.addToQueue("scv", {role:"scv", task: creep.memory.task, mode: creep.memory.mode, harvestRoomName:, creep.memory.harvestRoomName}, creep.memory.spawnRoom, true)
     },
     behavior: function(){
         var creep = this.creep;
