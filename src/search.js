@@ -253,5 +253,18 @@ module.exports = {
                     .value()
         var targets = cans.concat(rez)
         return targets;
+    },
+    /*
+     *  Finds viable sources for creep to solo havest
+     *
+     * @param {object} creep - creep to be calling this ! MUST USE .call()
+     */
+    findHarvestSources: function(){
+        var creep = this
+        var targest = _(this.room.find(FIND_SOURCES))
+                    .filter(r => r.pos.findInRange(FIND_MY_CREEPS).length == 0)
+                    .sortBy(r => r.pos.getRangeTo(creep.pos) )
+                    .value()
+        return targets;
     }
 };
