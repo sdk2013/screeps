@@ -43,12 +43,12 @@ module.exports = {
             spawn.memory.Queue = [];
         }
     },
-    addToQueue: function(unitType, memoryObject, targetRoomId, priority){
+    addToQueue: function(unitType, memoryObject, targetRoomName, priority){
         this.initSpawnQueue();
         var unitProdObject = {}
         unitProdObject.unitType = unitType;
         unitProdObject.memoryObject = memoryObject;
-        unitProdObject.targetRoomId = targetRoomId;
+        unitProdObject.targetRoomName = targetRoomName;
         if(priority == true){
             Memory.spawnQueue.push(unitProdObject)
         }else{
@@ -66,7 +66,7 @@ module.exports = {
                 if(spawn.spawning == null || spawn.memory.Queue.length == 0){   //Only run if spawner is not currently in use                                   <<< THIS SHITS BROKE NO IDEA WHY
                     for(var h in Memory.spawnQueue){
                         var i = Memory.spawnQueue[h];
-                        if(Game.getObjectById(i.targetRoomId) == spawn.room || i.targetRoomId == -1){ //If this is the right room
+                        if(Game.rooms[i.targetRoomName] == spawn.room || i.targetRoomId == -1){ //If this is the right room
                             var backup = _.cloneDeep(i);
                             console.log("ASSIGNED")
                             spawn.memory.Queue.push(backup);

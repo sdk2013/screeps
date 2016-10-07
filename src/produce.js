@@ -23,14 +23,14 @@ module.exports = function(spawns){
             }
             var nextCreepInQueue = utilities.peek(spawn.memory.Queue);
             var nextRole = nextCreepInQueue.unitType;
-            if(nextRole == true){spawn.memory.Queue.pop()};
+            if(nextRole == null){spawn.memory.Queue.pop(); break;};
             var extensionCount = utilities.roomExtCount(spawn);
             var creepParts = utilities.assembleCreep(nextRole, extensionCount);
             var result = spawn.canCreateCreep(creepParts)
             if(result == OK){
                 console.log(spawn.name + " is building "+nextRole);
-                spawn.memory.Queue.pop();
                 spawn.createCreep(creepParts, utilities.uid() + " - " + nextRole, nextCreepInQueue.memoryObject);
+                spawn.memory.Queue.pop();
             }else if(result == ERR_NOT_ENOUGH_ENERGY){
                 console.log(spawn.name + " cannot build " + nextRole + "!  Insufficient funds. " + spawn.room.energyAvailable + "/" + spawn.room.energyCapacityAvailable + ". Cost: " + utilities.creepCost(creepParts))
             }else{
