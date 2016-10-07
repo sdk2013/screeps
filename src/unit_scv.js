@@ -37,8 +37,9 @@ var scv = {
             creep.memory.task = "construction"
         }
         if(creep.totalEnergy() == 0 && creep.memory.task != "fetchEnergy"){
-            creep.memory.oldTask = creep.memory.task
-            creep.memory.task = "fetchEnergy"
+            delete creep.memory.fortifyTarget;
+            creep.memory.oldTask = creep.memory.task;
+            creep.memory.task = "fetchEnergy";
         }
         if(creep.memory.task == "fetchEnergy" && creep.totalEnergy() == creep.capacity() ){
             creep.memory.task = creep.memory.oldTask;
