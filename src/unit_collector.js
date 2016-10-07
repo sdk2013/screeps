@@ -19,7 +19,7 @@ var collector = {
 	behavior: function(){
         var creep = this.creep
         var total = _.sum(creep.carry);
-        if(total == 0){
+        if(total == 0 || creep.memory.task == null){
             creep.memory.task = "gatherEnergy";
         }
         if(total == creep.carryCapacity && creep.memory.task == "gatherEnergy"){
