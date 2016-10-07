@@ -554,6 +554,9 @@ var tasks = {
      */
     returnEnergyToBase: function(creep, baseRoomName){
         creep.toSay("RET-")
+        if(creep.memory.returnRoomName == null){
+            creep.memory.returnRoomName = baseRoomName;
+        }
         var targetRoom = Game.rooms[baseRoomName]
         if(creep.room != targetRoom){
             creep.toSay(">R")
