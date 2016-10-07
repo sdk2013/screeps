@@ -31,7 +31,6 @@ var sing = {
 			"Singing","the song","of angry","men? It is","The music","of a","people who","will not",
 			"be slaves","again!","When the","beating","of your","heart","matches","the beat-",
 			"ing of the","drums","There is a","life about","to start","when to-","morrow","comes!",""]
-	    }
 	    if(!Memory.songLine || Memory.songLine > lesMisLyrics.length){
 	    	Memory.songLine = 0;
 	    	return "DONE"
