@@ -182,7 +182,7 @@ var tasks = {
             return "ERR_NOT_IN_ROOM"
         }
         //This only needs to run if I don't have a source
-        var target = creep.memory.mineEnergyTarget;
+        var target = Game.getObjectById(creep.memory.mineEnergyTarget);
         if(target == null){
             creep.toSay("?T-")
             creep.memory.mineEnergyRoomName = creep.room.name;
@@ -192,12 +192,12 @@ var tasks = {
                 creep.toSay("!T");
                 return "ERR_NO_TARGETS";
             }
-            creep.toSay("$T");
             var source = sources.pop();
             creep.memory.mineEnergyTarget = source.id;
             creep.room.createFlag(source, source.id);
             var target = source;
         }
+        creep.toSay("$T");
         var result = creep.harvest(target);
         if(result == ERR_NOT_IN_RANGE){
             creep.toSay(">T");
