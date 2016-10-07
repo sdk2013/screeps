@@ -362,6 +362,10 @@ var tasks = {
             creep.toSay(":->T")
             creep.moveTo(target)
         }
+        if(result == OK){
+            delete creep.memory.fillTarget;
+            target = null;
+        }
         creep.toSay(" " + result)
         return result;
         
