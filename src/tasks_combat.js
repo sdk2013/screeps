@@ -44,7 +44,7 @@ var tasks_combat = {
             }
             var hostiles = combat.IFFSafeTargetList.call(creep);
             if(hostiles.length == 0){
-                return self.gotoTaskFlag.call(creep);
+                return this.gotoTaskFlag.call(creep);
             }
             target = creep.pos.findClosestByPath(hostiles)
             creep.memory.watchTarget = target.id
