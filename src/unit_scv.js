@@ -27,8 +27,7 @@ var scv = {
     beforeAge: function(){
         var spawner = require('spawner')
         var creep = this.creep
-        spawner.addToQueue("scv", {role:"scv", oldTask: creep.memory.oldTask}, -1, true)
-        delete Memory.creeps[creep.name];
+        spawner.addToQueue("scv", {role:"scv", oldTask: creep.memory.oldTask, task: creep.memory.task}, -1, true)
     },
     behavior: function(){
         var creep = this.creep;
