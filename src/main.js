@@ -62,18 +62,7 @@ function initialize(){
         return false;
     }
 
-    var moveTo = Creep.prototype.moveTo;
-    Creep.prototype.moveTo = function(arguments){
-        var look = _(this.pos.lookFor(LOOK_STRUCTURES))
-                    .filter(s => s.structureType == "road")
-                    .first()
-        if(look != null){
-            if(this.hasPart(WORK) && this.totalEnergy() > 0){
-                creep.repair(look);
-            }
-        }
-        moveTo.apply(this, arguments)
-    }
+
     
     // remove lodash and function call overhead from original
     // also short cicuit past dead parts
