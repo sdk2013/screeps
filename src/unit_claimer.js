@@ -11,7 +11,7 @@ var unit_claimer = {
 	onSpawn: function(){},
 	
     partWeightsExt: function(extensionCount){
-        }if(extensionCount <= 18){                              // < 550 max energy avail
+        if(extensionCount <= 18){                              // < 550 max energy avail
             var unitWeight = null;     // cost: 500 
         }else if(extensionCount <= 20){                              // < 800 max energy avail
             var unitWeight = [["claim", 1],["move",2]];     // cost: 600
