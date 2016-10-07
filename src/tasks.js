@@ -137,7 +137,7 @@ var tasks = {
              */
             case "combat":
                 var tasks_combat = require("tasks_combat");
-                result = tasks_combat.runtasks(creep);
+                result = tasks_combat.runTasks(creep);
                 break;
             default:
                 console.log(creep.name + " HAS NO TASK!!!")
