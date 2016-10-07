@@ -224,17 +224,15 @@ module.exports = {
     findPriorityWallRepairs: function(){
         var creep = this;
         if(Memory.wallTargetPercentage == null){
-            Memory.wallTargetPercentage = 0.5;
+            Memory.wallTargetPercentage = 0.033;
         }
-        var targets = _.sortBy((creep.room.find(FIND_STRUCTURES, {
-            filter: function(s){
-                return s.hits < (s.hitsMax * Memory.wallTargetPercentage) &&
-                    (s.structureType == "wall" || s.structureType == "rampart");
-            }})),
-            function(s){
-                return s.hits;
-            })
-        return _.values(targets);
+        var targets = _(creep.room.find(FIND_STRUCTURES))
+                    .filter(s => s.structureType == "constructedWall"
+                        || s.structureType == "rampart")
+                    .filter(s => s.hits < (s.hitsMax * Memory.wallTargetPercentage))
+                    .sortBy(s => s.hits)
+                    .value()
+        return targets;
     },
     /*
      *  Finds all energy storage structures in a room, sorts them into a
