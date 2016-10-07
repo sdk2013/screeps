@@ -197,7 +197,7 @@ var tasks = {
             creep.moveTo(target)
         }
         return result;
-    }
+    },
     /*
      * Mines the target, if it exists, if not, navigates to the flag of the target,
      *  if it exists, if not, navigates to the room in memory if it exists, if not,
