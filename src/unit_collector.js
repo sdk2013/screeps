@@ -12,7 +12,7 @@ var collector = {
     beforeAge: function(){
         var creep = this.creep;
         var spawner = require('spawner');
-        spawner.addToQueue("collector", {role:"collector"}, -1, false)
+        spawner.addToQueue("collector", {role:"collector",gatherRoomName: creep.memory.gatherRoomName}, -1, false)
         delete creep.memory;
     },
 	
