@@ -20,9 +20,9 @@ var tasks = {
              * RETURN Errorcode
              */
             case "gatherEnergy":
-                var collectRoomName = creep.memory.collectRoomName;
-                if(collectRoomName == null){collectRoomName = creep.room.name;}
-                result = this.gatherEnergyInTargetRoom(creep, collectRoomName);
+                var gatherRoomName = creep.memory.gatherRoomName;
+                if(gatherRoomName == null){gatherRoomName = creep.room.name;}
+                result = this.gatherEnergyInTargetRoom(creep, gatherRoomName);
                 break;
             /*
              * Long Range Energy Return Module
@@ -231,6 +231,7 @@ var tasks = {
             var targetlist = search.findEnergyCans.call(creep);
             if(targetlist == null){
                 this.buildLocalCan(creep);
+                return "ERR_NOT_IN_ROOM";
             }
             var can = creep.pos.findClosestByRange(targetlist);
             if(creep.pos.getRangeTo(can) < 2){
@@ -238,7 +239,7 @@ var tasks = {
                 target = can;
             }else{
                 var result = this.buildLocalCan(creep);
-                return result;
+                return "ERR_NOT_IN_ROOM";
             }
         }
         if(target != null){
