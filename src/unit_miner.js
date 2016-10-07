@@ -20,7 +20,7 @@ var miner = {
             creep.memory.task = "offload";
         }
         if(creep.carry["energy"] == 0){
-            creep.memory.task = "mine";
+            creep.memory.task = "mineEnergy";
         }
         tasks.runTasks(creep);
 	},
