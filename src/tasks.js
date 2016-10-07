@@ -144,6 +144,17 @@ var tasks = {
                 result = this.mineTargetEnergy(creep);
                 break;
             /*
+             * Harvest energy in the target room for self (usually for remote ops)
+             * Preferences nearer, unoccupied sources
+             * Defualts to current room
+             * @param {string} energyRoomName - Name of room to get energy from
+             * RETURN Errorcode
+             */
+            case "harvest":
+                var harvestRoomName = creep.memory.harvestRoomName;
+                if(harvestRoomName == null) {harvestRoomName = creep.room.name;}
+                result = this.harvestTargetRoom(creep, harvestRoomName);
+            /*
              * Directs creeps to the combat module
              */
             case "combat":
@@ -157,6 +168,36 @@ var tasks = {
         }
         return result;
     },
+    /*
+     * Mines the nearest unoccupied source for future use
+     * @param {Creep} creep - creep to harvest
+     * @param {string} targetRoomName - Room to harvest in
+     */
+    harvestTargetRoom: function(creep, targetRoomName){
+        creep.toSay("HAR-");
+        var targetRoom = Game.rooms[targetRoomName];
+        if(creep.room != targetRoom){
+            creep.toSay(">R")
+            return creep.goto(targetRoomName);
+        }
+        var target = Game.getObjectById(creep.memory.sourceid)
+        if(creep.memory.sourceid == null){
+            creep.toSay("?T-")
+            var sources = search.findHarvestSources.call(creep)
+            if(sources.length == 0){
+                creep.toSay("!T")
+                return "ERR_NO_TARGETS"
+            }
+            var target = sources.pop();
+            creep.memory.sourceid = target.id; 
+        }
+        creep.toSay("$T")
+        var result = creep.harvest(target)
+        if(result == ERR_NOT_IN_RANGE){
+            creep.moveTo(target)
+        }
+        return result;
+    }
     /*
      * Mines the target, if it exists, if not, navigates to the flag of the target,
      *  if it exists, if not, navigates to the room in memory if it exists, if not,
@@ -646,9 +687,11 @@ var tasks = {
             var result = creep.claimController(target);
             if(result == ERR_NOT_IN_RANGE){
                 creep.toSay(":->T")
-                creep.repairMoveTo(target)
+                creep.moveTo(target)
             }
-            if(result == ERR_NOT)
+            if(result == ERR_NOT_IN_RANGE){
+                creep.moveTo(target);
+            }
             creep.toSay(" " + result)
             return result;
         }
