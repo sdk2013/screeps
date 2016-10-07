@@ -16,6 +16,7 @@ var statWrapper = require('stat_wrapper')
 global._ = require('lodash')
 global.utilities = require('utilities')
 global.Empire = require('Empire')
+var badRoomList = ["E6N29"]
 
 module.exports.loop = function () {
     Memory.stats = {};
@@ -70,7 +71,11 @@ function initialize(){
                 this.repair(look);
             }
         }
-        this.moveTo(target, {ignorecreeps:true})
+        if(badRoomList.includes(creep.room.name)){
+            this.moveTo(target, {ignorecreeps:true})
+        }else{
+            this.moveTo(target)
+        }
     }
     Creep.prototype.goto = function(targetRoomName, arguments){
         var targetPos = new RoomPosition(25, 25, targetRoomName)
