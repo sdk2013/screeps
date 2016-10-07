@@ -11,7 +11,7 @@ var miner = {
     beforeAge: function(){
         var creep = this.creep;
         var spawner = require('spawner');
-        spawner.addToQueue("miner", {"role":"miner", "target": creep.memory.target}, -1, false);
+        spawner.addToQueue("miner", {"role":"miner", mineEnergyTarget: creep.memory.mineEnergyTarget, mineEnergyRoomName: creep.memory.mineEnergyRoomName}, -1, false);
         delete Memory.creeps[creep.name];
     },
 	behavior: function(){
