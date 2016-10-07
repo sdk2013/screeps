@@ -34,7 +34,7 @@ var scv = {
         var creep = this.creep;
         var task = creep.memory.task;
         if(task == null){
-            creep.memory.task = "construction"
+            creep.memory.task = "upgrade"
         }
         if(creep.totalEnergy() == 0 && creep.memory.task != "fetchEnergy"){
             delete creep.memory.fortifyTarget;
@@ -45,9 +45,8 @@ var scv = {
             creep.memory.task = creep.memory.oldTask;
         }
         var result = tasks.runTasks(creep);
-        if(result == "ERR_NO_TARGETS" && creep.memory.task == "construction"){
-            creep.memory.task == "fortify"
-        }else if(result == "ERR_NO_TARGETS" && creep.memory.task != "upgrade"){
+        console.log(result)
+        if(result == "ERR_NO_TARGETS" && creep.memory.task != "upgrade"){
             creep.memory.task = "upgrade";
         }
     },
