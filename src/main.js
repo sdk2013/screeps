@@ -77,6 +77,23 @@ function initialize(){
         }
         return result;
     }
+    RoomObject.prototype.capacity = function(){
+        var s = this;
+        if(s instanceof StructureTower || s instanceof StructureExtension || 
+            s instanceof StructureLab || s instanceof StructureLink || 
+            s instanceof StructureNuker || s instanceof StructurePowerSpawn ||
+            s instanceof StructureSpawn){
+            return s.energyCapacity
+        }
+        if(s instanceof StructureStorage || s instanceof StructureContainer ||
+            s instanceof StructureTerminal){
+            return s.storeCapacity
+        }
+        if(s instanceof Creep){
+            return s.carryCapacity
+        }
+        return null;
+    }
     RoomObject.prototype.totalEnergy = function(){
         var s = this;
         if(s instanceof StructureTower || s instanceof StructureExtension || 
