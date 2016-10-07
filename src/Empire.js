@@ -14,7 +14,7 @@ module.exports = {
         }
         var spawner = require('spawner')
         try {  
-            spawner.addToQueue(unitType, 1, memoryObject, -1, false)
+            spawner.addToQueue(unitType, memoryObject, -1, false)
             return unitType + " added to queue."
         } catch(e) { 
             console.log("Buildcreep requires: unitType, scaling, [memoryObject], [targetRoomId], priority")
