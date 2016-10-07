@@ -71,7 +71,7 @@ function initialize(){
                 this.repair(look);
             }
         }
-        if(badRoomList.includes(creep.room.name)){
+        if(badRoomList.includes(this.room.name)){
             this.moveTo(target, {ignorecreeps:true})
         }else{
             this.moveTo(target)
