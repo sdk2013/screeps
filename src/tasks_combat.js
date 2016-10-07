@@ -18,7 +18,7 @@ var tasks_combat = {
             case "watch":
                 var watchRoomName = creep.memory.watchRoomName;
                 if(watchRoomName == null){watchRoomName = creep.room.name};
-                var result = this.watchTargetRoom.call(creep, watchRoomName);
+                var result = this.watchTargetRoom(creep, watchRoomName);
                 break;
             default:
                 var result = "ERR_NO_TARGETS"
@@ -31,8 +31,7 @@ var tasks_combat = {
      * @param {string} targetRoomName - room in which to stand watch
      * RETURN Errorcode
      */
-    watchTargetRoom: function(targetRoomName){
-        var creep = this.creep;
+    watchTargetRoom: function(creep, targetRoomName){
         creep.toSay("WAT-")
         var target = Game.getObjectById(creep.memory.watchTarget)
         if(target == null || target.room != creep.room){
