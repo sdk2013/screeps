@@ -632,7 +632,7 @@ var tasks = {
      * @param {string} claimRoomName - room to be upgraded
      * RETURN {integer} Error code
      */
-    reserveTargetRoom: function(creep, claimRoomName){
+    claimTargetRoom: function(creep, claimRoomName){
         creep.toSay("RSV-")
         var targetRoom = Game.rooms[creep.memory.claimRoomName];
         if(creep.room != targetRoom){
