@@ -50,7 +50,7 @@ module.exports.loop = function () {
 
 function initialize(){
     Creep.prototype.hasPart = function(type){
-        for(let i = this.body.length, i-- > 0;){
+        for(let i = this.body.length; i-- > 0;){
             if(this.body[i].hits > 0){
                 if(this.body[i].type === type){
                     return true;
