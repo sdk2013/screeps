@@ -35,11 +35,11 @@ var scv = {
         var creep = this.creep;
         var task = creep.memory.task;
         if(task == null){
-            creep.memory.task == "upgrade"
+            creep.memory.task = "upgrade"
         }
         if(creep.totalEnergy() == 0 && creep.memory.task != "fetchEnergy"){
             creep.memory.oldTask = creep.memory.task
-            creep.memory.task == "fetchEnergy"
+            creep.memory.task = "fetchEnergy"
         }
         if(creep.memory.task == "fetchEnergy" && creep.totalEnergy() == creep.capacity() ){
             creep.memory.task = creep.memory.oldTask;
