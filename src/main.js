@@ -62,7 +62,7 @@ function initialize(){
         return false;
     }
 
-    let moveTo = Creep.prototype.moveTo;
+    var moveTo = Creep.prototype.moveTo;
     Creep.prototype.moveTo = function(arguments){
         var look = _(this.pos.lookFor(LOOK_STRUCTURES))
                     .filter(s => s.structureType == "road")
