@@ -12,8 +12,7 @@ module.exports = {
      * Finds unoccupied flag named after creep task
      * @call {Creep} 
      */
-    findPriorityTaskFlags: function(){
-        var creep = this;
+    findPriorityTaskFlags: function(creep){
         var flags = _(creep.room.find(FIND_FLAGS))
                     .filter(f => f.name.includes(creep.memory.task) )
                     .filter(f => f.findInRange(FIND_MY_CREEPS).length == 0)
