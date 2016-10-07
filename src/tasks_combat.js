@@ -10,16 +10,16 @@ var combat = require("combat")
 var tasks_combat = {
     runTasks: function(){
         var creep = this.creep;
-        creep.toSay("CBT-")
-        swtich(creep.memory.combatTask){
+        creep.toSay("CBT-");
+        switch(creep.memory.combatTask){
             /* 
              * Single Room uncoordinated defense, single creep
              * Defaults to current room
              */
             case "watch":
                 var watchRoomName = creep.memory.watchRoomName;
-                if(watchRoomName == null){watchRoomName = creep.room.name}
-                var result = this.watchTargetRoom.call(creep, watchRoomName)
+                if(watchRoomName == null){watchRoomName = creep.room.name};
+                var result = this.watchTargetRoom.call(creep, watchRoomName);
                 break;
             default:
                 var result = "ERR_NO_TARGETS"
@@ -64,7 +64,7 @@ var tasks_combat = {
      */
     gotoTaskFlag: function(){
         var creep = this.creep;
-        var targets = search.findPriorityTaskFlags.call(creep)      // TODO: THIS MODULE ISN'T FINISHED
+        var targets = search.findPriorityTaskFlags.call(creep)
         if(targets == null){
             creep.toSay("$D")
             var target = new RoomPosition(25, 25, creep.room.name)
