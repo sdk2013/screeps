@@ -177,7 +177,7 @@ module.exports = {
                                 case "storage":
                                     return 0;
                                 default:
-                                    return 10`;
+                                    return 10;
                             }
                         }else{
                             return 0;
