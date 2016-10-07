@@ -585,7 +585,7 @@ var tasks = {
      */
     reserveTargetRoom: function(creep, reserveRoomName){
         creep.toSay("RSV-")
-        var targetRoom = Game.getObjectById(creep.memory.reserveRoomName);
+        var targetRoom = Game.rooms[creep.memory.reserveRoomName];
         if(creep.room != targetRoom){
             creep.toSay(">R")
             creep.goto(reserveRoomName);
