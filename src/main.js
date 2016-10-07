@@ -67,7 +67,7 @@ function initialize(){
                     .first()
         if(look != null){
             if(this.hasPart(WORK) && this.totalEnergy() > 0){
-                creep.repair(look);
+                this.repair(look);
             }
         }
         this.moveTo(target, arguments)
