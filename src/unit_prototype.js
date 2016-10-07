@@ -26,6 +26,13 @@ var unitPrototype = {
 			var sing = require("sing")
 			sing.sing(this.creep);
 		}
+		if(Memory.stats.creepTypes == null){
+			Memory.stats.creepTypes = {};
+		}
+		if(Memory.stats.creepTypes[this.memory.role] == null){
+			Memory.stats.creepTypes[this.memory.role] = 0;
+		}
+		Memory.stats.creepTypes[this.memory.role]++;
 	},
 	
 	beforeAge: function(){},
