@@ -35,7 +35,7 @@ var sing = {
 	    	Memory.songLine = 0;
 	    	return "DONE"
 	    }
-	    creep.say(lesMisLyrics[Memory.songLine])
+	    creep.say(lesMisLyrics[Memory.songLine], true)
 	    Memory.songLine++;
 	    return "SINGING"
 	}
