@@ -17,7 +17,7 @@ var unitPrototype = {
 		if(this.creep.ticksToLive == 1){
 		    this.beforeAge();
 		}
-		if(Memory.debugMode == null || Memory.debugMode == false)){
+		if(Memory.debugMode == null || Memory.debugMode == false){
 		    this.creep.say(this.creep.memory.toSay);
 		}else{
 			var sing = require("sing")
