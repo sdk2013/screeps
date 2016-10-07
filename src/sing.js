@@ -36,7 +36,7 @@ var sing = {
 			"Singing","the song","of angry","men? It is","The music","of a","people who","will not",
 			"be slaves","again!","When the","beating","of your","heart","matches","the beat-",
 			"ing of the","drums","There is a","life about","to start","when to-","morrow","comes!","", "", "", ""]
-	    if(Memory.songLine > lesMisLyrics.length){
+	    if(Memory.songLine >= lesMisLyrics.length){
 	    	Memory.songLine = 0;
 	    	return "DONE"
 	    }
@@ -79,7 +79,7 @@ var sing = {
 						"You ain't", "nothin'", "but a", "hound", "dog", "cryin' all", "the time.",
 						"Well you", "aint never", "caught a", "rabbit",
 						"And you", "aint no", "friend of", "mine!", "", "", "", ""]
-		if(Memory.songLine > houndDogLyrics.length){
+		if(Memory.songLine >= houndDogLyrics.length){
 	    	Memory.songLine = 0;
 	    	return "DONE"
 	    }
