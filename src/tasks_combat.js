@@ -39,7 +39,7 @@ var tasks_combat = {
             var targetRoom = Game.rooms[targetRoomName];
             if(targetRoom != creep.room){
                 creep.toSay(">R")
-                creep.goto(targetRoom)
+                creep.goto(targetRoomName)
                 return "ERR_NOT_IN_ROOM"
             }
             var hostiles = combat.IFFSafeTargetList.call(creep);
