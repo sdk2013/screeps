@@ -34,20 +34,15 @@ module.exports = {
         return sourceList
     },
     /*
-     *  This finds all potential energy sources for haulers in a room, sorts them into a priority queue, and returns the array
+     *  This pulls cans in a room for miners
      * @param {object} creep - creep to be calling this ! MUST USE .call()
      */
     findEnergyCans: function(){
         var creep = this;
-        var targets = _.sortBy(creep.room.find(FIND_STRUCTURES), 
-            function(s){
-                if(s.structureType == "container"){
-                    return s.totalEnergy();
-                }else{
-                    return 0;
-                }
-            });
-        return _.values(targets);
+        var targets = _(creep.room.find(FIND_STRUCTURES))
+                        .filter(s => s.structureType == "container")
+                        .values()
+        return targets;
     },
     /*
      *  This finds all construction sites in a room, sorts them into a priority queue, and returns the array
