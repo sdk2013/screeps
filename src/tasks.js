@@ -178,7 +178,7 @@ var tasks = {
         if(targetRoomName != null && Game.rooms[targetRoomName] != creep.room){
             creep.toSay("!T");
             creep.toSay(":->R");
-            creep.goto(Game.rooms[targetRoomName]);
+            creep.goto(targetRoomName);
             return "ERR_NOT_IN_ROOM"
         }
         creep.toSay("?T-")
@@ -298,7 +298,7 @@ var tasks = {
         var targetRoom = Game.rooms[targetRoomName];
         if(creep.room != targetRoom){
             creep.toSay(">R");
-            creep.goto(targetRoom);
+            creep.goto(targetRoomName);
             return "ERR_NOT_IN_ROOM";
         }
         var targetPercent = Memory.wallTargetPercentage;
@@ -342,7 +342,7 @@ var tasks = {
         var targetRoom = Game.rooms[targetRoomName]
         if(creep.room != targetRoom){
             creep.toSay(">R")
-            creep.goto(targetRoom)
+            creep.goto(targetRoomName)
             return "ERR_NOT_IN_ROOM"
         }
         var target = Game.getObjectById(creep.memory.fillTarget)
@@ -384,7 +384,7 @@ var tasks = {
         var targetRoom = Game.rooms[targetRoomName]
         if(creep.room != targetRoom){
             creep.toSay(">R")
-            creep.goto(targetRoom)
+            creep.goto(targetRoomName)
             return "ERR_NOT_IN_ROOM"
         }
         var target = Game.getObjectById(creep.memory.repairTarget)
@@ -417,7 +417,7 @@ var tasks = {
         var targetRoom = Game.rooms[targetRoomName]
         if(creep.room != targetRoom){
             creep.toSay(">R")
-            creep.goto(targetRoom)
+            creep.goto(targetRoomName)
             return "ERR_NOT_IN_ROOM"
         }
         var energysources = search.findPriorityEnergyProviders.call(creep)
@@ -446,7 +446,7 @@ var tasks = {
         var result
         if(creep.room != targetRoom){
             creep.toSay(">R")
-            result = creep.goto(targetRoom)
+            result = creep.goto(targetRoomName)
             return "ERR_NOT_IN_ROOM"
         }
         var target = Game.getObjectById(creep.memory.toBuild)
@@ -484,7 +484,7 @@ var tasks = {
         var result
         if(creep.room != targetRoom){
             creep.toSay(">R")
-            result = creep.goto(targetRoom);
+            result = creep.goto(targetRoomName);
             return "ERR_NOT_IN_ROOM"
         }
         if(creep.room.controller) {
@@ -511,7 +511,7 @@ var tasks = {
         var targetRoom = Game.rooms[targetRoomName]
         if(creep.room != targetRoom){
             creep.toSay(">R")
-            creep.goto(targetRoom);
+            creep.goto(targetRoomName);
             return "ERR_NOT_IN_ROOM"
         }
         var can = Game.getObjectById(creep.memory.potentialEnergySource)
@@ -549,7 +549,7 @@ var tasks = {
         var targetRoom = Game.rooms[baseRoomName]
         if(creep.room != targetRoom){
             creep.toSay(">R")
-            creep.goto(targetRoom);
+            creep.goto(baseRoomName);
             return "ERR_NOT_IN_ROOM"
         }
         var returnTo = Game.getObjectById(creep.memory.returnTo)
@@ -586,7 +586,7 @@ var tasks = {
         var targetRoom = Game.getObjectById(creep.memory.reserveRoomName);
         if(creep.room != targetRoom){
             creep.toSay(">R")
-            creep.goto(targetRoom);
+            creep.goto(reserveRoomName);
             return "ERR_NOT_IN_ROOM"
         }
         var target = creep.room.controller
