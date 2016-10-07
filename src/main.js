@@ -171,6 +171,19 @@ function initialize(){
         var total = _.sum(creep.carry);
         return total;
     }
+    RoomPosition.prototype.findClosestSpawn = function() {
+        var result = PathFinder.search(this, _.map(Game.spawns, s => ({pos: s.pos, range: 0})), {maxOps: 8000});
+        if(result && result.path) {
+            var path = result.path;
+            var steps = path.length;
+            var target = path[path.length-1];
+            console.log("Target: " + target);
+            return _.find(Game.spawns, 'pos', _.create(RoomPosition.prototype, target));
+        } else {
+            console.log("WARNING: findClosestSpawn failed to find closest spawn");
+            return _.sample(Game.spawns);
+        }
+    }
 }
 /*KNOWN BUGS:
 

@@ -13,6 +13,9 @@ var unitPrototype = {
     },
     run: function(){
         this.creep.memory.toSay = ""
+        if(this.creep.memory.spawnRoom == null){
+        	this.creep.memory.spawnRoom = this.creep.findClosestSpawn().room.name;
+        }
 		this.behavior(this.creep);
 		if(this.creep.ticksToLive == 1){
 		    this.beforeAge();
@@ -26,7 +29,7 @@ var unitPrototype = {
 			var sing = require("sing")
 			sing.sing(this.creep);
 		}
-		
+
 	},
 	
 	beforeAge: function(){},
