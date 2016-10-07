@@ -324,6 +324,9 @@ var tasks = {
             creep.toSay(":->T")
             creep.repairMoveTo(target)
         }
+        if(result == ERR_NOT_ENOUGH_ENERGY){
+            delete creep.memory.fortifyTarget;
+        }
         creep.toSay(result)
         return result;
     },

@@ -230,8 +230,7 @@ module.exports = {
                     .filter(s => s.structureType == "constructedWall"
                         || s.structureType == "rampart")
                     .filter(s => s.hits < (s.hitsMax * Memory.wallTargetPercentage))
-                    .sortBy(s => s.hits)
-                    .reverse()
+                    .sortBy(s => 0 - s.hits)
                     .value()
         return targets;
     },
