@@ -46,7 +46,7 @@ var tasks_combat = {
             if(hostiles == null){
                 return self.gotoTaskFlag.call(creep);
             }
-            target = creep.findClosestByPath(hostiles)
+            target = creep.pos.findClosestByPath(hostiles)
             creep.memory.watchTarget = target.id
         }
         if(target == null){
