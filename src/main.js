@@ -72,7 +72,7 @@ function initialize(){
                 creep.repair(look);
             }
         }
-        moveTo.apply(this, arguments.slice(1))
+        moveTo.apply(this, arguments)
     }
     
     // remove lodash and function call overhead from original
