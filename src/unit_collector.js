@@ -27,7 +27,7 @@ var collector = {
         }
         var result = tasks.runTasks(creep);
         if(result == "ERR_NO_TARGETS" && creep.memory.task == "fill"){
-            creep.memory.task = "return"
+            creep.memory.fillRoomName = creep.memory.spawnRoom;
         }
 	},
 	
