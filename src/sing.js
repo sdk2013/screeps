@@ -16,7 +16,7 @@ var sing = {
 			Memory.songNumber = null;
 		}
 	},
-	lesMis: function(){
+	lesMis: function(creep){
 		var lesMisLyrics = ["Can you","Hear the","people","sing?","Singing","the song","of angry",
 			"men? It is","The music",,"Will you","Join in","our cru-","sade?!","Who willbe",
 			"strong and","stand with","me?","Beyond the","barricade","is there a","world you",
