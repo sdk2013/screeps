@@ -511,6 +511,7 @@ var tasks = {
         if(can == null || can.totalEnergy() == 0){delete creep.memory.potentialEnergySource}
         if(creep.memory.potentialEnergySource == null){
             var sourcelist = search.findPriorityEnergySources.call(creep)
+
             var source = sourcelist.pop()
             if(source != null){
                 creep.memory.potentialEnergySource = source.id
@@ -518,7 +519,7 @@ var tasks = {
         }
         if(creep.memory.potentialEnergySource != null){
             var can = Game.getObjectById(creep.memory.potentialEnergySource)
-            var result = creep.withdraw(can, "energy")
+            var result = creep.pull(can, "energy")
             creep.toSay("$T")
             if(result == ERR_NOT_IN_RANGE){
                 creep.moveTo(can)
