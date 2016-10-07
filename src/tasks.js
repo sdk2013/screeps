@@ -81,6 +81,17 @@ var tasks = {
                 result = this.reserveTargetRoom(creep, reserveRoomName);
                 break;
             /*
+             * Claims the target room
+             * No default setting (throws error)
+             * @param {string} claimRoomName - Name of room to claim
+             * RETURN Errorcode
+             */
+            case "claim":
+                var claimRoomName = creep.memory.claimRoomName;
+                if(claimRoomName == null) {return "ERR_NO_TARGET";}
+                result = this.claimTargetRoom(creep, claimRoomName);
+                break;
+            /*
              * Repairs structures in the target room, ignoring walls and ramparts
              * Defaults to current room
              * @param {string} repairRoomName - Name of room to repair in
