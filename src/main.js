@@ -23,7 +23,7 @@ module.exports.loop = function () {
     statWrapper(command, Game.creeps, "command");
     statWrapper(produce, Game.spawns, "produce");
     statWrapper(defend, Game.structures, "defend");
-    
+    Memory.songLine++;
     
     //GARBAGE COLLECTION
     try{

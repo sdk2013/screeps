@@ -237,7 +237,8 @@ var tasks = {
                 creep.memory.can = can.id;
                 target = can;
             }else{
-                this.buildLocalCan(creep);
+                var result = this.buildLocalCan(creep);
+                return result;
             }
         }
         if(target != null){
@@ -256,6 +257,7 @@ var tasks = {
                         creep.toSay(":->T");
                         creep.repairMoveTo(can);
                     }
+                    return result;
                 }
             }
         }
@@ -267,28 +269,23 @@ var tasks = {
      * RETURN Errorcode
      */
     buildLocalCan: function(creep){
-        creep.toSay("CAN+")
+        creep.toSay("C+")
         var target = Game.getObjectById(creep.memory.canToBuild);
         if(target == null){
-            creep.toSay("?SITE-");
+            creep.toSay("?CS-");
             var potentialsites = creep.pos.findInRange(FIND_CONSTRUCTION_SITES, 2);
             var site = creep.pos.findClosestByRange(potentialsites);
             if(site != null){
                 creep.memory.canToBuild = site.id;
                 target = site
-            }else{
-                var potentialsites = creep.pos.findInRange(FIND_STRUCTURES, 0);
-                if(potentialsites != null){
-                    creep.memory.can = potentialsites.pop().id;
-                }
             }
         }
         if(target == null){
-            creep.toSay("!SITE");
+            creep.toSay("!CS");
             var result = creep.pos.createConstructionSite("container");
             return result;
         }
-        creep.toSay("B");
+        creep.toSay("#B");
         var result = creep.build(target);
         return result;
     },
