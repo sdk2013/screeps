@@ -231,6 +231,7 @@ module.exports = {
                         || s.structureType == "rampart")
                     .filter(s => s.hits < (s.hitsMax * Memory.wallTargetPercentage))
                     .sortBy(s => s.hits)
+                    .reverse()
                     .value()
         return targets;
     },
