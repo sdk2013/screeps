@@ -44,7 +44,6 @@ var scv = {
             creep.memory.task = creep.memory.oldTask;
         }
         var result = tasks.runTasks(creep);
-        console.log(result)
         if(result == "ERR_NO_TARGETS" && creep.memory.task != "upgrade"){
             creep.memory.task = "upgrade";
         }
