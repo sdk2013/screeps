@@ -22,42 +22,31 @@ Return to extensions & Storage
  */
 var _ = require('lodash')
 var utilities = require('utilities')
+var tasks = require('tasks')
 var scv = {
-    behavior: function(){
-        var creep = this.creep
-        var job = creep.memory.job
-        var total = _.sum(creep.carry);
-        if(total = creep.carryCapacity){
-            creep.memory.empty = false;
-        }
-        //If Idle, I want this guy to go back to mining
-        if(!creep.memory.job || (creep.room.controller.level > 3 && creep.memory.job == 'collection'))
-            creep.memory.job = utilities.rerollJob(creep);
-        if(!creep.memory.empty && creep.room.controller.level == 1){
-            creep.memory.job = "resource gathering"
-        }
-        if(!creep.memory.empty && creep.memory.job == "collection"){
-            creep.memory.job = "construction"
-        }
-        //Overall Job Logic
+    beforeAge: function(){
+        var spawner = require('spawner')
+        spawner.addToQueue("scv", {role:"scv"}, -1, true)
         
-        switch(job){
-            case 'resource gathering':
-                utilities.jobResourceGathering(creep);
-                break;
-            case 'construction':
-                creep.toSay("B-")
-                utilities.jobLocalConstruction(creep);
-                break;
-            case 'RCL':
-                creep.toSay("U-")
-                utilities.jobRCLUpgrading(creep);
-                break;
-            case 'collection':
-                utilities.jobCollection(creep);
-                break;
-            default:
-                utilities.rerollJob(creep);
+        var creep = this.creep
+        delete Memory.creeps[creep.name];
+    },
+    behavior: function(){
+        var creep = this.creep;
+        var task = creep.memory.task;
+        if(task == null){
+            creep.memory.task == "upgrade"
+        }
+        if(creep.totalEnergy() == 0 && creep.memory.task != "fetchEnergy"){
+            creep.memory.oldTask = creep.memory.task
+            creep.memory.task == "fetchEnergy"
+        }
+        if(creep.memory.task == "fetchEnergy" && creep.totalEnergy() == creep.capacity() ){
+            creep.memory.task = creep.memory.oldTask;
+        }
+        var result = tasks.runTasks(creep);
+        if(result == "ERR_NO_TARGETS" && creep.memory.task != "upgrade"){
+            creep.memory.task = "upgrade";
         }
     },
     partWeights: function(){
@@ -80,13 +69,6 @@ var scv = {
             var unitWeight = [["work", 4],["carry", 4],["move",8]];     // cost: 1000
         }
         return unitWeight;
-    },
-    beforeAge: function(){
-        var spawner = require('spawner')
-        spawner.addToQueue("scv", 1, {role:"scv"}, -1, true)
-        
-        var creep = this.creep
-        delete Memory.creeps[creep.name];
     }
 }
 

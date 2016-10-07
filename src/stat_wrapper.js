@@ -7,12 +7,12 @@
  * mod.thing == 'a thing'; // true
  */
 
-module.exports = function(f){
+module.exports = function(func, arguments, name){
     var before = Game.cpu.getUsed;
     f();
     var after = Game.cpu.getUsed;
     var used = (after-before)
     if(Memory.stats.commandCPU == null){Memory.stats.commandCPU = {}};
     
-    Memory.stats.commandCPU["Bacon"] = used;
+    Memory.stats.commandCPU[name] = used;
 };

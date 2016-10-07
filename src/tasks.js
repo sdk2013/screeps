@@ -43,7 +43,7 @@ var tasks = {
             case "upgrade":
                 var upgradeRoomName = creep.memory.upgradeRoomName;
                 if(upgradeRoomName == null) {upgradeRoomName = creep.room.name;}
-                result =this.upgradeRCL(creep, upgradeRoomName)
+                result = this.upgradeRCL(creep, upgradeRoomName)
                 break;
             /*
              * Local construct sites
@@ -54,7 +54,7 @@ var tasks = {
             case "construction":
                 var constructRoomName = creep.memory.constructRoomName;
                 if(constructRoomName == null) {constructRoomName = creep.room.name;}
-                result =this.constructInTargetRoom(creep, constructRoomName)
+                result = this.constructInTargetRoom(creep, constructRoomName)
                 break;
             /*
              * Gather energy from room (generally used to provide energy for other objectives)
@@ -63,10 +63,10 @@ var tasks = {
              * @param {string} energyRoomName - Name of room to get energy from
              * RETURN Errorcode
              */
-            case "retrieveEnergy":
+            case "fetchEnergy":
                 var energyRoomName = creep.memory.energyRoomName;
                 if(energyRoomName == null) {energyRoomName = creep.room.name;}
-                result =this.getEnergyFromRoom(creep, energyRoomName)
+                result = this.fetchEnergyFromRoom(creep, energyRoomName)
                 break;
             /*
              * Reserve the target room for security/remote mining
@@ -74,10 +74,10 @@ var tasks = {
              * @param {string} reserveRoomName - Name of room to reserve
              * RETURN Errorcode
              */
-            case "reserveRoom":
+            case "reserve":
                 var reserveRoomName = creep.memory.reserveRoomName;
                 if(reserveRoomName == null) {return "ERR_NO_TARGET";}
-                result =this.reserveTargetRoom(creep, reserveRoomName)
+                result = this.reserveTargetRoom(creep, reserveRoomName)
                 break;
             /*
              * Repairs structures in the target room, ignoring walls and ramparts
@@ -88,7 +88,7 @@ var tasks = {
             case "repair":
                 var repairRoomName = creep.memory.repairRoomName;
                 if(repairRoomName == null) {repairRoomName = creep.room.name;}
-                result =this.repairTargetRoom(creep, repairRoomName)
+                result = this.repairTargetRoom(creep, repairRoomName)
                 break;
             /*
              * Fortifies walls and ramparts in target room
@@ -99,7 +99,7 @@ var tasks = {
             case "fortify":
                 var fortifyRoomName = creep.memory.fortifyRoomName;
                 if(fortifyRoomName == null) {fortifyRoomName = creep.room.name;}
-                result =this.fortifyTargetRoom(creep, fortifyRoomName)
+                result = this.fortifyTargetRoom(creep, fortifyRoomName)
                 break;
             /*
              * Fills production structures and creeps in priority list in room
@@ -110,7 +110,7 @@ var tasks = {
             case "fill":
                 var fillRoomName = creep.memory.fillRoomName;
                 if(fillRoomName == null) {fillRoomName = creep.room.name;}
-                result =this.fillTargetRoom(creep, fillRoomName)
+                result =  this.fillTargetRoom(creep, fillRoomName)
                 break;
             /*
              * Offloads energy to nearby can, or builds a can at current location
@@ -118,7 +118,7 @@ var tasks = {
              * RETURN Errorcode
              */
             case "offload":
-                result =this.offloadEnergyToCan(creep)
+                result = this.offloadEnergyToCan(creep)
                 break;
             /*
              * Mines availible resource nodes in target room
@@ -129,14 +129,14 @@ var tasks = {
              * RETURN Errorcode
              */
             case "mineEnergy":
-                result =this.mineTargetEnergy(creep)
+                result = this.mineTargetEnergy(creep)
                 break;
             /*
              * Directs creeps to the combat module
              */
             case "combat":
                 var tasks_combat = require("tasks_combat")
-                result =tasks_combat.runtasks(creep);
+                result = tasks_combat.runtasks(creep);
                 break;
             default:
                 result ="ERR_NO_TASK"
@@ -215,7 +215,11 @@ var tasks = {
                             .first()
                             .value()
             if(target != null){
-                target.memory.offload = true;
+                try{
+                    target.memory.offload = true;
+                }catch(e){
+                    console.log(creep.name + " could not set " + target + " memory.offload = true;")
+                }
             }
         }
         if(target == null){
@@ -401,15 +405,15 @@ var tasks = {
      * @param {string} targetRoomName - room to get energy from
      * RETURN Errorcode
      */
-    getEnergyFromRoom: function(creep, targetRoomName){
-        creep.toSay("RET-");
+    fetchEnergyFromRoom: function(creep, targetRoomName){
+        creep.toSay("FET-");
         var targetRoom = Game.rooms[targetRoomName]
         if(creep.room != targetRoom){
             creep.toSay(">R")
             creep.goto(targetRoom)
             return "ERR_NOT_IN_ROOM"
         }
-        var energysources = search.findPriorityEnergySources.call(creep)
+        var energysources = search.findPriorityEnergyProviders.call(creep)
         if(energysources == null){
             creep.toSay("!T")
             return "ERR_NO_TARGETS"

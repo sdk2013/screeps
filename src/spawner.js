@@ -43,12 +43,11 @@ module.exports = {
             spawn.memory.Queue = [];
         }
     },
-    addToQueue: function(unitType, scaling, memoryObject, targetRoomId, priority){
+    addToQueue: function(unitType, memoryObject, targetRoomId, priority){
         this.initSpawnQueue();
         var unitProdObject = {}
         unitProdObject.unitType = unitType;
         unitProdObject.memoryObject = memoryObject;
-        unitProdObject.scaling = scaling;
         unitProdObject.targetRoomId = targetRoomId;
         if(priority == true){
             Memory.spawnQueue.push(unitProdObject)

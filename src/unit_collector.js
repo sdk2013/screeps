@@ -6,60 +6,31 @@
  * var mod = require('unit_collector');
  * mod.thing == 'a thing'; // true
  */
-var utilities = require('utilities')
+var utilities = require('utilities');
+var tasks = require('tasks');
 var collector = {
     beforeAge: function(){
         var creep = this.creep;
         var spawner = require('spawner');
-        spawner.addToQueue("collector", 1, {role:"collector"}, -1, false)
+        spawner.addToQueue("collector", {role:"collector"}, -1, false)
         delete creep.memory;
     },
 	
 	behavior: function(){
         var creep = this.creep
-        if(_.sum(creep.carry) == 0){
-            creep.memory.full = false;
+        var total = _.sum(creep.carry);
+        if(total == 0){
+            creep.memory.task = "gatherEnergy";
         }
-        if(!creep.memory.full){
-            creep.toSay("E")
-            if(Game.getObjectById(creep.memory.target) == undefined || Game.getObjectById(creep.memory.target) == null){
-                creep.toSay(":NT")
-                var target = creep.room.find(FIND_DROPPED_RESOURCES)
-                if(target[0]){
-                    creep.memory.target = target[0].id;
-                }else{
-                    var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                            filter: function(s){
-                                return (s.structureType == STRUCTURE_CONTAINER &&
-                                        _.sum(s.store) > 250)}});
-                    if(target != null){
-                        creep.memory.target = target.id;
-                    }
-                }
-            }
-            
-            var target = Game.getObjectById(creep.memory.target)
-            var result = creep.pickup(target)
-            if(result == ERR_NOT_IN_RANGE){
-                creep.moveTo(target);
-            }else if(result == ERR_FULL){
-                creep.memory.full = true;
-            }else if(result == ERR_INVALID_TARGET){
-                delete creep.memory.target;
-            }
-            creep.toSay(result)
-        }else{
-            creep.toSay("F")
-            utilities.returnEnergyToBase(creep, true);
+        if(total == creep.carryCapacity && creep.memory.task == "gatherEnergy"){
+            creep.memory.task = "fill";
         }
+        var result = 
+        
 	},
 	
 	onSpawn: function(){},
 
-	partWeights: function(){
-	    var unitWeights = [["move",3],["carry",3]]
-	    return unitWeights;
-	},
 	/**
      * Calculates the composition of a creep based on extensions in a room
      * @param: {integer} extensionCount - Number of extensions availible to spawning spawn

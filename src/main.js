@@ -1,21 +1,8 @@
 /*
+1.1.0 Changelog
 
-Mk II 1.0.09 CHANGELOG:
+Tasks and search modules implemented
 
-ADDED:
-Introduction of extension based creep assembly
-
-WIP:
-Introduction of task based architecture
-
-
-
-BUGFIXES:
-command module should no longer run creeps with wrong module when current creep module is unavailible
-    Pretty sure when it couldn't construct a module, it was continuing with the previous creep's module
-SCVs no longer default to collection, and no longer continue collecting once full
-    PUSHED to 1.0.08
-utilities.returnEnergyToBase should be fixed
 
 */
 var command = require('command')
@@ -29,10 +16,11 @@ global.Empire = require('Empire')
 
 module.exports.loop = function () {
     Memory.stats = {};
-    statWrapper(initialize);
-    command(Game.creeps);
-    produce(Game.spawns);
-    defend(Game.structures);
+    statWrapper(initialize, "", "initialize");
+    statWrapper(command, Game.creeps, "command");
+    statWrapper(produce, Game.spawns, "produce");
+    statWrapper(defend, Game.structures, "defend");
+    
     
     //GARBAGE COLLECTION
     try{
@@ -40,8 +28,12 @@ module.exports.loop = function () {
             if(!Game.creeps[i]) {
                 delete Memory.creeps[i];
             }
-            if(Memory.creeps[i].role=='testcreep'){
-                Game.creeps[i].suicide()
+        }
+        if(Memory.objects){
+            for(var id in Memory.objects){
+                if(Game.getObjectById(id) == null){
+                    delete Memory.objects[id];
+                }
             }
         }
     }catch(e){

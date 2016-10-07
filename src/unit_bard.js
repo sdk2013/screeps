@@ -10,7 +10,7 @@ var bard = {
     beforeAge: function(){
         var spawner = require('spawner')
         var creep = this.creep;
-        spawner.addToQueue("bard", 1, {role:"bard", target: creep.memory.target, part: creep.memory.part}, -1, false);
+        spawner.addToQueue("bard", {role:"bard", target: creep.memory.target, part: creep.memory.part}, -1, false);
     },
 	
 	behavior: function(){

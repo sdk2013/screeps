@@ -6,21 +6,23 @@
  * var mod = require('unit_miner');
  * mod.thing == 'a thing'; // true
  */
-
+var tasks = require("tasks");
 var miner = {
     beforeAge: function(){
         var creep = this.creep;
-        var spawner = require('spawner')
-        spawner.addToQueue("miner", 1, {"role":"miner", "target": creep.memory.target}, -1, false);
+        var spawner = require('spawner');
+        spawner.addToQueue("miner", {"role":"miner", "target": creep.memory.target}, -1, false);
         delete Memory.creeps[creep.name];
     },
 	behavior: function(){
-	    var creep = this.creep    
-	    var target = creep.memory.target
-	    target = Game.getObjectById(target)
-	    result = creep.harvest(target);
-	    creep.moveTo(target)
-	    creep.drop("energy")
+	    var creep = this.creep;
+	    if(creep.carry["energy"] == creep.carryCapacity){
+            creep.memory.task = "offload";
+        }
+        if(creep.carry["energy"] == 0){
+            creep.memory.task = "mine";
+        }
+        tasks.runTasks(creep);
 	},
 	
 	onSpawn: function(){},
@@ -35,14 +37,15 @@ var miner = {
      * returns: [[2darray]] of PARTS and NUMBER OF PARTS in form [[PART, {integer}],[PART, {integer}]]
      */
     partWeightsExt: function(extensionCount){
+        var unitWeight;
         if(extensionCount <= 5){                                     // < 300 max energy avail
-            var unitWeight = [["work", 2],["carry", 1],["move",1]];     // cost: 300
+            unitWeight = [["work", 2],["carry", 1],["move",1]];     // cost: 300
         }else if(extensionCount <= 10){                              // < 550 max energy avail
-            var unitWeight = [["work", 3],["carry", 1],["move",3]];     // cost: 500 
+            unitWeight = [["work", 3],["carry", 1],["move",3]];     // cost: 500 
         }else if(extensionCount <= 20){                              // < 800 max energy avail
-            var unitWeight = [["work", 5],["carry", 1],["move",3]];     // cost: 700
+            unitWeight = [["work", 5],["carry", 1],["move",3]];     // cost: 700
         }else{                                                      // 1300 max energy
-            var unitWeight = [["work", 5],["carry", 1],["move",3]];     // cost: 700
+            unitWeight = [["work", 5],["carry", 1],["move",3]];     // cost: 700
         }
         return unitWeight;
     }

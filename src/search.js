@@ -8,6 +8,16 @@
  */
 
 module.exports = {
+    /* 
+     * Finds unoccupied flag named after creep task
+     * @call {Creep} 
+     */
+    findPriorityTaskFlags: function(){
+        var flags = _(creep.room.find(FIND_FLAGS))
+                    .filter(f => f.name.includes(creep.memory.task) )
+                    .filter(f => f.findInRange(FIND_MY_CREEPS).length == 0)
+                    .value();
+    }
     /*
      *  This finds all potential energy sources for miners in a room, sorts them into a priority queue, and returns the array
      * Main call object: tasks.mineTargetenergy;
@@ -91,6 +101,29 @@ module.exports = {
         return _.values(targets);
     },
     /*
+     *  This finds all my energy providing structures in a room, sorts them into a
+     *      priority queue, and returns the array
+     * @param {object} creep - creep to be calling this ! MUST USE .call()
+     */
+    findPriorityEnergyProviders: function(){
+        var creep = this;
+        var targets = _.sortBy((creep.room.find(FIND_STRUCTURES)), 
+            function(s){
+                if(s.totalEnergy() != null){
+                    switch(s.structureType){
+                        case "storage":
+                            return 100;
+                        case "container":
+                            return 80;
+                        default:
+                            return 0;
+                    }
+                }else{
+                    return 0;
+                }});
+        return _.values(targets);
+    },
+    /*
      *  This finds all my energy needing structures in a room, sorts them into a
      *      priority queue, and returns the array
      * @param {object} creep - creep to be calling this ! MUST USE .call()
@@ -120,38 +153,37 @@ module.exports = {
         return _.values(targets);
     },
     /*
-     *  finds all things that need to be repaired and returns in a priority
-     *      sorted list
+     *  finds production structures and returns a list of them in order to
+     * be filled. Favors closer extensions, spawns, and powerspawns.
      * @call {object} creep - creep to be calling this ! MUST USE .call()
      * RETURN [array] repairtargets - repair list in ascending priority
      */
     findPriorityFillTargets: function(){
         var creep = this;
-        var targets = _.sortBy((creep.room.find(FIND_STRUCTURES, {
-            filter: function(s){
-                return s.totalEnergy() < s.capacity() &&
-                (s.structureType != "container" && s.structureType != 'terminal');
-            }})), 
-            function(s){
-                if(s.totalEnergy() != null){
-                    switch(s.structureType){
-                        case "tower":
-                            return 100;
-                        case "extension":
-                        case "spawn":
-                            return 70;
-                        case "powerSpawn":
-                            return 60;
-                        case "storage":
-                            return 20;
-                        default:
-                            return 50;
-                    }
-                }else{
-                    return 0;
-                }
-            });
-        return _.values(targets);
+        var targets = _(creep.room.find(FIND_STRUCTURES))
+                    .filter(s => s.structureType != "container"
+                        && s.structureType != "terminal"
+                        && s.structureType != "link")
+                    .sortBy(function(s){
+                        if(s.totalEnergy() != null){
+                            switch(s.structureType){
+                                case "tower":
+                                    return 1000;
+                                case "extension":
+                                case "spawn":
+                                case "powerSpawn":
+                                    return (100 / creep.pos.getRangeTo(s) );
+                                case "storage":
+                                    return 0;
+                                default:
+                                    return 10`;
+                            }
+                        }else{
+                            return 0;
+                        }
+                    })
+                    .value()
+        return targets;
     },
     /*
      *  finds all things that need to be repaired and returns in a priority
@@ -211,12 +243,13 @@ module.exports = {
      */
     findPriorityEnergySources: function(){
         var creep = this
-        var rez = this.room.find(FIND_DROPPED_RESOURCES)
+        var rez = _(this.room.find(FIND_DROPPED_RESOURCES))
+                    .filter()
         var cans = _(this.room.find(FIND_STRUCTURES))
                     .filter(s => s.structureType == "container")
                     .sortBy(s => s.totalEnergy() )
                     .value()
-        var targets = rez.concat(cans)
+        var targets = cans.concat(rez)
         return targets;
     }
 };

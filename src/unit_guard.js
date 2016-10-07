@@ -1,29 +1,22 @@
 /*
  */
+var tasks = require("tasks")
 var guard = {
     beforeAge: function(){
         var spawner = require('spawner')
         var creep = this.creep;
-        spawner.addToQueue("guard", 1, {role:"guard", target: creep.memory.target}, -1, false);
+        spawner.addToQueue("guard", {role:"guard", target: creep.memory.target}, -1, false);
     },
 	
 	behavior: function(){
-	    var creep = this.creep
-	    if(creep.room.find(FIND_HOSTILE_CREEPS).length == 0){
-	        var target = Game.flags[creep.memory.target].pos
-	        var result = creep.moveTo(target);
-	        return result;
+	    var creep = this.creep;
+	    if(creep.memory.task == null){
+	    	creep.memory.task = "combat";
 	    }
-	    var target = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS)
-	    creep.rangedAttack(target)
-	    var result = creep.attack(target)
-	    if(result == ERR_NOT_IN_RANGE){
-	        creep.moveTo(target)
+	    if(creep.memory.combatTask == null){
+	    	creep.memory.combatTask = "watch";
 	    }
-	    if(creep.hits < creep.hitsMax){
-	        //creep.heal(creep);
-	    }
-	    return result;
+	    tasks.runTasks(creep);
 	},
 	
 	onSpawn: function(){

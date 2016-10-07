@@ -36,7 +36,7 @@ var tasks_combat = {
         var creep = this.creep;
         creep.toSay("WAT-")
         var target = Game.getObjectById(creep.memory.watchTarget)
-        if(null == null || target.room != creep.room){
+        if(target == null || target.room != creep.room){
             delete creep.memory.watchTarget;
             var targetRoom = Game.rooms[targetRoomName];
             if(targetRoom != creep.room){
@@ -44,7 +44,7 @@ var tasks_combat = {
                 creep.goto(targetRoom)
                 return "ERR_NOT_IN_ROOM"
             }
-            var hostiles = combat.IFFTargetList.call(creep);
+            var hostiles = combat.IFFSafeTargetList.call(creep);
             if(hostiles == null){
                 return self.gotoTaskFlag.call(creep);
             }
@@ -64,7 +64,7 @@ var tasks_combat = {
      */
     gotoTaskFlag: function(){
         var creep = this.creep;
-        var targets = search.findPriorityTaskFlags.call(creep)
+        var targets = search.findPriorityTaskFlags.call(creep)      // TODO: THIS MODULE ISN'T FINISHED
         if(targets == null){
             creep.toSay("$D")
             var target = new RoomPosition(25, 25, creep.room.name)
