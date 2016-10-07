@@ -61,7 +61,17 @@ function initialize(){
         }
         return false;
     }
-
+    Creep.prototype.repairMoveTo = function(target, arguments){
+        var look = _(this.pos.lookFor(LOOK_STRUCTURES))
+                    .filter(s => s.structureType == "road")
+                    .first()
+        if(look != null){
+            if(this.hasPart(WORK) && this.totalEnergy() > 0){
+                creep.repair(look);
+            }
+        }
+        this.moveTo(target, arguments)
+    }
 
     
     // remove lodash and function call overhead from original

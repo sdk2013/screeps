@@ -160,7 +160,7 @@ var tasks = {
             var result = creep.harvest(target)
             if(result == ERR_NOT_IN_RANGE){
                 creep.toSay(":->T");
-                creep.moveTo(target);
+                creep.repairMoveTo(target);
             }
             return result;
         }
@@ -170,7 +170,7 @@ var tasks = {
         if(target != null){
             creep.toSay("$T");
             creep.toSay(":->F");
-            creep.moveTo(target);
+            creep.repairMoveTo(target);
             return "ERR_NOT_IN_ROOM"
         }
         //Ok, now we have to navigate to the room if there is no flag or target
@@ -196,7 +196,7 @@ var tasks = {
         var result = creep.harvest(source);
         if(result == ERR_NOT_IN_RANGE){
             creep.toSay(">T");
-            creep.moveTo(source);
+            creep.repairMoveTo(source);
         }
         return result;
     },
@@ -249,7 +249,7 @@ var tasks = {
                     var result = creep.transfer(target, "energy");
                     if(RESULT == ERR_NOT_IN_RANGE){
                         creep.toSay(":->T");
-                        creep.moveTo(can);
+                        creep.repairMoveTo(can);
                     }
                 }
             }
@@ -322,7 +322,7 @@ var tasks = {
         var result = creep.repair(target)
         if(result == ERR_NOT_IN_RANGE){
             creep.toSay(":->T")
-            creep.moveTo(target)
+            creep.repairMoveTo(target)
         }
         creep.toSay(result)
         return result;
@@ -360,7 +360,7 @@ var tasks = {
         var result = creep.transfer(target, "energy")
         if(result == ERR_NOT_IN_RANGE){
             creep.toSay(":->T")
-            creep.moveTo(target)
+            creep.repairMoveTo(target)
         }
         if(result == OK){
             delete creep.memory.fillTarget;
@@ -397,7 +397,7 @@ var tasks = {
         var result = creep.repair(target)
         if(result == ERR_NOT_IN_RANGE){
             creep.toSay(":->T")
-            creep.moveTo(target)
+            creep.repairMoveTo(target)
         }
         creep.toSay(" " + result)
         return result
@@ -426,7 +426,7 @@ var tasks = {
         var result = creep.withdraw(target, "energy");
         creep.toSay("$T")
         if(result == ERR_NOT_IN_RANGE){
-            creep.moveTo(target);
+            creep.repairMoveTo(target);
             creep.toSay(":->T")
         }
         creep.toSay(" " + result)
@@ -463,7 +463,7 @@ var tasks = {
         creep.toSay("$T")
         var result = creep.build(target)
         if(result == ERR_NOT_IN_RANGE){
-            creep.moveTo(target)
+            creep.repairMoveTo(target)
             creep.toSay(":->T")
         }
         creep.toSay(" " + result)
@@ -488,7 +488,7 @@ var tasks = {
             result = creep.upgradeController(creep.room.controller)
             creep.toSay("$T")
             if(result == ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.room.controller);
+                creep.repairMoveTo(creep.room.controller);
                 creep.toSay(":->T")
             }
             creep.toSay(" " + result)
@@ -526,7 +526,7 @@ var tasks = {
             var result = creep.pull(can, "energy")
             creep.toSay("$T")
             if(result == ERR_NOT_IN_RANGE){
-                creep.moveTo(can)
+                creep.repairMoveTo(can)
                 creep.toSay(":->T")
             }
             creep.toSay(" " + result)
@@ -563,7 +563,7 @@ var tasks = {
             var result = creep.transfer(returnTo, RESOURCE_ENERGY)
             if(result == ERR_NOT_IN_RANGE){
                 creep.toSay(":->T")
-                creep.moveTo(returnTo)
+                creep.repairMoveTo(returnTo)
                 return result;
             }
             creep.toSay(" " + result)
@@ -592,7 +592,7 @@ var tasks = {
             var result = creep.reserveController(target);
             if(result == ERR_NOT_IN_RANGE){
                 creep.toSay(":->T")
-                creep.moveTo(target)
+                creep.repairMoveTo(target)
             }
             creep.toSay(" " + result)
             return result;
