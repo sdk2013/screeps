@@ -5,7 +5,7 @@ var guard = {
     beforeAge: function(){
         var spawner = require('spawner')
         var creep = this.creep;
-        spawner.addToQueue("guard", {role:"guard", target: creep.memory.target}, -1, false);
+        spawner.addToQueue("guard", {role:"guard", watchRoomName: creep.memory.watchRoomName}, -1, false);
     },
 	
 	behavior: function(){
