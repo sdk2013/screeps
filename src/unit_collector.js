@@ -45,8 +45,10 @@ var collector = {
             var unitWeight = [["carry", 5],["move",5]];     // cost: 500 
         }else if(extensionCount <= 20){                              // < 800 max energy avail
             var unitWeight = [["carry", 6],["move",6]];     // cost: 600
-        }else{                                                      // 1300 max energy
+        }else if(extensionCount <=30){                                                      // 1300 max energy
             var unitWeight = [["carry", 10],["move",10]];     // cost: 1000
+        }else if(extensionCount <= 40){                             // 1800 energy avail
+            var unitWeight = [["work", 1],["carry", 15],["move",16]];   //1650 cost
         }
         return unitWeight;
     }
