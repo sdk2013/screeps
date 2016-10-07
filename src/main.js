@@ -72,7 +72,7 @@ function initialize(){
         }else if(target instanceof Creep){
             var result = target.transfer(creep, RESOURCE_ENERGY);
         }else if(target instanceof Resource){
-            var result = target.pickup(target);
+            var result = creep.pickup(target);
         }
         if(result == -7){
             console.log(creep.name + " pull failed. Target: " + target.id + "  Resource: Energy (default)")
