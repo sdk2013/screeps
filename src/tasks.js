@@ -22,7 +22,7 @@ var tasks = {
             case "gatherEnergy":
                 var collectRoomName = creep.memory.collectRoomName;
                 if(collectRoomName == null){collectRoomName = creep.room.name;}
-                result = this.gatherEnergyInTargetRoom(creep, collectRoomName)
+                result = this.gatherEnergyInTargetRoom(creep, collectRoomName);
                 break;
             /*
              * Long Range Energy Return Module
@@ -33,7 +33,7 @@ var tasks = {
             case "return":
                 var returnRoomName = creep.memory.returnRoomName;
                 if(returnRoomName == null) {returnRoomName = creep.findClosestSpawn().room.name;}
-                result = this.returnEnergyToBase(creep, returnRoomName)
+                result = this.returnEnergyToBase(creep, returnRoomName);
                 break;
             /*
              * Local controller upgrade
@@ -44,7 +44,7 @@ var tasks = {
             case "upgrade":
                 var upgradeRoomName = creep.memory.upgradeRoomName;
                 if(upgradeRoomName == null) {upgradeRoomName = creep.room.name;}
-                result = this.upgradeRCL(creep, upgradeRoomName)
+                result = this.upgradeRCL(creep, upgradeRoomName);
                 break;
             /*
              * Local construct sites
@@ -55,7 +55,7 @@ var tasks = {
             case "construction":
                 var constructRoomName = creep.memory.constructRoomName;
                 if(constructRoomName == null) {constructRoomName = creep.room.name;}
-                result = this.constructInTargetRoom(creep, constructRoomName)
+                result = this.constructInTargetRoom(creep, constructRoomName);
                 break;
             /*
              * Gather energy from room (generally used to provide energy for other objectives)
@@ -67,7 +67,7 @@ var tasks = {
             case "fetchEnergy":
                 var energyRoomName = creep.memory.energyRoomName;
                 if(energyRoomName == null) {energyRoomName = creep.room.name;}
-                result = this.fetchEnergyFromRoom(creep, energyRoomName)
+                result = this.fetchEnergyFromRoom(creep, energyRoomName);
                 break;
             /*
              * Reserve the target room for security/remote mining
@@ -78,7 +78,7 @@ var tasks = {
             case "reserve":
                 var reserveRoomName = creep.memory.reserveRoomName;
                 if(reserveRoomName == null) {return "ERR_NO_TARGET";}
-                result = this.reserveTargetRoom(creep, reserveRoomName)
+                result = this.reserveTargetRoom(creep, reserveRoomName);
                 break;
             /*
              * Repairs structures in the target room, ignoring walls and ramparts
@@ -89,7 +89,7 @@ var tasks = {
             case "repair":
                 var repairRoomName = creep.memory.repairRoomName;
                 if(repairRoomName == null) {repairRoomName = creep.room.name;}
-                result = this.repairTargetRoom(creep, repairRoomName)
+                result = this.repairTargetRoom(creep, repairRoomName);
                 break;
             /*
              * Fortifies walls and ramparts in target room
@@ -100,7 +100,7 @@ var tasks = {
             case "fortify":
                 var fortifyRoomName = creep.memory.fortifyRoomName;
                 if(fortifyRoomName == null) {fortifyRoomName = creep.room.name;}
-                result = this.fortifyTargetRoom(creep, fortifyRoomName)
+                result = this.fortifyTargetRoom(creep, fortifyRoomName);
                 break;
             /*
              * Fills production structures and creeps in priority list in room
@@ -111,7 +111,7 @@ var tasks = {
             case "fill":
                 var fillRoomName = creep.memory.fillRoomName;
                 if(fillRoomName == null) {fillRoomName = creep.room.name;}
-                result =  this.fillTargetRoom(creep, fillRoomName)
+                result =  this.fillTargetRoom(creep, fillRoomName);
                 break;
             /*
              * Offloads energy to nearby can, or builds a can at current location
@@ -119,7 +119,7 @@ var tasks = {
              * RETURN Errorcode
              */
             case "offload":
-                result = this.offloadEnergyToCan(creep)
+                result = this.offloadEnergyToCan(creep);
                 break;
             /*
              * Mines availible resource nodes in target room
@@ -130,13 +130,13 @@ var tasks = {
              * RETURN Errorcode
              */
             case "mineEnergy":
-                result = this.mineTargetEnergy(creep)
+                result = this.mineTargetEnergy(creep);
                 break;
             /*
              * Directs creeps to the combat module
              */
             case "combat":
-                var tasks_combat = require("tasks_combat")
+                var tasks_combat = require("tasks_combat");
                 result = tasks_combat.runtasks(creep);
                 break;
             default:
@@ -153,14 +153,14 @@ var tasks = {
      * RETURN Errorcode
      */
     mineTargetEnergy: function(creep, target){
-        creep.toSay("ENE-")
-        var target = Game.getObjectById(creep.memory.mineEnergyTarget)
+        creep.toSay("ENE-");
+        var target = Game.getObjectById(creep.memory.mineEnergyTarget);
         if(target != null){
             creep.toSay("$T")
             var result = creep.harvest(target)
             if(result == ERR_NOT_IN_RANGE){
-                creep.toSay(":->T")
-                creep.moveTo(target)
+                creep.toSay(":->T");
+                creep.moveTo(target);
             }
             return result;
         }
@@ -168,35 +168,35 @@ var tasks = {
             target == Game.flags[creep.memory.mineEnergyTarget]
         }
         if(target != null){
-            creep.toSay("$T")
-            creep.toSay(":->F")
-            creep.moveTo(target)
+            creep.toSay("$T");
+            creep.toSay(":->F");
+            creep.moveTo(target);
             return "ERR_NOT_IN_ROOM"
         }
         //Ok, now we have to navigate to the room if there is no flag or target
         var targetRoomName = creep.memory.mineEnergyRoomName;
         if(targetRoomName != null && Game.rooms[targetRoomName] != creep.room){
-            creep.toSay("!T")
-            creep.toSay(":->R")
-            creep.goto(Game.rooms[targetRoomName])
+            creep.toSay("!T");
+            creep.toSay(":->R");
+            creep.goto(Game.rooms[targetRoomName]);
             return "ERR_NOT_IN_ROOM"
         }
         creep.toSay("?T-")
         creep.memory.mineEnergyRoomName = creep.room.name;
-        var search = require("search")
-        var sources = search.findPriorityEnergyNodes.call(creep)
-        if(sources.length = 0){
-            creep.toSay("!T")
-            return "ERR_NO_TARGETS"
+        var search = require("search");
+        var sources = search.findPriorityEnergyNodes.call(creep);
+        if(sources.length == 0){
+            creep.toSay("!T");
+            return "ERR_NO_TARGETS";
         }
-        creep.toSay("$T")
+        creep.toSay("$T");
         var source = sources.pop();
         creep.memory.mineEnergyTarget = source.id;
-        creep.room.createFlag(source, source.id)
-        var result = creep.harvest(source)
+        creep.room.createFlag(source, source.id);
+        var result = creep.harvest(source);
         if(result == ERR_NOT_IN_RANGE){
-            creep.toSay(">T")
-            creep.moveTo(source)
+            creep.toSay(">T");
+            creep.moveTo(source);
         }
         return result;
     },
@@ -207,55 +207,54 @@ var tasks = {
      * RETURN Errorcode
      */
     offloadEnergyToCan: function(creep){
-        creep.toSay("OFL-")
-        var target = Game.getObjectById(creep.memory.can)
+        creep.toSay("OFL-");
+        var target = Game.getObjectById(creep.memory.can);
         if(target == null){
             var target = _(creep.pos.findInRange(FIND_MY_STRUCTURES, 2))
                             .filter(s =>s.structureType == "link" 
                                 && s.totalEnergy() < s.capacity() )
-                            .first()
-                            .value()
+                            .first();
             if(target != null){
                 try{
                     target.memory.offload = true;
                 }catch(e){
-                    console.log(creep.name + " could not set " + target + " memory.offload = true;")
+                    console.log(creep.name + " could not set " + target + " memory.offload = true;");
                 }
             }
         }
         if(target == null){
-            var targetlist = search.findEnergyCans.call(creep)
+            var targetlist = search.findEnergyCans.call(creep);
             if(targetlist == null){
-                this.buildLocalCan(creep)
+                this.buildLocalCan(creep);
             }
-            var can = creep.pos.findClosestByRange(targetlist)
+            var can = creep.pos.findClosestByRange(targetlist);
             if(creep.pos.getRangeTo(can) < 2){
-                creep.memory.can = can.id
+                creep.memory.can = can.id;
                 target = can;
             }else{
-                this.buildLocalCan(creep)
+                this.buildLocalCan(creep);
             }
         }
         if(target != null){
-            creep.toSay("$T")
+            creep.toSay("$T");
             if(target.hits < target.hitsMax){
-                creep.repair(target)
+                creep.repair(target);
             }else{
                 if(Game.getObjectById(creep.memory.mineEnergyTarget) != null){
-                    creep.harvest(target)
+                    creep.harvest(target);
                 }
                 if(creep.pos.getRangeTo(can) == 0){
-                    creep.drop("energy")
+                    creep.drop("energy");
                 }else{
-                    var result = creep.transfer(target, "energy")
+                    var result = creep.transfer(target, "energy");
                     if(RESULT == ERR_NOT_IN_RANGE){
-                        creep.toSay(":->T")
-                        creep.moveTo(can)
+                        creep.toSay(":->T");
+                        creep.moveTo(can);
                     }
                 }
             }
         }
-        return "ERR_NO_TARGETS"
+        return "ERR_NO_TARGETS";
     },
     /*
      * Can builder function for offload task
@@ -266,25 +265,25 @@ var tasks = {
         creep.toSay("CAN+")
         var target = Game.getObjectById(creep.memory.canToBuild);
         if(target == null){
-            creep.toSay("?SITE-")
-            var potentialsites = creep.pos.findInRange(FIND_CONSTRUCTION_SITES, 2)
+            creep.toSay("?SITE-");
+            var potentialsites = creep.pos.findInRange(FIND_CONSTRUCTION_SITES, 2);
             var site = creep.pos.findClosestByRange(potentialsites);
             if(site != null){
                 creep.memory.canToBuild = site.id;
                 target = site
             }else{
-                var potentialsites = creep.pos.findInRange(FIND_STRUCTURES, 0)
+                var potentialsites = creep.pos.findInRange(FIND_STRUCTURES, 0);
                 if(potentialsites != null){
                     creep.memory.can = potentialsites.pop().id;
                 }
             }
         }
         if(target == null){
-            creep.toSay("!SITE")
-            var result = creep.pos.createConstructionSite("container")
+            creep.toSay("!SITE");
+            var result = creep.pos.createConstructionSite("container");
             return result;
         }
-        creep.toSay("B")
+        creep.toSay("B");
         var result = creep.build(target);
         return result;
     },
@@ -295,24 +294,24 @@ var tasks = {
      * RETURN Errorcode
      */
     fortifyTargetRoom: function(creep, targetRoomName){
-        creep.toSay("FOR-")
-        var targetRoom = Game.rooms[targetRoomName]
+        creep.toSay("FOR-");
+        var targetRoom = Game.rooms[targetRoomName];
         if(creep.room != targetRoom){
-            creep.toSay(">R")
-            creep.goto(targetRoom)
-            return "ERR_NOT_IN_ROOM"
+            creep.toSay(">R");
+            creep.goto(targetRoom);
+            return "ERR_NOT_IN_ROOM";
         }
-        var targetPercent = Memory.wallTargetPercentage
-        var target = Game.getObjectById(creep.memory.fortifyTarget)
+        var targetPercent = Memory.wallTargetPercentage;
+        var target = Game.getObjectById(creep.memory.fortifyTarget);
         if(target != null && target.hits >= (target.hitsMax * targetPercent)){
             target = null;
-            delete creep.memory.fortifyTarget
+            delete creep.memory.fortifyTarget;
         }
         if(target == null){
             var targetlist = search.findPriorityWallRepairs.call(creep)
             if(targetlist.length == 0){
-                creep.toSay("!T")
-                return "ERR_NO_TARGETS"
+                creep.toSay("!T");
+                return "ERR_NO_TARGETS";
             }
             target = targetlist.pop()
             if(target != null){

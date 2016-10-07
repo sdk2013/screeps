@@ -20,7 +20,7 @@ var unitPrototype = {
 		if(Memory.debugMode == null){
 			Memory.debugMode = true;
 		}
-		if(Memory.debugMode == true){
+		if(Memory.debugMode == true || true){
 		    this.creep.say(this.creep.memory.toSay);
 		}else{
 			var sing = require("sing")
