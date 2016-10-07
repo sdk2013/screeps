@@ -9,7 +9,7 @@
 
 module.exports = function(func, arguments, name){
     var before = Game.cpu.getUsed;
-    f();
+    func(arguments);
     var after = Game.cpu.getUsed;
     var used = (after-before)
     if(Memory.stats.commandCPU == null){Memory.stats.commandCPU = {}};
