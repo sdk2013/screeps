@@ -12,11 +12,41 @@ module.exports = function(structures){
         var s = Game.getObjectById(id)
         if(s instanceof StructureTower){
             try{
-                var tower = require("structure_tower")
-                tower.run.call(s);
+                tower(s);
             }catch(e){
-                console.log("Tower Error: " + e.stack)
+                console.log("[DEF]Tower Error: " + e.stack)
+            }
+        }
+        if(s instanceof StructureSpawn){
+            try{
+                spawn(s);
+            }catch(e){
+                console.log("[DEF]Spawn Error: " + e.stack)
             }
         }
     }
-};
+}
+function tower(tower){
+    var targets = tower.room.find(FIND_HOSTILE_CREEPS)
+    if(targets.length > 0){
+        tower.attack(targets[0])
+        return;
+    }
+    targets = tower.room.find(FIND_MY_CREEPS, {
+        filter: function(c){
+            return c.hits < c.hitsMax
+        }})
+    if(targets.length > 0){
+        tower.heal(targets[0])
+    }
+}
+function spawn(s){
+    var renews = _(s.pos.findInRange(FIND_MY_CREEPS , 1))
+                    .filter(c => c.ticksToLive < 200)
+                    .sortBy(c => c.ticksToLive)
+                    .reverse()
+    if(renews.length > 0){
+        s.renewCreep(renews.pop());
+    }
+
+}
