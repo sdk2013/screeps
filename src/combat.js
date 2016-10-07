@@ -9,9 +9,9 @@ var combat = {
 	},
 	fireEveryThing: function(target){
 		var creep = this.creep;
-		try{creep.attack(target)}
-		try{creep.rangedAttack(target)}
-		try{creep.heal(creep)}
+		try{creep.attack(target)}catch(e){}
+		try{creep.rangedAttack(target)}catch(e){}
+		try{creep.heal(creep)}catch(e){}
 		return;
 	}
 }
