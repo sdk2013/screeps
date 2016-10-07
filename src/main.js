@@ -49,9 +49,47 @@ module.exports.loop = function () {
 
 
 function initialize(){
+    Creep.prototype.hasPart = function(type){
+        for(let i = this.body.length, i-- > 0;){
+            if(this.body[i].hits > 0){
+                if(this.body[i].type === type){
+                    return true;
+                }
+            }else{
+                break;
+            }
+        }
+        return false;
+    }
 
+    let moveTo = Creep.prototype.moveTo;
+    Creep.prototype.moveTo = function(){
+        var look = _(this.pos.lookFor(LOOK_STRUCTURES))
+                    .filter(s => s.structureType == "road")
+                    .first()
+        if(look != null){
+            if(this.hasPart(WORK) && this.totalEnergy() > 0){
+                creep.repair(look);
+            }
+        }
+        moveTo.apply(this, arguments.slice(1))
+    }
     
-    
+    // remove lodash and function call overhead from original
+    // also short cicuit past dead parts
+    Creep.prototype.getActiveBodyparts = function(type) {
+    let count = 0;
+    for (let i = this.body.length; i-- > 0;) {
+      if (this.body[i].hits > 0) {
+        if (this.body[i].type === type) {
+          count++;
+        }
+      } else {
+        break;
+      }
+    }
+    return count;
+    };
     Creep.prototype.pull = function(target, resource){
         var creep = this
         if(target instanceof Structure){
