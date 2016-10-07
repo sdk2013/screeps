@@ -43,7 +43,7 @@ var tasks_combat = {
                 return "ERR_NOT_IN_ROOM"
             }
             var hostiles = combat.IFFSafeTargetList.call(creep);
-            if(hostiles == null){
+            if(hostiles.length == 0){
                 return self.gotoTaskFlag.call(creep);
             }
             target = creep.pos.findClosestByPath(hostiles)
