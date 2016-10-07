@@ -8,8 +8,7 @@
  */
 var combat = require("combat")
 var tasks_combat = {
-    runTasks: function(){
-        var creep = this.creep;
+    runTasks: function(creep){
         creep.toSay("CBT-");
         switch(creep.memory.combatTask){
             /* 
