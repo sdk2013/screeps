@@ -13,7 +13,8 @@ var sing = {
 				status = this.lesMis(creep);
 				break;
 			case 2:
-				status = this.houndDog(creep)
+				status = this.houndDog(creep);
+				break;
 			default:
 				status = this.lesMis(creep);
 		}
