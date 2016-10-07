@@ -199,6 +199,9 @@ var tasks = {
             var target = source;
         }
         creep.toSay("$T");
+        if(Game.flags[target.id] == undefined){
+            creep.room.createFlag(target, target.id);
+        }
         var result = creep.harvest(target);
         if(result == ERR_NOT_IN_RANGE){
             creep.toSay(">T");
