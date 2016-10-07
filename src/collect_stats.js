@@ -47,7 +47,7 @@ var collect_stats = {
             // Other memory stats here?
         };
     
-        Memory.stats.roomSummary = resources.summarize_rooms();
+        Memory.stats.rooms = resources.summarize_rooms();
     }
 }
 module.exports = collect_stats;
