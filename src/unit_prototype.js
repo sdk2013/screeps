@@ -14,7 +14,7 @@ var unitPrototype = {
     run: function(){
         this.creep.memory.toSay = ""
         if(this.creep.memory.spawnRoom == null){
-        	this.creep.memory.spawnRoom = this.creep.findClosestSpawn().room.name;
+        	this.creep.memory.spawnRoom = this.creep.pos.findClosestSpawn().room.name;
         }
 		this.behavior(this.creep);
 		if(this.creep.ticksToLive == 1){
