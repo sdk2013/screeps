@@ -61,7 +61,7 @@ function initialize(){
         }
         return false;
     }
-    Creep.prototype.repairMoveTo = function(target, arguments){
+    Creep.prototype.repairMoveTo = function(target){
         var look = _(this.pos.lookFor(LOOK_STRUCTURES))
                     .filter(s => s.structureType == "road")
                     .first()
@@ -70,7 +70,7 @@ function initialize(){
                 this.repair(look);
             }
         }
-        this.moveTo(target, arguments)
+        this.moveTo(target, {ignorecreeps:true})
     }
     Creep.prototype.goto = function(targetRoomName, arguments){
         var targetPos = new RoomPosition(25, 25, targetRoomName)
