@@ -274,6 +274,7 @@ var tasks = {
      * RETURN Errorcode
      */
     buildLocalCan: function(creep){
+        creep.memory.builtcan == true
         creep.toSay("C+")
         var target = Game.getObjectById(creep.memory.canToBuild);
         if(target == null){
