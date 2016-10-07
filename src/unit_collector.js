@@ -12,7 +12,7 @@ var collector = {
     beforeAge: function(){
         var creep = this.creep;
         var spawner = require('spawner');
-        spawner.addToQueue("collector", {role:"collector",gatherRoomName: creep.memory.gatherRoomName}, -1, false)
+        spawner.addToQueue("collector", {role:"collector",gatherRoomName: creep.memory.gatherRoomName}, creep.memory.spawnRoom, false)
         delete creep.memory;
     },
 	
@@ -47,7 +47,7 @@ var collector = {
             var unitWeight = [["carry", 6],["move",6]];     // cost: 600
         }else if(extensionCount <=30){                                                      // 1300 max energy
             var unitWeight = [["carry", 10],["move",10]];     // cost: 1000
-        }else if(extensionCount <= 40){                             // 1800 energy avail
+        }else if(extensionCount < 40){                             // 1800 energy avail
             var unitWeight = [["work", 1],["carry", 15],["move",16]];   //1650 cost
         }
         return unitWeight;

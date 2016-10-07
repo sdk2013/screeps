@@ -30,7 +30,7 @@ var miner = {
         if(creep.memory.builtcan == true && creep.memory.supportOrdered != true){
             creep.memory.supportOrdered = true;
             var spawner = require("spawner");
-            spawner.addToQueue("collector", {role:"collector", gatherRoomName: creep.room.name}, -1, false)
+            spawner.addToQueue("collector", {role:"collector", gatherRoomName: creep.room.name}, creep.memory.spawnRoom, false)
         }
 	},
 	

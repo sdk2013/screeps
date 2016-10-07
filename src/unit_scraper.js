@@ -11,7 +11,7 @@ var scraper = {
     beforeAge: function(){
         var creep = this.creep;
         var spawner = require('spawner')
-        spawner.addToQueue("scraper", {role:"scraper", target:creep.memory.target}, -1, false);
+        spawner.addToQueue("scraper", {role:"scraper", target:creep.memory.target}, creep.memory.spawnRoom, false);
         delete Memory.creeps[creep.name];
     },
 	behavior: function(){

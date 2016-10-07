@@ -431,7 +431,8 @@ var tasks = {
         var energysources = search.findPriorityEnergyProviders.call(creep)
         if(energysources == null){
             creep.toSay("!T")
-            return "ERR_NO_TARGETS"
+            creep.memory.energyRoomName = creep.pos.findClosestSpawn().room.name;
+            return "ERR_NOT_IN_ROOM"
         }
         var target = energysources.pop();
         var result = creep.withdraw(target, "energy");
@@ -608,6 +609,35 @@ var tasks = {
                 creep.toSay(":->T")
                 creep.repairMoveTo(target)
             }
+            creep.toSay(" " + result)
+            return result;
+        }
+        creep.toSay("!T")
+        return result;
+    },
+    /*
+     * Finds room controller and claims it if it exists
+     * @param {Creep} creep - Creep to run task
+     * @param {string} claimRoomName - room to be upgraded
+     * RETURN {integer} Error code
+     */
+    reserveTargetRoom: function(creep, claimRoomName){
+        creep.toSay("RSV-")
+        var targetRoom = Game.rooms[creep.memory.claimRoomName];
+        if(creep.room != targetRoom){
+            creep.toSay(">R")
+            creep.goto(claimRoomName);
+            return "ERR_NOT_IN_ROOM"
+        }
+        var target = creep.room.controller
+        if(target != null){
+            creep.toSay("$T")
+            var result = creep.claimController(target);
+            if(result == ERR_NOT_IN_RANGE){
+                creep.toSay(":->T")
+                creep.repairMoveTo(target)
+            }
+            if(result == ERR_NOT)
             creep.toSay(" " + result)
             return result;
         }
