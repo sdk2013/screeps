@@ -121,6 +121,11 @@ function summarize_room(room) {
         tower_energy,
     };
     
+    if(!Memory.roomList){
+        Memory.roomList = [];
+    }
+    Memory.roomList.push(room.name)
+
     // console.log('Room ' + room.name + ': ' + JSON.stringify(retval));
     return retval;
 } // summarize_room
