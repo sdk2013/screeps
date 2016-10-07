@@ -45,7 +45,7 @@ var tasks_combat = {
             }
             var hostiles = combat.IFFSafeTargetList.call(creep);
             if(hostiles.length == 0){
-                return this.gotoTaskFlag.call(creep);
+                return this.gotoTaskFlag(creep);
             }
             target = creep.pos.findClosestByPath(hostiles)
             creep.memory.watchTarget = target.id
@@ -61,8 +61,7 @@ var tasks_combat = {
      * Command creep to go to nearest untaken flag for its role
      * Defaults to center of a room
      */
-    gotoTaskFlag: function(){
-        var creep = this.creep;
+    gotoTaskFlag: function(creep){
         var targets = null //TODO: FIX search.findPriorityTaskFlags(creep)
         if(targets == null){
             creep.toSay("$D")
