@@ -140,6 +140,7 @@ var tasks = {
                 result = tasks_combat.runtasks(creep);
                 break;
             default:
+                console.log(creep.name + " HAS NO TASK!!!")
                 result ="ERR_NO_TASK"
             /**/
         }
@@ -250,13 +251,13 @@ var tasks = {
                 if(Game.getObjectById(creep.memory.mineEnergyTarget) != null){
                     creep.harvest(target);
                 }
-                if(creep.pos.getRangeTo(can) == 0){
+                if(creep.pos.getRangeTo(target) == 0){
                     creep.drop("energy");
                 }else{
                     var result = creep.transfer(target, "energy");
                     if(RESULT == ERR_NOT_IN_RANGE){
                         creep.toSay(":->T");
-                        creep.repairMoveTo(can);
+                        creep.repairMoveTo(target);
                     }
                     return result;
                 }
