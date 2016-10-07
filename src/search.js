@@ -72,7 +72,7 @@ module.exports = {
                         case "rampart":
                             return 30;
                         case "road":
-                            return 0;
+                            return 1 + (1 / creep.pos.getRangeTo(s));
                         default:
                             return 50;
                     }
