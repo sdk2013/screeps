@@ -6,6 +6,7 @@
  * var mod = require('tasks_combat');
  * mod.thing == 'a thing'; // true
  */
+var search = require("search")
 var combat = require("combat")
 var tasks_combat = {
     runTasks: function(creep){
