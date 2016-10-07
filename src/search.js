@@ -245,7 +245,8 @@ module.exports = {
     findPriorityEnergySources: function(){
         var creep = this
         var rez = _(this.room.find(FIND_DROPPED_RESOURCES))
-                    .filter()
+                    .filter(r => r.pos.findInRange(FIND_MY_CREEPS).length == 0))
+                    .value()
         var cans = _(this.room.find(FIND_STRUCTURES))
                     .filter(s => s.structureType == "container")
                     .sortBy(s => s.totalEnergy() )
