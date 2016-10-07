@@ -2,6 +2,7 @@
  * This is the basic tasks file for screeps. No behavior logic should ever go here, just actions. Behavior logic should be handled in the unit_[name] modules
  * Everything here should be called with this.[functionname].call();
  */
+var search = require('search');
 var tasks = {
     /*
      * Main task function - orders creep to do tasks assigned to it.

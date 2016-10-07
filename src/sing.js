@@ -2,7 +2,7 @@ var sing = {
 	sing: function(creep){
 		var songCount = 1;
 		if(Memory.songNumber == null){
-			var x = Math.floor(Math.random() * SongCount) + 1;
+			var x = Math.floor(Math.random() * songCount) + 1;
 			var status;
 			switch(x){
 				case 1:
