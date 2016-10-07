@@ -181,19 +181,24 @@ var tasks = {
             creep.goto(targetRoomName);
             return "ERR_NOT_IN_ROOM"
         }
-        creep.toSay("?T-")
-        creep.memory.mineEnergyRoomName = creep.room.name;
-        var search = require("search");
-        var sources = search.findPriorityEnergyNodes.call(creep);
-        if(sources.length == 0){
-            creep.toSay("!T");
-            return "ERR_NO_TARGETS";
+        //This only needs to run if I don't have a source
+        var target = creep.memory.mineEnergyTarget;
+        if(target == null){
+            creep.toSay("?T-")
+            creep.memory.mineEnergyRoomName = creep.room.name;
+            var search = require("search");
+            var sources = search.findPriorityEnergyNodes.call(creep);
+            if(sources.length == 0){
+                creep.toSay("!T");
+                return "ERR_NO_TARGETS";
+            }
+            creep.toSay("$T");
+            var source = sources.pop();
+            creep.memory.mineEnergyTarget = source.id;
+            creep.room.createFlag(source, source.id);
+            var target = source;
         }
-        creep.toSay("$T");
-        var source = sources.pop();
-        creep.memory.mineEnergyTarget = source.id;
-        creep.room.createFlag(source, source.id);
-        var result = creep.harvest(source);
+        var result = creep.harvest(target);
         if(result == ERR_NOT_IN_RANGE){
             creep.toSay(">T");
             creep.repairMoveTo(source);
