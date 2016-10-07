@@ -3,6 +3,8 @@
 
 Tasks and search modules implemented
 
+TODO: Develop/Finalize Overlord AI
+
 
 */
 var command = require('command')
@@ -74,7 +76,7 @@ function initialize(){
         }
         return result;
     }
-    Structure.prototype.totalEnergy = function(){
+    RoomObject.prototype.totalEnergy = function(){
         var s = this;
         if(s instanceof StructureTower || s instanceof StructureExtension || 
             s instanceof StructureLab || s instanceof StructureLink || 
@@ -90,6 +92,12 @@ function initialize(){
             }else{
                 return 0;
             }
+        }
+        if(s instanceof Creep){
+            return s.carry["energy"]
+        }
+        if(s instanceof Resource){
+            return s.amount;
         }
         return null;
     }
