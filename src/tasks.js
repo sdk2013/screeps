@@ -32,7 +32,7 @@ var tasks = {
              */
             case "return":
                 var returnRoomName = creep.memory.returnRoomName;
-                if(returnRoomName == null) {returnRoomName = creep.findClosestSpawn().room.name;}
+                if(returnRoomName == null) {returnRoomName = creep.pos.findClosestSpawn().room.name;}
                 result = this.returnEnergyToBase(creep, returnRoomName);
                 break;
             /*
