@@ -165,6 +165,7 @@ module.exports = {
                     .filter(s => s.structureType != "container"
                         && s.structureType != "terminal"
                         && s.structureType != "link")
+                    .filter(s => s.totalEnergy() < s.capacity() )
                     .sortBy(function(s){
                         if(s.totalEnergy() != null){
                             switch(s.structureType){

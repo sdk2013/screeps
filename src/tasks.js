@@ -343,7 +343,7 @@ var tasks = {
             return "ERR_NOT_IN_ROOM"
         }
         var target = Game.getObjectById(creep.memory.fillTarget)
-        if(target != null || target.totalEnergy() == target.capacity()){
+        if(target != null && target.totalEnergy() == target.capacity()){
             target == null;
             delete creep.memory.fillTarget;
         }
