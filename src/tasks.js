@@ -563,6 +563,10 @@ var tasks = {
             return "ERR_NOT_IN_ROOM"
         }
         var can = Game.getObjectById(creep.memory.potentialEnergySource)
+        if(can.room.name != targetRoom){
+            delete creep.memory.potentialEnergySource;
+            can = null;
+        }
         if(can == null || can.totalEnergy() == 0){delete creep.memory.potentialEnergySource}
         if(creep.memory.potentialEnergySource == null){
             var sourcelist = search.findPriorityEnergySources.call(creep)
