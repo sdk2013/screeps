@@ -1,7 +1,7 @@
 var Nonhostiles = ["Dissi"]
 var combat = {
 	IFFSafeTargetList: function(target){
-		var unit == null;
+		var unit = null;
 		if(target == null){
 			unit = this;
 		}else{
