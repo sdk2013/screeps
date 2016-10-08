@@ -121,10 +121,10 @@ function summarize_room(room) {
         tower_energy,
     };
     
-    if(!Memory.roomList){
-        Memory.roomList = [];
+    if(!Memory.stats.roomList){
+        Memory.stats.roomList = [];
     }
-    Memory.roomList.push(room.name)
+    Memory.stats.roomList.push(room.name)
 
     // console.log('Room ' + room.name + ': ' + JSON.stringify(retval));
     return retval;
