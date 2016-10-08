@@ -24,7 +24,6 @@ module.exports = {
                     .filter(f => f.name.startsWith(flagType) )
                     .sortBy(f => f.pos.findInRange(FIND_MY_CREEPS).length)
                     .value();
-        console.log(creep.name + " FOUND FLAGS: " + flags )
         return flags;
     },
     /*
