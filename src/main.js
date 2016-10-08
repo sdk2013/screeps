@@ -71,11 +71,7 @@ function initialize(){
                 this.repair(look);
             }
         }
-        if(badRoomList.includes(this.room.name)){
-            this.moveTo(target, {ignorecreeps:true})
-        }else{
-            this.moveTo(target)
-        }
+        this.moveTo(target)
     }
     Creep.prototype.goto = function(targetRoomName, arguments){
         var targetPos = new RoomPosition(25, 25, targetRoomName)
