@@ -71,7 +71,7 @@ function initialize(){
                     .first()
         if(road != null){
             if(this.totalEnergy() > 0){
-                this.repair(look);
+                this.repair(road);
             }
         }
         this.moveTo(target)
