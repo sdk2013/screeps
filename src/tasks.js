@@ -271,21 +271,8 @@ var tasks = {
         creep.toSay("OFL-");
         var target = Game.getObjectById(creep.memory.can);
         if(target == null){
-            var target = _(creep.pos.findInRange(FIND_MY_STRUCTURES, 2))
-                            .filter(s =>s.structureType == "link" 
-                                && s.totalEnergy() < s.capacity() )
-                            .first();
-            if(target != null){
-                try{
-                    target.memory.offload = true;
-                }catch(e){
-                    console.log(creep.name + " could not set " + target + " memory.offload = true;");
-                }
-            }
-        }
-        if(target == null){
             var targetlist = search.findEnergyCans.call(creep);
-            if(targetlist == null){
+            if(targetlist == null){                
                 this.buildLocalCan(creep);
                 return "ERR_NOT_IN_ROOM";
             }
@@ -299,11 +286,6 @@ var tasks = {
             }
         }
         if(target != null){
-            if(target instanceof ConstructionSite){
-                creep.build(target)
-                creep.toSay("#B")
-                return "ERR_NOT_IN_ROOM"
-            }
             creep.toSay("$T");
             if(target.hits < target.hitsMax){
                 creep.repair(target);
