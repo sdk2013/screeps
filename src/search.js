@@ -245,6 +245,7 @@ module.exports = {
                     .value()
         var cans = _(this.room.find(FIND_STRUCTURES))
                     .filter(s => s.structureType == "container")
+                    .filter(s => s.totalEnergy() > 0)
                     .sortBy(s => s.totalEnergy() )
                     .value()
         var targets = cans.concat(rez)
