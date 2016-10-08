@@ -613,9 +613,10 @@ var tasks = {
             var targetlist = search.findPriorityEnergyStorage.call(creep);
             var target = targetlist.pop()
             if(target != null){
-                creep.memory.target = target.id
+                creep.memory.returnTo = target.id
             }
         }
+        returnTo = Game.getObjectById(creep.memory.returnTo)
         if(returnTo != null){
             creep.toSay("$T")
             var result = creep.transfer(returnTo, RESOURCE_ENERGY)
