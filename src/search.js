@@ -9,14 +9,22 @@
 
 module.exports = {
     /* 
-     * Finds unoccupied flag named after creep task
+     * Finds least opccupiedflag named after creep task
      * @call {Creep} 
      */
     findPriorityTaskFlags: function(){
         var creep = this;
+        var flagType;
+        if(creep.memory.task != "combat"){
+            flagType = creep.memory.task;
+        }else{
+            flagType = creep.memory.combatTask;
+        }
         var flags = _(creep.room.find(FIND_FLAGS))
-                    .filter(f => f.name.includes(creep.memory.task) )
+                    .filter(f => f.name.startsWith(flagType) )
+                    .sortBy(f => f.pos.findInRange(FIND_MY_CREEPS).length)
                     .value();
+        console.log(creep.name + " FOUND FLAGS: " + flags )
         return flags;
     },
     /*
