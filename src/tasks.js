@@ -26,13 +26,13 @@ var tasks = {
                 break;
             /*
              * Long Range Energy Return Module
-             * Defualts to nearest spawn
+             * Defualts home spawn
              * @param {string} homeRoomName - Name of room to return to
              * RETURN Errorcode
              */
             case "return":
                 var returnRoomName = creep.memory.returnRoomName;
-                if(returnRoomName == null) {returnRoomName = creep.pos.findClosestSpawn().room.name;}
+                if(returnRoomName == null) {returnRoomName = creep.memory.spawnRoom;}
                 result = this.returnEnergyToBase(creep, returnRoomName);
                 break;
             /*
