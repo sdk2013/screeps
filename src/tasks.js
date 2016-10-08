@@ -299,6 +299,11 @@ var tasks = {
             }
         }
         if(target != null){
+            if(target instanceof ConstructionSite){
+                creep.build(target)
+                creep.toSay("#B")
+                return "ERR_NOT_IN_ROOM"
+            }
             creep.toSay("$T");
             if(target.hits < target.hitsMax){
                 creep.repair(target);
