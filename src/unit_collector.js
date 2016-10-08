@@ -15,19 +15,21 @@ var collector = {
         spawner.addToQueue("collector", {role:"collector",gatherRoomName: creep.memory.gatherRoomName}, creep.memory.spawnRoom, false)
         delete creep.memory;
     },
-	
 	behavior: function(){
         var creep = this.creep
         var total = _.sum(creep.carry);
         if(total == 0 || creep.memory.task == null){
             creep.memory.task = "gatherEnergy";
         }
-        if(total == creep.carryCapacity && creep.memory.task == "gatherEnergy"){
+        if(total == creep.carryCapacity && creep.memory.task == "gatherEnergy" || creep.memory.task == "fetchEnergy"){
             creep.memory.task = "fill";
         }
         var result = tasks.runTasks(creep);
         if(result == "ERR_NO_TARGETS" && creep.memory.task == "fill"){
             creep.memory.fillRoomName = creep.memory.spawnRoom;
+        }
+        if(result == "ERR_NO_TARGETS" && creep.memory.task == "gatherEnergy" && creep.room.name == creep.memory.spawnRoom){
+            creep.memory.task = "fetchEnergy"
         }
 	},
 	
