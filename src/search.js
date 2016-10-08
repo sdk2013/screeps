@@ -41,7 +41,7 @@ module.exports = {
         var creep = this;
         var targets = _(creep.room.find(FIND_STRUCTURES))
                         .filter(s => s.structureType == "container")
-                        .values()
+                        .value()
         return targets;
     },
     /*
@@ -245,8 +245,8 @@ module.exports = {
                     .value()
         var cans = _(this.room.find(FIND_STRUCTURES))
                     .filter(s => s.structureType == "container")
-                    .filter(s => s.totalEnergy() > 0)
-                    .sortBy(s => s.totalEnergy() )
+                    .filter(s => s.store["energy"] != 0)
+                    .sortBy(s => s.store["energy"] )
                     .value()
         var targets = cans.concat(rez)
         return targets;
