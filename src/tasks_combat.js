@@ -63,7 +63,7 @@ var tasks_combat = {
      */
     gotoTaskFlag: function(creep){
         var targets = search.findPriorityTaskFlags.call(creep) //TODO: FIX search.findPriorityTaskFlags(creep)
-        if(targets == null){
+        if(targets.length == 0){
             creep.toSay("$D")
             var target = new RoomPosition(25, 25, creep.room.name)
         }else{
