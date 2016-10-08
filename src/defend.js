@@ -27,7 +27,8 @@ module.exports = function(structures){
     }
 }
 function tower(tower){
-    var targets = tower.room.find(FIND_HOSTILE_CREEPS)
+    var combat = require("combat")
+    var targets = combat.IFFSafeTargetList().call(tower);
     if(targets.length > 0){
         tower.attack(targets[0])
         return;
