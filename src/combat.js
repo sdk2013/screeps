@@ -1,7 +1,12 @@
 var Nonhostiles = ["Dissi"]
 var combat = {
-	IFFSafeTargetList: function(){
-		var unit = this;
+	IFFSafeTargetList: function(target){
+		var unit == null;
+		if(target == null){
+			unit = this;
+		}else{
+			unit = target;
+		}
 		var targets = _(unit.room.find(FIND_HOSTILE_CREEPS))
 						.filter(c => !Nonhostiles.includes(c.owner))
 						.value()
