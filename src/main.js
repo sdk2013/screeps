@@ -152,12 +152,7 @@ function initialize(){
         }
         if(s instanceof StructureStorage || s instanceof StructureContainer ||
             s instanceof StructureTerminal){
-            var energytotal = s.store[RESOURCE_ENERGY]
-            if(!energytotal == null){
-                return energytotal
-            }else{
-                return 0;
-            }
+            return s.store["energy"]
         }
         if(s instanceof Creep){
             return s.carry["energy"]
