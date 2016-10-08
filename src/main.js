@@ -53,7 +53,7 @@ function initialize(){
     Creep.prototype.hasPart = function(type){
         for(let i = this.body.length; i-- > 0;){
             if(this.body[i].hits > 0){
-                if(this.body[i].type === type){
+                if(this.body[i].type == type){
                     return true;
                 }
             }else{
@@ -63,11 +63,14 @@ function initialize(){
         return false;
     }
     Creep.prototype.repairMoveTo = function(target){
-        var look = _(this.pos.lookFor(LOOK_STRUCTURES))
+        if(!this.hasPart(WORK)){
+            this.moveTo(target);
+        }
+        var road = _(this.pos.lookFor(LOOK_STRUCTURES))
                     .filter(s => s.structureType == "road")
                     .first()
-        if(look != null){
-            if(this.hasPart(WORK) && this.totalEnergy() > 0){
+        if(road != null){
+            if(this.totalEnergy() > 0){
                 this.repair(look);
             }
         }
