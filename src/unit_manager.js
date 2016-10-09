@@ -12,7 +12,7 @@ var manager = {
     beforeAge: function(){
         var creep = this.creep;
         var spawner = require('spawner');
-        spawner.addToQueue("manager", {role:"manager"}, creep.memory.spawnRoom, false)
+        spawner.addToQueue("manager", {role:"manager"}, creep.memory.spawnRoom, true)
         delete creep.memory;
     },
 	behavior: function(){
