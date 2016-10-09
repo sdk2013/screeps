@@ -133,8 +133,9 @@ module.exports = {
      */
     findPriorityEnergyStorage: function(){
         var creep = this;
-        var targets = _.sortBy((creep.room.find(FIND_MY_STRUCTURES)), 
-            function(s){
+        var targets = _(creep.room.find(FIND_MY_STRUCTURES)
+            .filter(s => s.totalEnergy() == s.capacity)
+            .sortBy(function(s){
                 if(s.totalEnergy() != null){
                     switch(s.structureType){
                         case "tower":
@@ -152,8 +153,9 @@ module.exports = {
                     }
                 }else{
                     return 0;
-                }});
-        return _.values(targets);
+                }})
+            .value()
+        return targets;
     },
     /*
      *  finds production structures and returns a list of them in order to
@@ -268,6 +270,7 @@ module.exports = {
         var sources = _(this.room.find(FIND_SOURCES))
                     .filter(r => r.energy < creep.carryCapacity)
                     .sortBy(r => r.pos.getRangeTo(creep.pos) )
+                    .reverse()
                     .value()
         var rez = _(this.room.find(FIND_DROPPED_ENERGY))
                     .filter(r => r.amount > creep.carryCapacity)
