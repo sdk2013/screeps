@@ -50,6 +50,7 @@ var scv = {
                 creep.memory.task = "harvest";
             }
             if(creep.totalEnergy() == creep.carryCapacity && creep.memory.task == "harvest"){
+                delete creep.memory.sourceid;
                 creep.memory.task = "construction"
             }
         }
