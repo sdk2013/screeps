@@ -625,6 +625,10 @@ var tasks = {
                 creep.repairMoveTo(returnTo)
                 return result;
             }
+            if(result == ERR_FULL){
+                creep.toSay(":FULL")
+                delete creep.memory.returnTo;
+            }
             creep.toSay(" " + result)
             return result;
         }
