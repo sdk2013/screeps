@@ -16,14 +16,14 @@ module.exports = function(spawns){
         for(var name in spawns){
             var spawn = Game.spawns[name];
             if(spawn.spawning){
-                break;
+                continue;
             }
             if(spawn.memory.Queue==undefined || spawn.memory.Queue[0]==null){
-                break;
+                continue;
             }
             var nextCreepInQueue = utilities.peek(spawn.memory.Queue);
             var nextRole = nextCreepInQueue.unitType;
-            if(nextRole == null){spawn.memory.Queue.pop(); break;};
+            if(nextRole == null){spawn.memory.Queue.pop(); continue;};
             var extensionCount = utilities.roomExtCount(spawn);
             var creepParts = utilities.assembleCreep(nextRole, extensionCount);
             var result = spawn.canCreateCreep(creepParts)
