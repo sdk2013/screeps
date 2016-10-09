@@ -181,8 +181,9 @@ var tasks = {
             return creep.goto(targetRoomName);
         }
         var target = Game.getObjectById(creep.memory.sourceid)
-        if(creep.memory.sourceid == null){
+        if(target == null){
             creep.toSay("?T-")
+            delete creep.memory.sourceid;
             var sources = search.findHarvestSources.call(creep)
 
             if(sources.length == 0){
