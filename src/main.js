@@ -97,30 +97,17 @@ function initialize(){
     }
     return count;
     };
-    Creep.prototype.pull = function(target, resource){
+    Creep.prototype.pull = function(target, resource = RESOURCE_ENERGY){
         var creep = this
         if(target instanceof Structure){
             var result = creep.withdraw(target, resource)
         }else if(target instanceof Creep){
             var result = target.transfer(creep, resource)
-        }
-        if(result == -7){
-            console.log(creep.name + " pull failed. Target: " + target.id + "  Resource: " + resource)
-        }
-        return result;
-    }
-    
-    Creep.prototype.pull = function(target){
-        var creep = this
-        if(target instanceof Structure){
-            var result = creep.withdraw(target, RESOURCE_ENERGY);
-        }else if(target instanceof Creep){
-            var result = target.transfer(creep, RESOURCE_ENERGY);
         }else if(target instanceof Resource){
             var result = creep.pickup(target);
         }
         if(result == -7){
-            console.log(creep.name + " pull failed. Target: " + target.id + "  Resource: Energy (default)")
+            console.log(creep.name + " pull failed. Target: " + target.id + "  Resource: " + resource)
         }
         return result;
     }
