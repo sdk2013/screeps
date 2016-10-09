@@ -105,6 +105,8 @@ function initialize(){
             var result = target.transfer(creep, resource)
         }else if(target instanceof Resource){
             var result = creep.pickup(target);
+        }else if(target instanceof Source){
+            var result = creep.harvest(target);
         }
         if(result == -7){
             console.log(creep.name + " pull failed. Target: " + target.id + "  Resource: " + resource)

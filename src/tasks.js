@@ -184,7 +184,7 @@ var tasks = {
         if(creep.memory.sourceid == null){
             creep.toSay("?T-")
             var sources = search.findHarvestSources.call(creep)
-            console.log(creep.name + "sources: " + sources)
+
             if(sources.length == 0){
                 creep.toSay("!T")
                 return "ERR_NO_TARGETS"
@@ -192,8 +192,9 @@ var tasks = {
             var target = sources.pop();
             creep.memory.sourceid = target.id; 
         }
+        var target = Game.getObjectById(creep.memory.sourceid)
         creep.toSay("$T")
-        var result = creep.harvest(target)
+        var result = creep.pull(target)
         if(result == ERR_NOT_IN_RANGE){
             creep.moveTo(target)
         }
