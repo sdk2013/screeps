@@ -157,7 +157,7 @@ module.exports = {
             }
             )
             .value()
-        return creep.room.storage;
+        return targets;
     },
     /*
      *  finds production structures and returns a list of them in order to
