@@ -147,7 +147,7 @@ module.exports = {
                         case "extension":
                             return 70;
                         case "storage":
-                            return 60;
+                            return 90;
                         default:
                             return 0;
                     }
