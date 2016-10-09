@@ -270,7 +270,7 @@ module.exports = {
     findHarvestSources: function(){
         var creep = this
         var sources = _(this.room.find(FIND_SOURCES))
-                    .filter(r => r.energy < creep.carryCapacity)
+                    .filter(r => r.energy > creep.carryCapacity)
                     .sortBy(r => r.pos.getRangeTo(creep.pos) )
                     .reverse()
                     .value()

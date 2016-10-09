@@ -184,6 +184,7 @@ var tasks = {
         if(creep.memory.sourceid == null){
             creep.toSay("?T-")
             var sources = search.findHarvestSources.call(creep)
+            console.log(creep.name + "sources: " + sources)
             if(sources.length == 0){
                 creep.toSay("!T")
                 return "ERR_NO_TARGETS"
