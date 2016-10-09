@@ -12,7 +12,12 @@ var unitPrototype = {
         return this
     },
     run: function(){
-        this.creep.memory.toSay = ""
+    	try{
+        	this.creep.memory.toSay = ""
+        }catch(e){
+        	console.log(this + " Threw error setting tosay memory. Error: " + e.message)
+        	console.log(e.stack)
+        }
         if(this.creep.memory.spawnRoom == null){
         	this.creep.memory.spawnRoom = this.creep.pos.findClosestSpawn().room.name;
         }
