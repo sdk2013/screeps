@@ -280,7 +280,7 @@ var tasks = {
                 return "ERR_NOT_IN_ROOM";
             }
             var can = creep.pos.findClosestByRange(targetlist);
-            if(creep.pos.getRangeTo(can) < 2){
+            if(creep.pos.getRangeTo(can) <= 2){
                 creep.memory.can = can.id;
                 target = can;
             }else{
