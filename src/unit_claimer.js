@@ -3,7 +3,8 @@ var unit_claimer = {
 		var spawner = require("spawner")
 		var creep = this.creep;
 		if(creep.memory.task == "reserve"){
-			spawner.addToQueue("claimer", {role:"claimer", task: creep.memory.task, reserveRoomName: creep.memory.reserveRoomName}, creep.memory.spawnRoom, false);
+			var timeToBuild = creep.room.controller.reservation.ticksToEnd + Game.time - 200;
+			spawner.addToDelayedQueue(timeToBuild, "claimer", {role:"claimer", task: creep.memory.task, reserveRoomName: creep.memory.reserveRoomName}, creep.memory.spawnRoom, false);
 		}
 		
 	},

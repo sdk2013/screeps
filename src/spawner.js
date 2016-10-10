@@ -28,11 +28,6 @@ Problem: Requires multiple parse throughs for each spawner?
 */
 var _ = require('lodash');
 module.exports = {
-    initSpawnQueue: function(){
-        if(Memory.spawnQueue == undefined){
-            Memory.spawnQueue = [];
-        }
-    },
     /*A Note about the following:
     * Spawner Memory is designed to hold precisely one object at a time, which it will try to build every cycle if it can
     * However, it is an array so that, in the event of an emergency, manual control, etc. I can add units to a spawners
@@ -44,7 +39,9 @@ module.exports = {
         }
     },
     addToQueue: function(unitType, memoryObject, targetRoomName, priority){
-        this.initSpawnQueue();
+        if(Memory.spawnQueue == undefined){
+            Memory.spawnQueue = [];
+        }
         var unitProdObject = {}
         unitProdObject.unitType = unitType;
         unitProdObject.memoryObject = memoryObject;
@@ -59,24 +56,57 @@ module.exports = {
     //THIS IS WIP
     //TODO: Set up secondary variable for the length of the queue for each room- dict lookup rather than full array parse
     assignToSpawner: function(spawns){
-        if(Memory.spawnQueue != []){    //Only Run if something's in Queue
-            for(var name in spawns){
-                var spawn = spawns[name]
-                this.initSpawnerInternalQueue(spawn);   
-                if(spawn.spawning == null || spawn.memory.Queue.length == 0){   //Only run if spawner is not currently in use                                   <<< THIS SHITS BROKE NO IDEA WHY
-                    for(var h in Memory.spawnQueue){
-                        var i = Memory.spawnQueue[h];
-                        if(Game.rooms[i.targetRoomName] == spawn.room || i.targetRoomName == -1){ //If this is the right room
-                            var backup = _.cloneDeep(i);
-                            console.log("ASSIGNED")
-                            spawn.memory.Queue.unshift(backup);
-                            Memory.spawnQueue.splice(h, 1);
-                            break;
-                        }
+        this.delayedQueueCheck();
+        if(Memory.spawnQueue == []){    //Only Run if something's in Queue
+            return;
+        }
+        for(var name in spawns){
+            var spawn = spawns[name]
+            this.initSpawnerInternalQueue(spawn);   
+
+            if(spawn.spawning == null || spawn.memory.Queue.length == 0){   //Only run if spawner is not currently in use                                   <<< THIS SHITS BROKE NO IDEA WHY
+                for(var h in Memory.spawnQueue){
+                    var i = Memory.spawnQueue[h];
+                    if(Game.rooms[i.targetRoomName] == spawn.room || i.targetRoomName == -1){ //If this is the right room
+                        var backup = _.cloneDeep(i);
+                        console.log("ASSIGNED")
+                        spawn.memory.Queue.unshift(backup);
+                        Memory.spawnQueue.splice(h, 1);
+                        break;
                     }
                 }
             }
         }
+        
+    },
+    /*
+     * Checks the delayed queue and pushes valid objects to main queue
+     */
+    delayedQueueCheck: function(){
+        if(Memory.delayedQueue == null){
+            Memory.delayedQueue = [];
+        }
+        for(var i = Memory.delayedQueue.length; i-- > 0){
+            if(Game.time >= Memory.delayedQueue[i].spawnTime){
+                var unit = _.cloneDeep(Memory.delayedQueue[i])
+                Memory.delayedQueue.slice(1, 1)
+                this.addToQueue(unit.unitType, unit.memoryObject, unit.targetRoomName, unit.priority);
+            }
+        }
+    },
+    addToDelayedQueue: function(timeToBuild, unitType, memoryObject, targetRoomName, priority){
+        if(Memory.delayedQueue == null){
+            Memory.delayedQueue = [];
+        }
+
+        var unitProdObject = {}
+        unitProdObject.spawnTime = timeToBuild;
+        unitProdObject.unitType = unitType;
+        unitProdObject.memoryObject = memoryObject;
+        unitProdObject.targetRoomName = targetRoomName;
+
+        Memory.delayedQueue.push(unitProdObject)
+
     }
     
 };
