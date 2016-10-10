@@ -86,7 +86,7 @@ module.exports = {
         if(Memory.delayedQueue == null){
             Memory.delayedQueue = [];
         }
-        for(var i = Memory.delayedQueue.length; i-- > 0){
+        for(var i = Memory.delayedQueue.length; i-- > 0;){
             if(Game.time >= Memory.delayedQueue[i].spawnTime){
                 var unit = _.cloneDeep(Memory.delayedQueue[i])
                 Memory.delayedQueue.slice(1, 1)
