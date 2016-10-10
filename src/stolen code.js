@@ -56,3 +56,15 @@ var repairObject = _(creep.room.find(FIND_STRUCTURES))
         .filter(s => s.pos.findInRange(FIND_MY_CREEPS, 1).length ==0)
         .sortBy(s => -this.pos.getRangeTo(s.pos) )
         .value()
+
+// Webber's spawn management code
+  // set beingBuilt to true, add name to watch completion for and move to end of queue
+  markQueueItemAsBeingBuiltWithName(creepName) {
+    let queue = this.room.memory.buildQueue;
+    Object.assign(queue[0], {
+      createdThisTick: true,
+      beingBuilt: true,
+      name: creepName
+    });
+    queue.push(queue.shift());
+  }

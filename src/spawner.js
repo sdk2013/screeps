@@ -87,8 +87,9 @@ module.exports = {
         if(Memory.delayedQueue == null){
             Memory.delayedQueue = [];
         }
-        _(Memory.delayedQueue).sortBy(s => 0 - s.timeToBuild);
-        var x = utilities.peek(Memory.delayedQueue);
+        var x = _(Memory.delayedQueue)
+            .sortBy(s => 0 - s.timeToBuild)
+            .last();
         if(Game.time >= x.timeToBuild){
             var y = Memory.delayedQueue.pop()
             this.addToQueue(y.unitType, y.memoryObject, y.targetRoomName, y.priority);
