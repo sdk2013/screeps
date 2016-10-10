@@ -110,21 +110,12 @@ module.exports = {
      */
     findPriorityEnergyProviders: function(){
         var creep = this;
-        var targets = _.sortBy((creep.room.find(FIND_STRUCTURES)), 
-            function(s){
-                if(s.totalEnergy() != null){
-                    switch(s.structureType){
-                        case "storage":
-                            return 100;
-                        case "container":
-                            return 80;
-                        default:
-                            return 0;
-                    }
-                }else{
-                    return 0;
-                }});
-        return _.values(targets);
+        var targets = _(creep.room.find(FIND_STRUCTURES))
+                        .filter(s => s.structureType == "container"
+                            || s.structureType == "storage")
+                        .sortBy(s => s.totalEnergy() )
+                        .value()
+        return targets;
     },
     /*
      *  This finds all my energy needing structures in a room, sorts them into a
