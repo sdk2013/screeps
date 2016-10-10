@@ -51,6 +51,8 @@ var collector = {
             var unitWeight = [["work", 1], ["carry", 10],["move",11]];     // cost: 1150
         }else if(extensionCount < 40){                             // 1800 energy avail
             var unitWeight = [["work", 1],["carry", 15],["move",16]];   //1650 cost
+        }else{
+            var unitWeight = [["work", 1],["carry", 15],["move",16]];   //1650 cost
         }
         return unitWeight;
     }
