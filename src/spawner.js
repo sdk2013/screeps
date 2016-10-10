@@ -27,6 +27,7 @@ Problem: Requires multiple parse throughs for each spawner?
 
 */
 var _ = require('lodash');
+var utilities = require("utilities")
 module.exports = {
     /*A Note about the following:
     * Spawner Memory is designed to hold precisely one object at a time, which it will try to build every cycle if it can
@@ -86,12 +87,11 @@ module.exports = {
         if(Memory.delayedQueue == null){
             Memory.delayedQueue = [];
         }
-        for(var i = Memory.delayedQueue.length; i-- > 0;){
-            if(Game.time >= Memory.delayedQueue[i].spawnTime){
-                var unit = _.cloneDeep(Memory.delayedQueue[i])
-                Memory.delayedQueue.slice(1, 1)
-                this.addToQueue(unit.unitType, unit.memoryObject, unit.targetRoomName, unit.priority);
-            }
+        _(Memory.delayedQueue).sortBy(s => s.timeToBuild);
+        var x = utilities.peek(Memory.delayedQueue);
+        if(Game.time >= x.timeToBuild){
+            var y = Memory.delayedQueue.pop()
+            this.addToQueue(y.unitType, y.memoryObject, y.targetRoomName, y.priority);
         }
     },
     addToDelayedQueue: function(timeToBuild, unitType, memoryObject, targetRoomName, priority){
@@ -104,6 +104,7 @@ module.exports = {
         unitProdObject.unitType = unitType;
         unitProdObject.memoryObject = memoryObject;
         unitProdObject.targetRoomName = targetRoomName;
+        unitProdObject.priority = priority;
 
         Memory.delayedQueue.push(unitProdObject)
 
