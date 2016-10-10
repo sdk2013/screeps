@@ -167,7 +167,7 @@ module.exports = {
      */
     findPriorityFillTargets: function(){
         var creep = this;
-        var targets = _(creep.room.find(FIND_STRUCTURES))
+        var structures = _(creep.room.find(FIND_STRUCTURES))
                     .filter(s => s.structureType != "container"
                         && s.structureType != "terminal"
                         && s.structureType != "link")
@@ -191,6 +191,12 @@ module.exports = {
                         }
                     })
                     .value()
+        var creeps = _(creep.room.find(FIND_MY_CREEPS))
+                    .filter(c => c.memory.role == "scv")
+                    .filter(c => c.totalEnergy() != c.carryCapacity)
+                    .sortBy(c => c.totalEnergy()  / (0 - creep.pos.getRangeTo(c.pos)))
+                    .value()
+        var targets = creeps.concat(structures);
         return targets;
     },
     /*
