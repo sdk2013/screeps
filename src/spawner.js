@@ -87,7 +87,7 @@ module.exports = {
         if(Memory.delayedQueue == null){
             Memory.delayedQueue = [];
         }
-        _(Memory.delayedQueue).sortBy(s => s.timeToBuild);
+        _(Memory.delayedQueue).sortBy(s => 0 - s.timeToBuild);
         var x = utilities.peek(Memory.delayedQueue);
         if(Game.time >= x.timeToBuild){
             var y = Memory.delayedQueue.pop()
