@@ -10,7 +10,6 @@ var utilities = require('utilities')
 var spawner = require('spawner')
 module.exports = function(spawns){
     try{
-        spawner.initSpawnQueue();
         spawner.assignToSpawner(spawns);
         
         for(var name in spawns){
