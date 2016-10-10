@@ -97,8 +97,7 @@ module.exports = {
                 }else{
                     Memory.spawnQueue.unshift(backup)
                 }
-                spawn.memory.Queue.unshift(backup);
-                Memory.spawnQueue.splice(h, 1);
+                Memory.delayedQueue.splice(h, 1);
                 break;
             }
         }
