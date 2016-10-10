@@ -87,12 +87,20 @@ module.exports = {
         if(Memory.delayedQueue == null){
             Memory.delayedQueue = [];
         }
-        var x = _(Memory.delayedQueue)
-            .sortBy(s => 0 - s.timeToBuild)
-            .last();
-        if(Game.time >= x.timeToBuild){
-            var y = Memory.delayedQueue.pop()
-            this.addToQueue(y.unitType, y.memoryObject, y.targetRoomName, y.priority);
+        for(var h in Memory.delayedQueue){
+            var i = Memory.delayedQueue[h];
+            if(i.spawnTime <= Game.time){ //If this is the right  time
+                var backup = _.cloneDeep(i);
+                console.log("DELAY ASSIGNED")
+                if(i.priority == true){
+                    Memory.spawnQueue.push(backup)
+                }else{
+                    Memory.spawnQueue.unshift(backup)
+                }
+                spawn.memory.Queue.unshift(backup);
+                Memory.spawnQueue.splice(h, 1);
+                break;
+            }
         }
     },
     addToDelayedQueue: function(timeToBuild, unitType, memoryObject, targetRoomName, priority){
