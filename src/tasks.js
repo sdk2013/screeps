@@ -178,7 +178,7 @@ var tasks = {
      *  @param {string} roomName
      */
     gotoRoom: function(creep, roomName){
-        if(creep.memory.flag){
+        if(creep.memory.flag != null){
             if(creep.pos == Game.flags[creep.memory.flag].pos){
                 return OK;
             }else{
