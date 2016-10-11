@@ -181,6 +181,15 @@ var tasks = {
         if(creep.room == Game.rooms[roomName]){
             return OK;
         }
+
+        if(creep.memory.flag){
+            if(creep.pos == Game.flags[creep.memory.flag].pos){
+                return OK;
+            }else{
+                creep.moveTo(Game.flags[creep.memory.flag])
+                return "ERR_NOT_IN_ROOM;"
+            }
+        }
         creep.goto(roomName);
         return "ERR_NOT_IN_ROOM"
     },
