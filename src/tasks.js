@@ -183,7 +183,7 @@ var tasks = {
         }
         creep.goto(roomName);
         return "ERR_NOT_IN_ROOM"
-    }
+    },
     /*
      * Mines the nearest unoccupied source for future use
      * @param {Creep} creep - creep to harvest
