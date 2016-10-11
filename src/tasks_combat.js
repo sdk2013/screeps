@@ -27,7 +27,7 @@ var tasks_combat = {
                 var result = this.dismantleTargetRoom(creep, dismantleRoomName)
                 break;
             case "basicHeal":
-                var result = this.basicheal(creep);
+                var result = this.basicHeal(creep);
             default:
                 var result = "ERR_NO_TARGETS"
         }
