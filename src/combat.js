@@ -15,9 +15,9 @@ var combat = {
 		}
 		var excludeList;
 		if(includeNPCs == true){
-		    excluseList = notHostile;
+		    excluseList = notHostile.slice();
 		}else{
-		    excludeList = notInvading;
+		    excludeList = notInvading.slice();
 		}
 		
 		var targets;

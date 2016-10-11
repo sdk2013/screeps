@@ -242,7 +242,7 @@ var tasks = {
      * @param {object} creep - creep operating this function
      * RETURN Errorcode
      */
-    mineTargetEnergy: function(creep, target){
+    mineTargetEnergy: function(creep){
         creep.toSay("ENE-");
         var target = Game.getObjectById(creep.memory.mineEnergyTarget);
         if(target != null){
