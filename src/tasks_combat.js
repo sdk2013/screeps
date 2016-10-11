@@ -85,7 +85,7 @@ var tasks_combat = {
         //Room maneuvering block
         if(creep.memory.healFlag){
             var flag = Game.flags[creep.memory.healFlag];
-            if(flag.room != creep.room){
+            if(flag != null && flag.room != creep.room){
                 creep.moveTo(flag);
                 return "ERR_NOT_IN_ROOM"
             }

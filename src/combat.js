@@ -1,15 +1,35 @@
-var Nonhostiles = ["Dissi"]
+var notHostile = ["Dissi"]
+var notInvading  = ["Dissi", "Source Keeper", "Invader"]
 var combat = {
-	IFFSafeTargetList: function(target){
-		var unit = null;
+    /*
+     *  Generates a "Safe" target list based on the Nonhostiles array
+     *  @param {RoomObject} OR {Room} - where to call the search
+     *  @param {boolean} - Include NPCs (assumed true)
+     */
+	IFFSafeTargetList: function(target, includeNPCs = true){
+		var u = null;
 		if(target == null){
-			unit = this;
+			u = this;
 		}else{
-			unit = target;
+			u = target;
 		}
-		var targets = _(unit.room.find(FIND_HOSTILE_CREEPS))
-						.filter(c => !Nonhostiles.includes(c.owner))
+		var excludeList;
+		if(includeNPCs == true){
+		    excluseList = notHostile;
+		}else{
+		    excludeList = notInvading;
+		}
+		
+		var targets;
+		if(u instanceof RoomObject){
+    		targets = _(unit.room.find(FIND_HOSTILE_CREEPS))
+						.filter(c => !excludeList.includes(c.owner))
 						.value()
+		}else if(u instanceof Room){
+		    targets = _(u.find(FIND_HOSTILE_CREEPS))
+						.filter(c => !excludeList.includes(c.owner))
+						.value()
+		}
 		return targets
 	},
 	fireEverything: function(target){
