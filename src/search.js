@@ -118,6 +118,18 @@ module.exports = {
         return targets;
     },
     /*
+     * Finds targets to dismantle and orders by range
+     * @param {object} creep - creep to be calling this ! MUST USE .call()
+     */
+    findPriorityDismantleList: function(){
+        var targets = _(this.room.find(FIND_HOSTILE_STRUCTURES)
+                        .filter(s => s.structureType == "tower"
+                            || s.structureType == "spawn")
+                        .sortBy(s => (0 - s.pos.getRangeTo(this)) )
+                        .value()
+        return targets;
+    },
+    /*
      *  This finds all my energy needing structures in a room, sorts them into a
      *      priority queue, and returns the array
      * @param {object} creep - creep to be calling this ! MUST USE .call()

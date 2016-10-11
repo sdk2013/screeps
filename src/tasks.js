@@ -77,7 +77,7 @@ var tasks = {
              */
             case "reserve":
                 var reserveRoomName = creep.memory.reserveRoomName;
-                if(reserveRoomName == null) {return "ERR_NO_TARGET";}
+                if(reserveRoomName == null) {return "ERR_NO_TARGETS";}
                 result = this.reserveTargetRoom(creep, reserveRoomName);
                 break;
             /*
@@ -88,7 +88,7 @@ var tasks = {
              */
             case "claim":
                 var claimRoomName = creep.memory.claimRoomName;
-                if(claimRoomName == null) {return "ERR_NO_TARGET";}
+                if(claimRoomName == null) {return "ERR_NO_TARGETS";}
                 result = this.claimTargetRoom(creep, claimRoomName);
                 break;
             /*
@@ -549,7 +549,7 @@ var tasks = {
             return result;
         }
         creep.toSay("!T")
-        return "ERR_NO_TARGET"
+        return "ERR_NO_TARGETS"
     },
     /*
      * Goes to target room and gathers energy to return to base
@@ -591,7 +591,7 @@ var tasks = {
             return result;
         }
         creep.toSay("!T")
-        return "ERR_NO_TARGET"
+        return "ERR_NO_TARGETS"
     },
     /*
      * Returns energy to base, internally prioritizing production structures
@@ -636,7 +636,7 @@ var tasks = {
             return result;
         }
         creep.toSay("!T")
-        return "ERR_NO_TARGET"
+        return "ERR_NO_TARGETS"
     },
     /*
      * Finds room controller and reserves it if it exists

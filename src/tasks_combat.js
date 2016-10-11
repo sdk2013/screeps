@@ -21,10 +21,86 @@ var tasks_combat = {
                 if(watchRoomName == null){watchRoomName = creep.room.name};
                 var result = this.watchTargetRoom(creep, watchRoomName);
                 break;
+            case "dismantle":
+                var dismanleRoomName = creep.memory.dismantleRoomName;
+                if(dismantleRoomName == null){return "ERR_NO_TARGETS"};
+                var result = this.dismantleTargetRoom(creep, dismantleRoomName)
+                break;
+            case "basicHeal":
+                var result = this.heal(creep);
             default:
                 var result = "ERR_NO_TARGETS"
         }
         return result;
+    },
+    basicHeal: function(creep){
+        creep.toSay("BHE-")
+        //Room maneuvering block
+        if(creep.memory.healFlag){
+            var flag = Game.flags[creep.memory.healFlag];
+            if(flag.room != creep.room){
+                creep.moveTo(flag);
+                return "ERR_NOT_IN_ROOM"
+            }
+        }else if(creep.memory.healRoomName){
+            if(creep.room != Game.rooms[creep.memory.healRoomName]){
+                creep.goto(creep.memory.healRoomName);
+                return "ERR_NOT_IN_ROOM"
+            }
+        }
+        var result;
+        if(creep.hits < creep.hitsMax){
+            creep.toSay("$S")
+            result = creep.heal(creep);
+        }else{
+            var healtarget = _(creep.room.find(FIND_MY_CREEPS))
+                                .filter(s => s.hits < s.hitsMax)
+                                .sortBy(s => s.hits / s.hitsMax)
+                                .last();
+            if(healtarget != null){
+                creep.toSay("$T")
+                if(creep.pos.getRangeTo(healtarget) > 1){
+                    result = creep.rangedHeal(healtarget);
+                }else{
+                    result = creep.heal(healtarget);
+                }
+            }
+        }
+        if(healtarget == null && creep.memory.healFlag){
+            creep.toSay("$F")
+            creep.moveTo(Game.flags[creep.memory.healFlag]);
+        }
+        return result;
+    }
+    /*
+     *  Attempts to dismante hostile towers and spawns
+     *      Dismantles walls to get to them
+     *  @param {Creep} creep - creep running the command
+     *  @param {string} targetRoomName - room in which to dismantle
+     */
+    dismantleTargetRoom: function(creep, targetRoomName){
+        creep.toSay("DIS-");
+        var targetRoom = Game.rooms[targetRoomName];
+        if(creep.room != targetRoom){
+            creep.toSay(">R")
+            return creep.goto(targetRoomName);
+        }
+        if(creep.memory.dismantleTargetId == null){
+            var targets = search.findPriorityDismantleList.call(creep);
+            if(targets.length > 0){
+                creep.memory.dismantleTargetId = targets.pop().id;
+            }else{
+                return "ERR_NO_TARGETS"
+            }
+        }
+        var target = Game.getObjectById(creep.memory.dismantleTargetId)
+        var moveresult = creep.moveTo(target)
+        var result = creep.dismantle(target)
+        if(result == ERR_NOT_IN_RANGE && moveresult == ERR_NO_PATH){
+            var target = creep.pos.findClosestByRange(FIND_STRUCTURES, 
+                            {filter: {structureType: STRUCTURE_WALL}});
+            creep.dismantle(target);
+        }
     },
     /*
      * Moves roughly to the center of the room and protects it against invaders
