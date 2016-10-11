@@ -178,10 +178,14 @@ var tasks = {
      *  @param {string} roomName
      */
     gotoRoom: function(creep, roomName){
+        creep.toSay("GO2-");
         if(creep.memory.flag != null){
+            creep.toSay("$F-");
             if(creep.pos == Game.flags[creep.memory.flag].pos){
+                creep.toSay("OK");
                 return OK;
             }else{
+                creep.toSay(">F");
                 creep.moveTo(Game.flags[creep.memory.flag])
                 return "ERR_NOT_IN_ROOM;"
             }
@@ -189,7 +193,7 @@ var tasks = {
         if(creep.room == Game.rooms[roomName]){
             return OK;
         }
-
+        creep.toSay(">R")
         creep.goto(roomName);
         return "ERR_NOT_IN_ROOM"
     },
