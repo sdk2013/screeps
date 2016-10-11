@@ -71,7 +71,7 @@ var tasks_combat = {
             creep.moveTo(Game.flags[creep.memory.healFlag]);
         }
         return result;
-    }
+    },
     /*
      *  Attempts to dismante hostile towers and spawns
      *      Dismantles walls to get to them
