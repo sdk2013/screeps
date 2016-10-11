@@ -14,22 +14,31 @@ var combat = {
 			u = target;
 		}
 		var excludeList;
+		var targets;
 		if(includeNPCs == true){
-		    excluseList = notHostile.slice();
+		    if(u instanceof RoomObject){
+    		targets = _(u.room.find(FIND_HOSTILE_CREEPS))
+						.filter(c => !notHostile.includes(c.owner))
+						.value()
+			}else if(u instanceof Room){
+			    targets = _(u.find(FIND_HOSTILE_CREEPS))
+							.filter(c => !notHostile.includes(c.owner))
+							.value()
+			}
 		}else{
-		    excludeList = notInvading.slice();
+		    if(u instanceof RoomObject){
+	    		targets = _(u.room.find(FIND_HOSTILE_CREEPS))
+							.filter(c => !notInvading.includes(c.owner))
+							.value()
+			}else if(u instanceof Room){
+			    targets = _(u.find(FIND_HOSTILE_CREEPS))
+							.filter(c => !notInvading.includes(c.owner))
+							.value()
+			}
 		}
 		
-		var targets;
-		if(u instanceof RoomObject){
-    		targets = _(u.room.find(FIND_HOSTILE_CREEPS))
-						.filter(c => !excludeList.includes(c.owner))
-						.value()
-		}else if(u instanceof Room){
-		    targets = _(u.find(FIND_HOSTILE_CREEPS))
-						.filter(c => !excludeList.includes(c.owner))
-						.value()
-		}
+		
+		
 		return targets
 	},
 	fireEverything: function(target){
