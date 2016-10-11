@@ -22,7 +22,7 @@ var tasks_combat = {
                 var result = this.watchTargetRoom(creep, watchRoomName);
                 break;
             case "dismantle":
-                var dismanlteRoomName = creep.memory.dismantleRoomName;
+                var dismantleRoomName = creep.memory.dismantleRoomName;
                 if(dismantleRoomName == null){return "ERR_NO_TARGETS"};
                 var result = this.dismantleTargetRoom(creep, dismantleRoomName)
                 break;
