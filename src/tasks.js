@@ -150,6 +150,10 @@ var tasks = {
              * @param {string} energyRoomName - Name of room to get energy from
              * RETURN Errorcode
              */
+            case "goto":
+                var gotoRoomName = creep.memory.gotoRoomName;
+                if(gotoRoomName == null){return "ERR_NO_TARGETS"};
+                result = this.gotoRoom(creep, gotoRoomName);
             case "harvest":
                 var harvestRoomName = creep.memory.harvestRoomName;
                 if(harvestRoomName == null) {harvestRoomName = creep.room.name;}
@@ -168,6 +172,18 @@ var tasks = {
         }
         return result;
     },
+    /*
+     *  Goes to room
+     *  @param {Creep} creep
+     *  @param {string} roomName
+     */
+    gotoRoom: function(creep, roomName){
+        if(creep.room == Game.rooms[roomName]){
+            return OK;
+        }
+        creep.goto(roomName);
+        return "ERR_NOT_IN_ROOM"
+    }
     /*
      * Mines the nearest unoccupied source for future use
      * @param {Creep} creep - creep to harvest
