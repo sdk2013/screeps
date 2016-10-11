@@ -154,10 +154,12 @@ var tasks = {
                 var gotoRoomName = creep.memory.gotoRoomName;
                 if(gotoRoomName == null){return "ERR_NO_TARGETS"};
                 result = this.gotoRoom(creep, gotoRoomName);
+                break;
             case "harvest":
                 var harvestRoomName = creep.memory.harvestRoomName;
                 if(harvestRoomName == null) {harvestRoomName = creep.room.name;}
                 result = this.harvestTargetRoom(creep, harvestRoomName);
+                break;
             /*
              * Directs creeps to the combat module
              */
