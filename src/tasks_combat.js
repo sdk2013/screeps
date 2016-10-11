@@ -33,6 +33,53 @@ var tasks_combat = {
         }
         return result;
     },
+    /*
+     *  Goes to flag heals what it can reach
+     *  @param {Creep} creep
+     */
+    dumbHeal: function(creep){
+        creep.toSay("DHE-")
+        //Room maneuvering block
+        if(creep.memory.healFlag){
+            var flag = Game.flags[creep.memory.healFlag];
+            if(flag.room != creep.room){
+                creep.moveTo(flag);
+                return "ERR_NOT_IN_ROOM"
+            }
+        }else if(creep.memory.healRoomName){
+            if(creep.room != Game.rooms[creep.memory.healRoomName]){
+                creep.goto(creep.memory.healRoomName);
+                return "ERR_NOT_IN_ROOM"
+            }
+        }
+        var result;
+        if(creep.hits < creep.hitsMax){
+            creep.toSay("$S")
+            result = creep.heal(creep);
+        }else{
+            var healtarget = _(creep.room.find(FIND_MY_CREEPS))
+                                .filter(s => s.hits < s.hitsMax)
+                                .sortBy(s => s.hits / s.hitsMax)
+                                .last();
+            if(healtarget != null){
+                creep.toSay("$T")
+                if(creep.pos.getRangeTo(healtarget) > 1){
+                    result = creep.rangedHeal(healtarget);
+                }else{
+                    result = creep.heal(healtarget);
+                }
+            }
+        }
+        if(healtarget == null || creep.memory.healFlag){
+            creep.toSay("$F")
+            creep.moveTo(Game.flags[creep.memory.healFlag]);
+        }
+        return result;
+    },
+    /*
+     *  Goes to flag/room and maneuvers to heal friendlies
+     *  @param {Creep} creep
+     */
     basicHeal: function(creep){
         creep.toSay("BHE-")
         //Room maneuvering block
@@ -66,7 +113,7 @@ var tasks_combat = {
                 }
             }
         }
-        if(healtarget == null && creep.memory.healFlag){
+        if(healtarget == null || creep.memory.healFlag){
             creep.toSay("$F")
             creep.moveTo(Game.flags[creep.memory.healFlag]);
         }

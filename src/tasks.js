@@ -144,16 +144,20 @@ var tasks = {
                 result = this.mineTargetEnergy(creep);
                 break;
             /*
+             *  Goes to room
+             *  @param {String} gotoRoomName 
+             */
+            case "goto":
+                var gotoRoomName = creep.memory.gotoRoomName;
+                result = this.gotoRoom(creep, gotoRoomName);
+                break;
+            /*
              * Harvest energy in the target room for self (usually for remote ops)
              * Preferences nearer, unoccupied sources
              * Defualts to current room
              * @param {string} energyRoomName - Name of room to get energy from
              * RETURN Errorcode
              */
-            case "goto":
-                var gotoRoomName = creep.memory.gotoRoomName;
-                result = this.gotoRoom(creep, gotoRoomName);
-                break;
             case "harvest":
                 var harvestRoomName = creep.memory.harvestRoomName;
                 if(harvestRoomName == null) {harvestRoomName = creep.room.name;}
