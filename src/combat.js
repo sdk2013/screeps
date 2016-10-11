@@ -22,7 +22,7 @@ var combat = {
 		
 		var targets;
 		if(u instanceof RoomObject){
-    		targets = _(unit.room.find(FIND_HOSTILE_CREEPS))
+    		targets = _(u.room.find(FIND_HOSTILE_CREEPS))
 						.filter(c => !excludeList.includes(c.owner))
 						.value()
 		}else if(u instanceof Room){
