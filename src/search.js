@@ -122,7 +122,7 @@ module.exports = {
      * @param {object} creep - creep to be calling this ! MUST USE .call()
      */
     findPriorityDismantleList: function(){
-        var targets = _(this.room.find(FIND_HOSTILE_STRUCTURES)
+        var targets = _(this.room.find(FIND_HOSTILE_STRUCTURES))
                         .filter(s => s.structureType == "tower"
                             || s.structureType == "spawn")
                         .sortBy(s => (0 - s.pos.getRangeTo(this)) )
