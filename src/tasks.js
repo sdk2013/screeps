@@ -152,7 +152,6 @@ var tasks = {
              */
             case "goto":
                 var gotoRoomName = creep.memory.gotoRoomName;
-                if(gotoRoomName == null){return "ERR_NO_TARGETS"};
                 result = this.gotoRoom(creep, gotoRoomName);
                 break;
             case "harvest":
