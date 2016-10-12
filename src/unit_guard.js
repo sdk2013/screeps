@@ -2,11 +2,7 @@
  */
 var tasks = require("tasks")
 var guard = {
-    beforeAge: function(){
-        var spawner = require('spawner')
-        var creep = this.creep;
-        spawner.addToQueue("guard", {role:"guard", watchRoomName: creep.memory.watchRoomName}, creep.memory.spawnRoom, false);
-    },
+    beforeAge: function(){},
 	
 	behavior: function(){
 	    var creep = this.creep;
@@ -17,6 +13,12 @@ var guard = {
 	    	creep.memory.combatTask = "watch";
 	    }
 	    tasks.runTasks(creep);
+
+        if(creep.ticksToLive == 200){
+            var spawner = require('spawner')
+            var creep = this.creep;
+            spawner.addToQueue("guard", {role:"guard", watchRoomName: creep.memory.watchRoomName}, creep.memory.spawnRoom, false);
+        }
 	},
 	
 	onSpawn: function(){},
