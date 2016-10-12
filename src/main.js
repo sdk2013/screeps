@@ -75,7 +75,7 @@ function initialize(){
         }
         return false;
     }
-    Creep.prototype.repairMoveTo = function(target){
+    Creep.prototype.repairMoveTo = function(target, arguments){
         if(!this.hasPart(WORK)){
             this.moveTo(target);
         }
@@ -87,7 +87,10 @@ function initialize(){
                 this.repair(road);
             }
         }
-        this.moveTo(target)
+        if(this.memory.reusePath != null){
+            arguments.reusePath = this.memory.reusePath;
+        }
+        this.moveTo(target, arguments)
     }
     Creep.prototype.goto = function(targetRoomName, arguments){
         var targetPos = new RoomPosition(25, 25, targetRoomName)

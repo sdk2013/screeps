@@ -85,7 +85,7 @@ module.exports = {
     buildChump: function(targetRoomName){
         var u = {};
         u.body = [MOVE]
-        u.memoryObject = {role:"basic", gotoRoomName: targetRoomName, task:"goto"};
+        u.memoryObject = {role:"basic", reusePath: 50, gotoRoomName: targetRoomName, task:"goto"};
         u.targetRoomName = -1;
 
         Memory.spawnQueue.unshift(u) 
