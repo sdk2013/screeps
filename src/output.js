@@ -11,7 +11,7 @@ var colorCodes = {  overlord:"blue",
                     roleManager:"yellow",
                     search:"yellow",
                     tasks:"yellow",
-                    tasks_combat:"orange"
+                    tasks_combat:"orange",
                     defend:"red",
                     combat:"red",
                     collect_stats:"purple",
