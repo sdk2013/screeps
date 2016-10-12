@@ -6,6 +6,7 @@
  * var mod = require('unit_prototype');
  * mod.thing == 'a thing'; // true
  */
+var output = require("output");
 var unitPrototype = {
     setCreep: function(creep){
         this.creep = creep
@@ -15,8 +16,7 @@ var unitPrototype = {
     	try{
         	this.creep.memory.toSay = ""
         }catch(e){
-        	console.log(this + " Threw error setting tosay memory. Error: " + e.message)
-        	console.log(e.stack)
+        	output.log("command", 1, this.creep.name + " in room " + this.creep.room.name + " could not initialize toSay Memory.", e)
         }
         if(this.creep.memory.spawnRoom == null){
         	this.creep.memory.spawnRoom = this.creep.pos.findClosestSpawn().room.name;

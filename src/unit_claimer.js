@@ -2,7 +2,7 @@ var unit_claimer = {
 	beforeAge: function(){
 		var spawner = require("spawner")
 		var creep = this.creep;
-		if(creep.memory.task == "reserve"){
+		if(creep.memory.task == "reserve" || creep.memory.renew == true){
 			var timeToBuild = creep.room.controller.reservation.ticksToEnd + Game.time - 200;
 			spawner.addToDelayedQueue(timeToBuild, "claimer", {role:"claimer", task: creep.memory.task, reserveRoomName: creep.memory.reserveRoomName}, 
 				creep.memory.spawnRoom, false);

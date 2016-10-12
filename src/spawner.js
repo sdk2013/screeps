@@ -28,6 +28,7 @@ Problem: Requires multiple parse throughs for each spawner?
 */
 var _ = require('lodash');
 var utilities = require("utilities")
+var output = require("output");
 module.exports = {
     /*A Note about the following:
     * Spawner Memory is designed to hold precisely one object at a time, which it will try to build every cycle if it can
@@ -48,15 +49,20 @@ module.exports = {
         unitProdObject.memoryObject = memoryObject;
         unitProdObject.targetRoomName = targetRoomName;
         if(priority == true){
-            Memory.spawnQueue.push(unitProdObject)
+            output.log("spawner", 7, "ADDED TO MAIN QUEUE WITH PRIORITY: " + JSON.stringify(unitProdObject));
+            Memory.spawnQueue.push(unitProdObject);
         }else{
-            Memory.spawnQueue.unshift(unitProdObject)
+            output.log("spawner", 7, "ADDED TO MAIN QUEUE WITHOUT PRIORITY: " + JSON.stringify(unitProdObject));
+            Memory.spawnQueue.unshift(unitProdObject);
         }
     },
     
     //THIS IS WIP
     //TODO: Set up secondary variable for the length of the queue for each room- dict lookup rather than full array parse
     assignToSpawner: function(spawns){
+        if(Memory.spawnQueue == undefined){
+            Memory.spawnQueue = [];
+        }
         this.delayedQueueCheck();
         if(Memory.spawnQueue == []){    //Only Run if something's in Queue
             return;
@@ -70,6 +76,7 @@ module.exports = {
                     var i = Memory.spawnQueue[h];
                     if(Game.rooms[i.targetRoomName] == spawn.room || i.targetRoomName == -1){ //If this is the right room
                         var backup = _.cloneDeep(i);
+                        output.log("spawner", 7, " Assigning: " + JSON.stringify(backup) + "to spawn: " + spawn.room.name + " : " + spawn.name);
                         spawn.memory.Queue.unshift(backup);
                         Memory.spawnQueue.splice(h, 1);
                         break;

@@ -6,14 +6,16 @@
  * var mod = require('produce');
  * mod.thing == 'a thing'; // true
  */
-var utilities = require('utilities')
-var spawner = require('spawner')
+var utilities = require('utilities');
+var spawner = require('spawner');
+var output = require("output");
 module.exports = function(spawns){
     try{
         spawner.assignToSpawner(spawns);
         
         for(var name in spawns){
             var spawn = Game.spawns[name];
+            output.log("produce", 7, spawn.room.name + " : " + spawn.name + " Running production cycle.");
             if(spawn.spawning){
                 continue;
             }
@@ -25,7 +27,7 @@ module.exports = function(spawns){
             var body = nextCreepInQueue.body;
             if(nextRole == null && body == null){spawn.memory.Queue.pop(); continue;};
             var extensionCount = utilities.roomExtCount(spawn);
-            console.log(nextCreepInQueue)
+            output.log("produce", 7, spawn.name + JSON.stringify(nextCreepInQueue));
             if(nextCreepInQueue.body == null){
                 var creepParts = utilities.assembleCreep(nextRole, extensionCount);
                 var name = "Basic"
@@ -35,13 +37,14 @@ module.exports = function(spawns){
             }
             var result = spawn.canCreateCreep(creepParts)
             if(result == OK){
-                console.log(spawn.name + " is building "+nextRole);
+                output.log("produce", 5, spawn.name + " is building "+nextRole);
                 spawn.createCreep(creepParts, utilities.uid() + " - " + name, nextCreepInQueue.memoryObject);
                 spawn.memory.Queue.pop();
             }else if(result == ERR_NOT_ENOUGH_ENERGY){
-                console.log(spawn.name + " cannot build " + nextRole + "!  Insufficient funds. " + spawn.room.energyAvailable + "/" + spawn.room.energyCapacityAvailable + ". Cost: " + utilities.creepCost(creepParts))
+                output.log("produce", 5, spawn.name + " cannot build " + nextRole + "!  Insufficient funds. " + spawn.room.energyAvailable + "/" + spawn.room.energyCapacityAvailable + ". Cost: " + utilities.creepCost(creepParts));
+                output.log("produce", 7, JSON.stringify(nextCreepInQueue));
             }else{
-                console.log("Error: " + result + "   Output: " +creepParts + "   Args: " + nextRole + ", "+nextScaling)
+                console.log("produce", 3, "Error: " + result + "   Output: " +creepParts + "   Args: " + nextRole + ", "+nextScaling)
                 //console.log(spawn.name+" cannot build " + nextRole + " : Funds availible: "+ spawn.energyAvailable+"/"+ spawn.energyCapacityAvailable + "   Unit Cost: "+ utilities.creepCost(creepParts));
                 
             }

@@ -104,7 +104,7 @@ var overlord = {
 	            return;
 	        }
 	    }
-	    //  If I'm under attack, go into ASSAULT stance
+	    //  If I'm under attack, go into UNDER_ASSAULT stance
 	    if(this.roomIsUnderAttack(roomName)){
 	        Memory.overlord[roomName].stance = "UNDER_ASSAULT";
             Memory.overlord[roomName].stanceTime = Game.time;

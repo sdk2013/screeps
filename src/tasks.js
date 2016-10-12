@@ -2,6 +2,7 @@
  * This is the basic tasks file for screeps. No behavior logic should ever go here, just actions. Behavior logic should be handled in the unit_[name] modules
  * Everything here should be called with this.[functionname].call();
  */
+var output = require("output");
 var search = require('search');
 var tasks = {
     /*
@@ -171,7 +172,7 @@ var tasks = {
                 result = tasks_combat.runTasks(creep);
                 break;
             default:
-                console.log(creep.name + " HAS NO TASK!!!")
+                output.log("tasks", 4, "Creep: " + creep.name + " in room " + creep.room.name +  " has no task.");
                 result ="ERR_NO_TASK"
             /**/
         }

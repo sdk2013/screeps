@@ -13,10 +13,10 @@ var produce = require('produce')
 var defend = require('defend')
 var spawner = require('spawner')
 var statWrapper = require('stat_wrapper')
+var output = require("output")
 global._ = require('lodash')
 global.utilities = require('utilities')
 global.Empire = require('Empire')
-var badRoomList = ["E6N29"]
 
 module.exports.loop = function () {
     Memory.stats = {};
@@ -41,7 +41,7 @@ module.exports.loop = function () {
             }
         }
     }catch(e){
-        console.log("Error in garbage collection")
+        output.log("main", 4 "Garbage Collection Failure: ", e);
     }
     var stats = require("collect_stats");
     stats.run();
@@ -109,7 +109,7 @@ function initialize(){
             var result = creep.harvest(target);
         }
         if(result == -7){
-            console.log(creep.name + " pull failed. Target: " + target.id + "  Resource: " + resource)
+            output.log("command", 3, creep.name + " pull failed. Target: " + target.id + "  Resource: " + resource);
         }
         return result;
     }
@@ -165,10 +165,9 @@ function initialize(){
             var path = result.path;
             var steps = path.length;
             var target = path[path.length-1];
-            console.log("Target: " + target);
             return _.find(Game.spawns, 'pos', _.create(RoomPosition.prototype, target));
         } else {
-            console.log("WARNING: findClosestSpawn failed to find closest spawn");
+            output.log("command", 3, "FindClosestSpawn failed to find closest spawn. Data: " + this.room.name + this);
             return _.sample(Game.spawns);
         }
     }

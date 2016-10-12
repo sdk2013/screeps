@@ -20,7 +20,6 @@ module.exports = {
             spawner.addToQueue(unitType, memoryObject, roomName, false)
             return unitType + " added to queue."
         } catch(e) { 
-            console.log("Buildcreep requires: unitType, scaling, [memoryObject], [targetRoomId], priority")
         };
     },
     dumpSpawnQueue: function(spawnName){

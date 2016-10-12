@@ -6,7 +6,7 @@
  * var mod = require('defend');
  * mod.thing == 'a thing'; // true
  */
-
+var output = require("output");
 module.exports = function(structures){
     for(var id in structures){
         var s = Game.getObjectById(id)
@@ -14,14 +14,14 @@ module.exports = function(structures){
             try{
                 tower(s);
             }catch(e){
-                console.log("[DEF]Tower Error: " + e.stack)
+                output.log("defend", 3, "Tower: " + tower.room.name + tower.id, e)
             }
         }
         if(s instanceof StructureSpawn){
             try{
                 spawn(s);
             }catch(e){
-                console.log("[DEF]Spawn Error: " + e.stack)
+                output.log("defend", 3, "Spawn: " + spawn.room.name + spawn.name, e)
             }
         }
     }

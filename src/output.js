@@ -18,7 +18,9 @@ var colorCodes = {  overlord:"blue",
                     resources:"purple",
                     spawner: "green",
                     produce:"green",
-                    main: "white"   };
+                    main: "white",
+                    unknown: "white",
+                    utilities: "white"   };
 var levelCodes = {  0:"EMERGENCY",
                     1:"ALERT",
                     2:"CRITICAL",
@@ -40,19 +42,19 @@ var output = {
     /*
      * Logging function, saves output to string to say at end of tick
      * @param {String} module - Module throwing error
-     * @param {string} errordata - string to print
+     * @param {String} logString - string to print
      * @param {integer} level - debug level
      * @param {stack} e - error object
      * 
      */
-    log: function(module, level = 3, errordata, e){
+    log: function(module = "unknown", level = 3, logString = "", e){
         if(Memory.debugLevel == null){
             Memory.debugLevel = 3;
         }
         var debugLevel = Memory.debugLevel
         if(level >= debugLevel) return;
         var modstring = "["+module.toUpperCase()+"]"
-        var modcolor = colorCodes[module]
+        var modcolor = colorCodes[module.toLowerCase()]
         var modhtml = "<font color='"+ modcolor + "'>" + modstring + "</font>";
         var levelhtml = "<font color='"+ levelColors[level] + "'>" + levelCodes[level] + "</font>";
         
@@ -71,8 +73,10 @@ var output = {
                 default:
                     errorstring = "";
             }
+        }else{
+            errorstring = "";
         }
-        console.log(modhtml, levelhtml, errordata, errorstring)
+        console.log(modhtml, levelhtml, logStrng, errorstring)
         return OK;
     }
 };

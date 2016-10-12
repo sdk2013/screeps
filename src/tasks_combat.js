@@ -32,11 +32,47 @@ var tasks_combat = {
             case "basicHeal":
                 var result = this.basicHeal(creep);
                 break;
+            case "attackController":
+                var result = this.attackController(creep);
+                break;
             default:
                 var result = "ERR_NO_TARGETS"
         }
         return result;
     },
+    /*
+     *  Attacks a room controller
+     *  @param {Creep} creep
+     */
+    attackController: function(creep){
+        creep.toSay("ATK CTL-")
+        var targetRoomName = creep.memory.attackControllerRoomName;
+        if(targetRoomName == null){
+            creep.toSay("!R");
+            return "ERR_NO_TARGETS";
+        }
+        if(creep.room != Game.rooms[targetRoomName]){
+            creep.toSay(">R");
+            creep.goto(Game.rooms[targetRoomName]));
+            return "ERR_NOT_IN_ROOM";
+        }
+        var target = creep.room.controller;
+        if(creep.room.controller == null){
+            creep.toSay("!T");
+            return "ERR_NO_TARGETS";
+        }
+        var result = creep.attackController(target);
+        if(result == ERR_NOT_IN_RANGE){
+            creep.toSay(">T");
+            creep.moveTo(target);
+            return result;
+        }
+
+    },
+    /*
+     *  Dismantles targets in array stored in memory
+     *  @param {Creep} creep
+     */
     dumbDismantleTargetObject: function(creep){
         creep.toSay("DDI-");
         for(var i = 0; i < creep.memory.targetList.length; i++){
