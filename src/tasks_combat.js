@@ -53,7 +53,7 @@ var tasks_combat = {
         }
         if(creep.room != Game.rooms[targetRoomName]){
             creep.toSay(">R");
-            creep.goto(Game.rooms[targetRoomName]));
+            creep.goto(Game.rooms[targetRoomName]);
             return "ERR_NOT_IN_ROOM";
         }
         var target = creep.room.controller;
