@@ -35,7 +35,7 @@ var manager = {
      * returns: [[2darray]] of PARTS and NUMBER OF PARTS in form [[PART, {integer}],[PART, {integer}]]
      */
     partWeightsExt: function(extensionCount){
-        return [["carry",2],["move",2]];
+        return [["carry",4],["move",2]];
     }
 }
 
