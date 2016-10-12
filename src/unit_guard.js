@@ -37,7 +37,7 @@ var guard = {
         }else if(extensionCount < 20){                              // < 800 max energy avail
             var unitWeight = [["move", 4],["attack", 2],["ranged_attack",1],["heal", 1]];     // cost: 760
         }else{                                                      // 1300 max energy
-            var unitWeight = [["move", 4],["attack", 2],["ranged_attack",2],["heal", 1],["move",1]];     // cost: 960
+            var unitWeight = [["move", 4],["attack", 3],["ranged_attack",2],["heal", 1],["move",2]];     // cost: 1090
         }
         return unitWeight;
     }
