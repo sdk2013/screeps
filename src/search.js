@@ -179,12 +179,11 @@ module.exports = {
                         if(s.totalEnergy() != null){
                             switch(s.structureType){
                                 case "tower":
-                                    if(s.totalEnergy() > (s.capacity * 0.5) ){
+                                    if(s.energy > (s.energyCapacity * 0.5) ){
                                         return 1;
                                     }else{
                                         return 100;
                                     }
-                                    
                                 case "extension":
                                 case "spawn":
                                 case "powerSpawn":
