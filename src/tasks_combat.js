@@ -103,7 +103,7 @@ var tasks_combat = {
             }
         }
         if(target == null){
-            target = creep.pos.findClosestByRange(FIND_HOSTILE_STRUCTURES, {filter: (s => s.structureType != "controller")}); 
+            target = creep.pos.findClosestByRange(FIND_HOSTILE_STRUCTURES, {filter: (s => s.structureType != "controller" && s.structureType != "storage")}); 
         }
         creep.moveTo(target);
         creep.dismantle(target);
@@ -183,6 +183,7 @@ var tasks_combat = {
             if(healtarget != null){
                 creep.toSay("$T")
                 if(creep.pos.getRangeTo(healtarget) > 1){
+                    creep.moveTo(healtarget);
                     result = creep.rangedHeal(healtarget);
                 }else{
                     result = creep.heal(healtarget);
