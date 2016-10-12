@@ -52,7 +52,7 @@ var output = {
             Memory.debugLevel = 3;
         }
         var debugLevel = Memory.debugLevel
-        if(level >= debugLevel) return;
+        if(level > debugLevel) return;
         var modstring = "["+module.toUpperCase()+"]"
         var modcolor = colorCodes[module.toLowerCase()]
         var modhtml = "<font color='"+ modcolor + "'>" + modstring + "</font>";
