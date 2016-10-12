@@ -26,12 +26,29 @@ var tasks_combat = {
                 if(dismantleRoomName == null){return "ERR_NO_TARGETS"};
                 var result = this.dismantleTargetRoom(creep, dismantleRoomName)
                 break;
+            case "dumbDismantle":
+                var result = this.dumbDismantleTargetObject
             case "basicHeal":
                 var result = this.basicHeal(creep);
             default:
                 var result = "ERR_NO_TARGETS"
         }
         return result;
+    },
+    dumbDismantleTargetObject: function(creep){
+        creep.toSay("DDI-");
+        for(var i in creep.memory.targetids){
+            if(Game.getObjectById(i) != null){
+                var target = Game.getObjectById(i);
+                break;
+            }
+        }
+        if(target == null){
+            return "ERR_NO_TARGETS";
+        }
+        creep.moveTo(target);
+        creep.dismantle(target);
+        return OK;
     },
     /*
      *  Goes to flag heals what it can reach
