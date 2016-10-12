@@ -41,7 +41,7 @@ module.exports.loop = function () {
             }
         }
     }catch(e){
-        output.log("main", 4 "Garbage Collection Failure: ", e);
+        output.log("main", 4, "Garbage Collection Failure: ", e);
     }
     var stats = require("collect_stats");
     stats.run();
