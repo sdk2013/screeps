@@ -71,7 +71,7 @@ module.exports = {
             var spawn = spawns[name]
             this.initSpawnerInternalQueue(spawn);   
 
-            if(spawn.spawning == null || spawn.memory.Queue.length == 0 || !spawn.room.controller.my){   //Only run if spawner is not currently in use                                   <<< THIS SHITS BROKE NO IDEA WHY
+            if((spawn.spawning == null || spawn.memory.Queue.length == 0) && spawn.room.controller.my){   //Only run if spawner is not currently in use                                   <<< THIS SHITS BROKE NO IDEA WHY
                 for(var h in Memory.spawnQueue){
                     var i = Memory.spawnQueue[h];
                     if(Game.rooms[i.targetRoomName] == spawn.room || i.targetRoomName == -1){ //If this is the right room
