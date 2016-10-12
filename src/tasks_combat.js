@@ -235,6 +235,7 @@ var tasks_combat = {
     watchTargetRoom: function(creep, targetRoomName){
         creep.toSay("WAT-")
         var target = Game.getObjectById(creep.memory.watchTarget)
+        if(creep.hits < creep.hitsMax) creep.heal(creep);
         if(target == null || target.room != creep.room){
             delete creep.memory.watchTarget;
             var targetRoom = Game.rooms[targetRoomName];
