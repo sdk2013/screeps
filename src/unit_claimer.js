@@ -20,7 +20,7 @@ var unit_claimer = {
     partWeightsExt: function(extensionCount){
         if(extensionCount <= 18){                              // < 550 max energy avail
             var unitWeight = null;     // cost: 500 
-        }else if(extensionCount < 20){                              // < 800 max energy avail
+        }else if(extensionCount <= 21){                              // < 800 max energy avail
             var unitWeight = [["claim", 1],["move",2]];     // cost: 600
         }else{                                                      // 1300 max energy
             var unitWeight = [["claim", 2],["move",4]];     // cost: 1000
