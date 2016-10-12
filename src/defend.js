@@ -43,6 +43,7 @@ function tower(tower){
     }
     var search = require("search");
     targets = search.findPriorityWallRepairs.call(tower);
+    targets.filter(s => s.hits < 1500).value();
     if(targets.length > 0){
         tower.repair(targets.pop());
         return;
