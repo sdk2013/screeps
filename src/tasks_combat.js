@@ -132,7 +132,7 @@ var tasks_combat = {
                 }
             }
         }
-        if(healtarget == null || creep.memory.healFlag){
+        if(healtarget == null && creep.memory.healFlag){
             creep.toSay("$F")
             creep.moveTo(Game.flags[creep.memory.healFlag]);
         }

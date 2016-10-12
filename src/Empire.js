@@ -69,5 +69,14 @@ module.exports = {
         u.targetRoomName = origin;
 
         Memory.spawnQueue.unshift(u)
+    },
+    debug: function(){
+        if(Memory.debugMode == true){
+            Memory.debugMode = false;
+            return "Debug Mode Disabled";
+        }else{
+            Memory.debugMode = true;
+            return "Debug Mode Enabled";
+        }
     }
 };
