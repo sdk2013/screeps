@@ -37,7 +37,7 @@ module.exports = {
     buildDisassembler: function(targetflag, firstTarget){
         var u = {};
         u.body = [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK]
-        u.memoryObject = {role:"basic",flag:targetflag, targetid: firstarget, combatTask: "dismantle", task:"goto"};
+        u.memoryObject = {role:"basic",flag:targetflag, targetid: firstTarget, combatTask: "dismantle", task:"goto"};
         u.targetRoomName = -1;
 
         Memory.spawnQueue.unshift(u)
@@ -45,7 +45,7 @@ module.exports = {
     buildBigHealer: function(targetflag, origin = -1){
         var u = {};
         u.body = [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL]
-        u.memoryObject = {role:"basic",flag:targetflag, targetid: firstarget, combatTask: "dismantle", task:"goto"};
+        u.memoryObject = {role:"basic",flag:targetflag, combatTask: "basicHeal", task:"goto"};
         u.targetRoomName = origin;
 
         Memory.spawnQueue.unshift(u)
@@ -53,7 +53,7 @@ module.exports = {
     buildSmallHealer: function(targetflag, origin = -1){
         var u = {};
         u.body = [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL]
-        u.memoryObject = {role:"basic",flag:targetflag, targetid: firstarget, combatTask: "dismantle", task:"goto"};
+        u.memoryObject = {role:"basic",flag:targetflag, combatTask: "basicHeal", task:"goto"};
         u.targetRoomName = origin;
 
         Memory.spawnQueue.unshift(u)
