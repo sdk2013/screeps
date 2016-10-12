@@ -34,6 +34,9 @@ var tasks_combat = {
             case "dumbDismantle":
                 var result = this.dumbDismantleTargetObject(creep);
                 break;
+            case "attackFlag":
+                var result = this.attackFlag(creep);
+                break;
             case "basicHeal":
                 var result = this.basicHeal(creep);
                 break;
@@ -261,6 +264,37 @@ var tasks_combat = {
             return "ERR_NO_TARGETS"
         }
         if(target.owner == "Dissi"){return;}
+        combat.fireEverything.call(creep, target);
+        return creep.moveTo(target);        
+    },
+    /*
+     * Moves to flag and attacks hostiles in room
+     * @param {string} targetRoomName - room in which to stand watch
+     * RETURN Errorcode
+     */
+    attackFlag: function(creep){
+        creep.toSay("AT FL-")
+        var target = Game.getObjectById(creep.memory.watchTarget)
+        if(creep.hits < creep.hitsMax) creep.heal(creep);
+        if(target == null || target.room != creep.room){
+            delete creep.memory.watchTarget;
+            var targetRoom = Game.flags[creep.memory.flag].room
+            if(targetRoom != creep.room){
+                creep.toSay(">R")
+                creep.moveTo(Game.flags[creep.memory.flag])
+                return "ERR_NOT_IN_ROOM"
+            }
+            var hostiles = combat.IFFSafeTargetList.call(creep);
+            if(hostiles.length == 0){
+                return this.gotoTaskFlag(creep);
+            }
+            target = creep.pos.findClosestByPath(hostiles)
+            creep.memory.watchTarget = target.id
+        }
+        if(target == null){
+            creep.toSay("!T")
+            return "ERR_NO_TARGETS"
+        }
         combat.fireEverything.call(creep, target);
         return creep.moveTo(target);        
     },

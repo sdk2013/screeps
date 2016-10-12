@@ -120,8 +120,8 @@ var overlord = {
 	/*
 	 * Determines if room is under immediate or threatened attack
 	 *      Checks own room
-	 *      Checks immediately approximate room
-	 *  TODO
+	 *      Checks immediately approximate rooms (regardless of if they're mine)
+	 *  
 	 */
 	roomIsUnderAttack: function(roomName){
 	    var combat = require("combat");
@@ -129,8 +129,15 @@ var overlord = {
 	    if(thisRoomTargetList > 0){
             return true;   
 	    }
-        var proximate = Game.map.describeExits(roomName);
-        
+        var nearbyRooms = Game.map.describeExits(roomName);
+        for (const key of Object.keys(nearbyRooms)) {
+		    const nearbyRoom = obj[key];
+		    if((!nearbyRoom.controller || nearbyRoom.controller.my)
+		    	&& (combat.IFFSafeTargetList(nearbyRoom, false).length != 0)) {
+		    	return true;
+		    }
+		}
+		return false;
 	},
 	/*
 	 * Part reference module - creates framework for overlord memory use later
