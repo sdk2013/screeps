@@ -29,13 +29,15 @@ module.exports = function(spawns){
             console.log(nextCreepInQueue)
             if(nextCreepInQueue.body == null){
                 var creepParts = utilities.assembleCreep(nextRole, extensionCount);
+                var name = "Basic"
             }else{
                 var creepParts = nextCreepInQueue.body;
+                var name = nextRole;
             }
             var result = spawn.canCreateCreep(creepParts)
             if(result == OK){
                 console.log(spawn.name + " is building "+nextRole);
-                spawn.createCreep(creepParts, utilities.uid() + " - " + nextRole, nextCreepInQueue.memoryObject);
+                spawn.createCreep(creepParts, utilities.uid() + " - " + name, nextCreepInQueue.memoryObject);
                 spawn.memory.Queue.pop();
             }else if(result == ERR_NOT_ENOUGH_ENERGY){
                 console.log(spawn.name + " cannot build " + nextRole + "!  Insufficient funds. " + spawn.room.energyAvailable + "/" + spawn.room.energyCapacityAvailable + ". Cost: " + utilities.creepCost(creepParts))
