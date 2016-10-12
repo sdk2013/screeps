@@ -37,7 +37,7 @@ module.exports = {
 
         Memory.spawnQueue.unshift(u)
     },
-    buildDisassembler: function(targetflag, origin = -1, targetArray){
+    buildDismantler: function(targetflag, origin = -1, targetArray){
         if(Memory.spawnQueue == undefined){
             Memory.spawnQueue = [];
         }
