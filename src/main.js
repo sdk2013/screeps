@@ -25,7 +25,10 @@ module.exports.loop = function () {
     statWrapper(produce, Game.spawns, "produce");
     statWrapper(defend, Game.structures, "defend");
     Memory.songLine++;
-    
+    //CHUMP BLOCKERS
+    chumpCheck();
+
+
     //GARBAGE COLLECTION
     try{
         for(var i in Memory.creeps) {
@@ -47,7 +50,17 @@ module.exports.loop = function () {
     stats.run();
     Memory.stats.cpu.used = Game.cpu.getUsed();
 }
-
+function chumpCheck(){
+    if(Memory.chumpCount == null){
+        return;
+    }
+    Empire.buildChump(Memory.chumpTargetRoom);
+    Memory.chumpCount--;
+    if(Memory.chumpCount < 1){
+        delete Memory.chumpCount;
+    }
+    return;
+}
 
 function initialize(){
     Creep.prototype.hasPart = function(type){

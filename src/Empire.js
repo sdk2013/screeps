@@ -77,5 +77,22 @@ module.exports = {
             Memory.debugMode = true;
             return "Debug Mode Enabled";
         }
+    },
+    /*
+     *  Builds a little guy to burn tower energy
+     *  @param {String} targetRoomName
+     */
+    buildChump: function(targetRoomName){
+        var u = {};
+        u.body = [MOVE]
+        u.memoryObject = {role:"basic", gotoRoomName: targetRoomName, task:"goto"};
+        u.targetRoomName = -1;
+
+        Memory.spawnQueue.unshift(u) 
+    },
+    queueChumps: function(number, room){
+        Memory.chumpTargetRoom = room;
+        Memory.chumpCount = number;
+        return "For the swarm.";
     }
 };
