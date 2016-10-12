@@ -27,7 +27,7 @@ module.exports = function(structures){
     }
 }
 function tower(tower){
-    var combat = require("combat")
+    var combat = require("combat");
     var targets = combat.IFFSafeTargetList(tower);
     if(targets.length > 0){
         tower.attack(tower.pos.findClosestByRange(targets))
@@ -42,8 +42,8 @@ function tower(tower){
         return;
     }
     var search = require("search");
-    targets = search.findPriorityWallRepairs.call(tower);
-    targets.filter(s => s.hits < 1500).value();
+    var _ = require("lodash");
+    targets = _(search.findPriorityWallRepairs.call(tower)).filter(s => s.hits < 1500).value();
     if(targets.length > 0){
         tower.repair(targets.pop());
         return;
