@@ -23,7 +23,8 @@ module.exports = function(spawns){
             }
             var nextCreepInQueue = utilities.peek(spawn.memory.Queue);
             var nextRole = nextCreepInQueue.unitType;
-            if(nextRole == null){spawn.memory.Queue.pop(); continue;};
+            var body = nextCreepInQueue.body;
+            if(nextRole == null && body == null){spawn.memory.Queue.pop(); continue;};
             var extensionCount = utilities.roomExtCount(spawn);
             console.log(nextCreepInQueue)
             if(nextCreepInQueue.body == null){
