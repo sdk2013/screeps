@@ -75,7 +75,7 @@ function initialize(){
         }
         return false;
     }
-    Creep.prototype.repairMoveTo = function(target, arguments){
+    Creep.prototype.repairMoveTo = function(target, arguments = {}){
         if(!this.hasPart(WORK)){
             this.moveTo(target);
         }
