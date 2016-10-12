@@ -52,7 +52,10 @@ var tasks_combat = {
      */
     massWallDismantle: function(creep, roomName){
         creep.toSay("MS WL DIS-");
-        var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {filter: (s=>s.structureType == "constructedWall")});
+        var target = _(creep.pos.findClosestByRange(FIND_STRUCTURES))
+                        .filter(s=>s.structureType == "constructedWall")
+                        .filter(s=>s.hits < 5750000)
+                        .value()
         var result = creep.dismantle(target);
         creep.moveTo(target);
         return result;
