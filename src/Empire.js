@@ -42,19 +42,19 @@ module.exports = {
 
         Memory.spawnQueue.unshift(u)
     },
-    buildBigHealer: function(flag, origin = -1){
+    buildBigHealer: function(targetflag, origin = -1){
         var u = {};
         u.body = [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL]
         u.memoryObject = {role:"basic",flag:targetflag, targetid: firstarget, combatTask: "dismantle", task:"goto"};
-        u.targetRoomName = -1;
+        u.targetRoomName = origin;
 
         Memory.spawnQueue.unshift(u)
     },
-    buildSmallHealer: function(flag, origin = -1){
+    buildSmallHealer: function(targetflag, origin = -1){
         var u = {};
         u.body = [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL]
         u.memoryObject = {role:"basic",flag:targetflag, targetid: firstarget, combatTask: "dismantle", task:"goto"};
-        u.targetRoomName = -1;
+        u.targetRoomName = origin;
 
         Memory.spawnQueue.unshift(u)
     }
