@@ -275,19 +275,10 @@ var tasks_combat = {
     attackFlag: function(creep){
         creep.toSay("AT FL-")
         var target = Game.getObjectById(creep.memory.watchTarget)
+        creep.moveTo(Game.flags[creep.memory.flag])
+        var target = creep.pos.findClosestByRange(combat.IFFSafeTargetList.call(creep));
         if(creep.hits < creep.hitsMax) creep.heal(creep);
-        if(target == null || target.room != creep.room){
-            delete creep.memory.watchTarget;
-            var hostiles = combat.IFFSafeTargetList.call(creep);
-            target = creep.pos.findClosestByPath(hostiles)
-            creep.memory.watchTarget = target.id
-        }
-        if(target == null){
-            creep.toSay("!T")
-            return "ERR_NO_TARGETS"
-        }
-        combat.fireEverything.call(creep, target);
-        return creep.moveTo(Game.flags[creep.memory.flag]);        
+        combat.fireEverything.call(creep, target);        
     },
     /*
      * Command creep to go to nearest untaken flag for its role
