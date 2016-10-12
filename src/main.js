@@ -51,7 +51,7 @@ module.exports.loop = function () {
     Memory.stats.cpu.used = Game.cpu.getUsed();
 }
 function chumpCheck(){
-    if(Memory.chumpCount == null){
+    if(Memory.chumpCount == null || Game.time % 5 != 0){
         return;
     }
     Empire.buildChump(Memory.chumpTargetRoom);
