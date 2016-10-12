@@ -46,7 +46,7 @@ var tasks_combat = {
             }
         }
         if(target == null){
-            return "ERR_NO_TARGETS";
+            target = creep.room.findClosestByRange(FIND_HOSTILE_STRUCUTRES);
         }
         creep.moveTo(target);
         creep.dismantle(target);
