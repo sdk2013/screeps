@@ -279,9 +279,6 @@ var tasks_combat = {
         if(target == null || target.room != creep.room){
             delete creep.memory.watchTarget;
             var hostiles = combat.IFFSafeTargetList.call(creep);
-            if(hostiles.length == 0){
-                return this.gotoTaskFlag(creep);
-            }
             target = creep.pos.findClosestByPath(hostiles)
             creep.memory.watchTarget = target.id
         }
