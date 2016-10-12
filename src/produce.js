@@ -14,6 +14,7 @@ module.exports = function(spawns){
         
         for(var name in spawns){
             var spawn = Game.spawns[name];
+            console.log(spawn.name + " : " + spawn.memory.Queue.length)
             if(spawn.spawning){
                 continue;
             }
@@ -24,6 +25,7 @@ module.exports = function(spawns){
             var nextRole = nextCreepInQueue.unitType;
             if(nextRole == null){spawn.memory.Queue.pop(); continue;};
             var extensionCount = utilities.roomExtCount(spawn);
+            console.log(nextCreepInQueue)
             if(nextCreepInQueue.body == null){
                 var creepParts = utilities.assembleCreep(nextRole, extensionCount);
             }else{
