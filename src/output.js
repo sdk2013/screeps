@@ -76,7 +76,7 @@ var output = {
         }else{
             errorstring = "";
         }
-        console.log(modhtml, levelhtml, logStrng, errorstring)
+        console.log(modhtml, levelhtml, logString, errorstring)
         return OK;
     }
 };
