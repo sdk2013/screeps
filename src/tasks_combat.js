@@ -40,12 +40,7 @@ var tasks_combat = {
     dumbDismantleTargetObject: function(creep){
         creep.toSay("DDI-");
 
-        for(var i = 0; i < creep.memory.targetids.length; i++){
-            if(Game.getObjectById(i) != null){
-                var target = Game.getObjectById(i);
-                break;
-            }
-        }
+        var target = Game.getObjectById(creep.memory.targetid);
         if(target == null){
             return "ERR_NO_TARGETS";
         }
