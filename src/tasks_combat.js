@@ -40,7 +40,7 @@ var tasks_combat = {
     dumbDismantleTargetObject: function(creep){
         creep.toSay("DDI-");
         for(var i = 0; i < creep.memory.targetList.length; i++){
-            var target = Game.getObjectById(creep.memory.targetid[i]);
+            var target = Game.getObjectById(creep.memory.targetList[i]);
             if(target != null){
                 break;
             }
@@ -147,7 +147,7 @@ var tasks_combat = {
     dismantleTargetRoom: function(creep, targetRoomName){
         creep.toSay("DIS-");
         var targetRoom = Game.rooms[targetRoomName];
-        if(creep.room != targetRoom){
+        if(creep.room != targetRoom && targetRoom != null){
             creep.toSay(">R")
             return creep.goto(targetRoomName);
         }
