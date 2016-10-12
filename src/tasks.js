@@ -431,6 +431,9 @@ var tasks = {
             return "ERR_NOT_IN_ROOM"
         }
         var target = Game.getObjectById(creep.memory.fillTarget)
+        if(creep.carry["energy"] == 0){
+            target = creep.room.storage;
+        }
         if(target != null && target.totalEnergy() == target.capacity()){
             target == null;
             delete creep.memory.fillTarget;
@@ -450,7 +453,7 @@ var tasks = {
             creep.toSay(":->T")
             creep.repairMoveTo(target)
         }
-        if(result == ERR_NOT_ENOUGH_ENERGY && target.structureType == "storage"){
+        if(target.structureType == "storage"){
             creep.transfer(target, "power")
         }
         if(result == OK){
