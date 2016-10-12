@@ -36,6 +36,7 @@ module.exports = {
 
         Memory.spawnQueue.unshift(u)
     },
+<<<<<<< HEAD
     buildDismantler: function(targetflag, origin = -1, targetArray){
         if(Memory.spawnQueue == undefined){
             Memory.spawnQueue = [];
@@ -44,6 +45,13 @@ module.exports = {
         u.body = [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK]
         u.memoryObject = {role:"basic",flag:targetflag, targetList: targetArray, combatTask: "dumbDismantle", task:"goto"};
         u.targetRoomName = origin;
+=======
+    buildDisassembler: function(targetflag, firstTarget){
+        var u = {};
+        u.body = [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK]
+        u.memoryObject = {role:"basic",flag:targetflag, targetid: firstTarget, combatTask: "dismantle", task:"goto"};
+        u.targetRoomName = -1;
+>>>>>>> parent of ea6e544... Hotfix
 
         Memory.spawnQueue.unshift(u)
     },
