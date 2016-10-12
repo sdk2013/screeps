@@ -34,11 +34,11 @@ module.exports = {
 
         Memory.spawnQueue.unshift(u)
     },
-    buildDisassembler: function(targetflag, firstTarget){
+    buildDisassembler: function(targetflag, origin = -1, targetArray){
         var u = {};
-        u.body = [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK]
-        u.memoryObject = {role:"basic",flag:targetflag, targetid: firstTarget, combatTask: "dismantle", task:"goto"};
-        u.targetRoomName = -1;
+        u.body = [MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK]
+        u.memoryObject = {role:"basic",flag:targetflag, targetList: targetArray, combatTask: "dismantle", task:"goto"};
+        u.targetRoomName = origin;
 
         Memory.spawnQueue.unshift(u)
     },
