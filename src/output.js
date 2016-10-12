@@ -80,3 +80,4 @@ var output = {
         return OK;
     }
 };
+module.exports = output;

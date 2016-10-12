@@ -35,6 +35,7 @@ module.exports = function(creeps){
 		}
 		role.setCreep(creep);
 		try { role.run(); } catch(e) { 
+			var output = require("output");
 		    output.log("command", 3, "Error Running Creep: " + creep.name, e)
 		};
     }
