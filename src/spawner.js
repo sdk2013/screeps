@@ -97,7 +97,7 @@ module.exports = {
             var i = Memory.delayedQueue[h];
             if(i.spawnTime <= Game.time){ //If this is the right  time
                 var backup = _.cloneDeep(i);
-                console.log("DELAY ASSIGNED")
+                output.log("spawner", 7, "DELAY ASSIGNED: JSON " + JSON.stringify(backup));
                 if(i.priority == true){
                     Memory.spawnQueue.push(backup)
                 }else{

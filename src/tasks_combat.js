@@ -26,6 +26,11 @@ var tasks_combat = {
                 if(dismantleRoomName == null){return "ERR_NO_TARGETS"};
                 var result = this.dismantleTargetRoom(creep, dismantleRoomName)
                 break;
+            case "massWallDismantle":
+                var mWDRoomName = creep.memory.mWDRoomName;
+                if(mWDRoomName == null){mWDRoomName = creep.room.name};
+                var result = this.massWallDismantle(creep, mWDRoomName)
+                break;`
             case "dumbDismantle":
                 var result = this.dumbDismantleTargetObject(creep);
                 break;
@@ -38,6 +43,18 @@ var tasks_combat = {
             default:
                 var result = "ERR_NO_TARGETS"
         }
+        return result;
+    },
+    /*
+     *  Dismantles all the walls in a given room
+     *  @param {Creep} creep - dismantler
+     *  @param {String} roomName - where to dismantle
+     */
+    massWallDismantle: function(creep, roomName){
+        creep.toSay("MS WL DIS-");
+        var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {filter: (s=>s.structureType == "constructedWall")});
+        var result = creep.dismantle(target);
+        creep.moveTo(target);
         return result;
     },
     /*
