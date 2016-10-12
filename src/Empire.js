@@ -42,8 +42,8 @@ module.exports = {
             Memory.spawnQueue = [];
         }
         var u = {};
-        u.body = [MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK]
-        u.memoryObject = {role:"basic",flag:targetflag, targetList: targetArray, combatTask: "dismantle", task:"goto"};
+        u.body = [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK]
+        u.memoryObject = {role:"basic",flag:targetflag, targetList: targetArray, combatTask: "dumbDismantle", task:"goto"};
         u.targetRoomName = origin;
 
         Memory.spawnQueue.unshift(u)
