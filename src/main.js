@@ -20,7 +20,7 @@ global.utilities = require('utilities')
 global.Empire = require('Empire')
 
 module.exports.loop = function () {
-    console.log("Last Reload was " + Game.time - last_reload + " ticks ago.");
+    console.log(Game.time + "Last Reload was at " + last_reload);
     Memory.stats = {};
     statWrapper(initialize, "", "initialize");
     statWrapper(command, Game.creeps, "command");
