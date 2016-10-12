@@ -8,7 +8,6 @@ TODO: Develop/Finalize Overlord AI
 
 
 */
-let last_reload = Game.time;
 var command = require('command')
 var produce = require('produce')
 var defend = require('defend')
@@ -20,7 +19,6 @@ global.utilities = require('utilities')
 global.Empire = require('Empire')
 
 module.exports.loop = function () {
-    output.log("time", 5, "Last Reload was " + (Game.time - last_reload) + " ticks ago.");
     Memory.stats = {};
     statWrapper(initialize, "", "initialize");
     statWrapper(command, Game.creeps, "command");
