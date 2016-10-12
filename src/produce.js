@@ -14,7 +14,6 @@ module.exports = function(spawns){
         
         for(var name in spawns){
             var spawn = Game.spawns[name];
-            console.log(spawn.name + " : " + spawn.memory.Queue.length)
             if(spawn.spawning){
                 continue;
             }
