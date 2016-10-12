@@ -12,7 +12,8 @@ var unitPrototype = {
 	behavior: function(){
 		var tasks = require("tasks");
 		var creep = this.creep;
-		tasks.runTasks(creep);
+		var result = tasks.runTasks(creep);
+		return result;
 	},
 	
 	onSpawn: function(){},

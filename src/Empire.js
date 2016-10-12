@@ -27,6 +27,9 @@ module.exports = {
         Game.spawns[spawnName].memory.Queue = []
     },
     buildDecoy: function(targetflag, origin = -1){
+        if(Memory.spawnQueue == undefined){
+            Memory.spawnQueue = [];
+        }
         var u = {};
         u.body = [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK]
         u.memoryObject = {role:"basic",flag:targetflag, task:"goto"};
@@ -35,6 +38,9 @@ module.exports = {
         Memory.spawnQueue.unshift(u)
     },
     buildDisassembler: function(targetflag, origin = -1, targetArray){
+        if(Memory.spawnQueue == undefined){
+            Memory.spawnQueue = [];
+        }
         var u = {};
         u.body = [MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK]
         u.memoryObject = {role:"basic",flag:targetflag, targetList: targetArray, combatTask: "dismantle", task:"goto"};
@@ -43,6 +49,9 @@ module.exports = {
         Memory.spawnQueue.unshift(u)
     },
     buildBigHealer: function(targetflag, origin = -1){
+        if(Memory.spawnQueue == undefined){
+            Memory.spawnQueue = [];
+        }
         var u = {};
         u.body = [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL]
         u.memoryObject = {role:"basic",flag:targetflag, combatTask: "basicHeal", task:"goto"};
@@ -51,6 +60,9 @@ module.exports = {
         Memory.spawnQueue.unshift(u)
     },
     buildSmallHealer: function(targetflag, origin = -1){
+        if(Memory.spawnQueue == undefined){
+            Memory.spawnQueue = [];
+        }
         var u = {};
         u.body = [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL]
         u.memoryObject = {role:"basic",flag:targetflag, combatTask: "basicHeal", task:"goto"};
