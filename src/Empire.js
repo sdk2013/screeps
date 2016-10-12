@@ -41,8 +41,8 @@ module.exports = {
             Memory.spawnQueue = [];
         }
         var u = {};
-        u.body = [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK]
-        u.memoryObject = {role:"basic",flag:targetflag, targetList: targetArray, combatTask: "dumbDismantle", task:"goto"};
+        u.body = [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,WORK,WORK,WORK];
+        u.memoryObject = {role:"basic",flag:targetflag, targetList: targetArray, combatTask: "dumbDismantle", task:"combat"};
         u.targetRoomName = origin;
 
         Memory.spawnQueue.unshift(u)
@@ -90,7 +90,7 @@ module.exports = {
 
         Memory.spawnQueue.unshift(u) 
     },
-    queueChumps: function(number, room){
+    queueChumps: function(number, roomflag){
         Memory.chumpTargetRoom = room;
         Memory.chumpCount = number;
         return "For the swarm.";

@@ -278,12 +278,6 @@ var tasks_combat = {
         if(creep.hits < creep.hitsMax) creep.heal(creep);
         if(target == null || target.room != creep.room){
             delete creep.memory.watchTarget;
-            var targetRoom = Game.flags[creep.memory.flag].room
-            if(targetRoom != creep.room){
-                creep.toSay(">R")
-                creep.moveTo(Game.flags[creep.memory.flag])
-                return "ERR_NOT_IN_ROOM"
-            }
             var hostiles = combat.IFFSafeTargetList.call(creep);
             if(hostiles.length == 0){
                 return this.gotoTaskFlag(creep);
@@ -296,7 +290,7 @@ var tasks_combat = {
             return "ERR_NO_TARGETS"
         }
         combat.fireEverything.call(creep, target);
-        return creep.moveTo(target);        
+        return creep.moveTo(Game.flags[creep.memory.flag]);        
     },
     /*
      * Command creep to go to nearest untaken flag for its role
