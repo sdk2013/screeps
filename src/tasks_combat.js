@@ -30,7 +30,7 @@ var tasks_combat = {
                 var mWDRoomName = creep.memory.mWDRoomName;
                 if(mWDRoomName == null){mWDRoomName = creep.room.name};
                 var result = this.massWallDismantle(creep, mWDRoomName)
-                break;`
+                break;
             case "dumbDismantle":
                 var result = this.dumbDismantleTargetObject(creep);
                 break;
