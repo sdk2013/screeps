@@ -90,7 +90,7 @@ module.exports = {
 
         Memory.spawnQueue.unshift(u) 
     },
-    queueChumps: function(number, roomflag){
+    queueChumps: function(number, room){
         Memory.chumpTargetRoom = room;
         Memory.chumpCount = number;
         return "For the swarm.";
