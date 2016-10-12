@@ -96,6 +96,11 @@ var tasks_combat = {
      */
     dumbDismantleTargetObject: function(creep){
         creep.toSay("DDI-");
+        if(creep.memory.flag){
+            if(creep.room != Game.flags[creep.memory.flag]){
+                creep.goto(Game.flags[creep.memory.flag]);
+            }
+        }
         for(var i = 0; i < creep.memory.targetList.length; i++){
             var target = Game.getObjectById(creep.memory.targetList[i]);
             if(target != null){
