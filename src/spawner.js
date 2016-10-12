@@ -70,7 +70,7 @@ module.exports = {
                     var i = Memory.spawnQueue[h];
                     if(Game.rooms[i.targetRoomName] == spawn.room || i.targetRoomName == -1){ //If this is the right room
                         var backup = _.cloneDeep(i);
-                        console.log("ASSIGNED: " + JSON.Stringify(i))
+                        console.log("ASSIGNED: " + JSON.stringify(i) + " SENT TO " + JSON.stringify(spawn))
                         spawn.memory.Queue.unshift(backup);
                         Memory.spawnQueue.splice(h, 1);
                         break;
