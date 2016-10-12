@@ -28,8 +28,10 @@ var tasks_combat = {
                 break;
             case "dumbDismantle":
                 var result = this.dumbDismantleTargetObject
+                break;
             case "basicHeal":
                 var result = this.basicHeal(creep);
+                break;
             default:
                 var result = "ERR_NO_TARGETS"
         }
