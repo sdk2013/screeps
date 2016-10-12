@@ -24,7 +24,11 @@ module.exports = function(spawns){
             var nextRole = nextCreepInQueue.unitType;
             if(nextRole == null){spawn.memory.Queue.pop(); continue;};
             var extensionCount = utilities.roomExtCount(spawn);
-            var creepParts = utilities.assembleCreep(nextRole, extensionCount);
+            if(nextCreepInQueue.body == null){
+                var creepParts = utilities.assembleCreep(nextRole, extensionCount);
+            }else{
+                var creepParts = nextCreepInQueue.body;
+            }
             var result = spawn.canCreateCreep(creepParts)
             if(result == OK){
                 console.log(spawn.name + " is building "+nextRole);

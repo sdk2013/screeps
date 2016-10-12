@@ -26,16 +26,36 @@ module.exports = {
     dumpSpawnQueue: function(spawnName){
         Game.spawns[spawnName].memory.Queue = []
     },
-    test: function(){
-        var scv = require("unit_scv"); 
-        var x = scv.partWeights(); 
-        var output = "";
-        for(var y in x){		
-    	    for(var i = 0; i<y[1];i++){
-    		output=output+i[0];
-    		console.log("I: " +i[0])
-        	}
-        }
-        console.log(output)
+    buildDecoy: function(targetflag, origin = -1){
+        var u = {};
+        u.body = [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK]
+        u.memoryObject = {role:"basic",flag:targetflag, task:"goto"};
+        u.targetRoomName = origin;
+
+        Memory.spawnQueue.unshift(u)
+    },
+    buildDisassembler: function(targetflag, firstTarget){
+        var u = {};
+        u.body = [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK]
+        u.memoryObject = {role:"basic",flag:targetflag, targetid: firstarget, combatTask: "dismantle", task:"goto"};
+        u.targetRoomName = -1;
+
+        Memory.spawnQueue.unshift(u)
+    },
+    buildBigHealer: function(flag, origin = -1){
+        var u = {};
+        u.body = [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL]
+        u.memoryObject = {role:"basic",flag:targetflag, targetid: firstarget, combatTask: "dismantle", task:"goto"};
+        u.targetRoomName = -1;
+
+        Memory.spawnQueue.unshift(u)
+    },
+    buildSmallHealer: function(flag, origin = -1){
+        var u = {};
+        u.body = [MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,HEAL,HEAL,HEAL,HEAL,HEAL,HEAL]
+        u.memoryObject = {role:"basic",flag:targetflag, targetid: firstarget, combatTask: "dismantle", task:"goto"};
+        u.targetRoomName = -1;
+
+        Memory.spawnQueue.unshift(u)
     }
 };
