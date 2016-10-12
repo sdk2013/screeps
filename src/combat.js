@@ -13,26 +13,25 @@ var combat = {
 		}else{
 			u = target;
 		}
-		var excludeList;
 		var targets;
 		if(includeNPCs == true){
 		    if(u instanceof RoomObject){
     		targets = _(u.room.find(FIND_HOSTILE_CREEPS))
-						.filter(c => !notHostile.includes(c.owner))
+						.filter(c => !notHostile.includes(c.owner.username))
 						.value()
 			}else if(u instanceof Room){
 			    targets = _(u.find(FIND_HOSTILE_CREEPS))
-							.filter(c => !notHostile.includes(c.owner))
+							.filter(c => !notHostile.includes(c.owner.username))
 							.value()
 			}
 		}else{
 		    if(u instanceof RoomObject){
 	    		targets = _(u.room.find(FIND_HOSTILE_CREEPS))
-							.filter(c => !notInvading.includes(c.owner))
+							.filter(c => !notInvading.includes(c.owner.username))
 							.value()
 			}else if(u instanceof Room){
 			    targets = _(u.find(FIND_HOSTILE_CREEPS))
-							.filter(c => !notInvading.includes(c.owner))
+							.filter(c => !notInvading.includes(c.owner.username))
 							.value()
 			}
 		}

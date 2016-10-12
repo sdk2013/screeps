@@ -255,6 +255,7 @@ var tasks_combat = {
             creep.toSay("!T")
             return "ERR_NO_TARGETS"
         }
+        if(target.owner == "Dissi"){return;}
         combat.fireEverything.call(creep, target);
         return creep.moveTo(target);        
     },
