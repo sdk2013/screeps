@@ -27,7 +27,7 @@ var tasks_combat = {
                 var result = this.dismantleTargetRoom(creep, dismantleRoomName)
                 break;
             case "dumbDismantle":
-                var result = this.dumbDismantleTargetObject
+                var result = this.dumbDismantleTargetObject(creep);
                 break;
             case "basicHeal":
                 var result = this.basicHeal(creep);
@@ -39,7 +39,13 @@ var tasks_combat = {
     },
     dumbDismantleTargetObject: function(creep){
         creep.toSay("DDI-");
-        var target = Game.getObjectById(creep.memory.targetid)
+
+        for(var i = 0; i < creep.memory.targetids.length; i++){
+            if(Game.getObjectById(i) != null){
+                var target = Game.getObjectById(i);
+                break;
+            }
+        }
         if(target == null){
             return "ERR_NO_TARGETS";
         }
