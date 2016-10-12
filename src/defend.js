@@ -42,7 +42,7 @@ function tower(tower){
         return;
     }
     var search = require("search");
-    target = search.findPriorityWallRepairs.call(tower);
+    targets = search.findPriorityWallRepairs.call(tower);
     if(targets.length > 0){
         tower.repair(targets.pop());
         return;
