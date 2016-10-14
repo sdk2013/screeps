@@ -76,7 +76,7 @@ var tasks_combat = {
             creep.moveTo(pos)
             return;
         }
-        combat.fireEverything.call(creep, target[0]);
+        combat.fireEverything.call(creep, targets[0]);
         return;
     },
     /*
