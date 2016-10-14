@@ -60,9 +60,12 @@ var tasks_combat = {
         if(creep.hits < creep.hitsMax){
             creep.heal(creep);
         }
-        var range = creep.memory.radius || 6;
+        var range = 6;
+        if(creep.memory.range != null){
+            range = creep.memory.range;
+        }
         var targets = pos.findInRange(FIND_HOSTILE_CREEPS, range);
-        if(targets.length = 0){
+        if(targets.length == 0){
             targets = _(pos.findInRange(FIND_HOSTILE_STRUCTURES, range))
                         .filter(s => s.structureType != "storage"
                                 && s.structureType != "terminal")
