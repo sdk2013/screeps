@@ -94,8 +94,12 @@ function initialize(){
         this.moveTo(target, arguments)
         return;
     }
-    Creep.prototype.goto = function(targetRoomName, arguments){
-        var targetPos = new RoomPosition(25, 25, targetRoomName)
+    Creep.prototype.goto = function(targetName, arguments){
+        if(Game.rooms[targetName]){
+            var targetPos = new RoomPosition(25, 25, targetRoomName)
+        }else{
+            var targetPos = Game.flags[targetName].pos
+        }
         this.repairMoveTo(targetPos, arguments);
     }
 
@@ -258,12 +262,6 @@ function initialize(){
             },
             configurable: true,
             enumerable: false
-        },
-        "sendOnly": {
-            get: function(){
-                return (!this.canRecieve) && this.canSend;
-            },
-            writeable: false
         }
     })
 }
