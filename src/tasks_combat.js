@@ -31,6 +31,10 @@ var tasks_combat = {
                 if(mWDRoomName == null){mWDRoomName = creep.room.name};
                 var result = this.massWallDismantle(creep, mWDRoomName)
                 break;
+            case "proximityAttack":
+                var pos = Game.flags[creep.memory.flag].pos || creep.pos;
+                var result = this.proximityAttack(creep, pos);
+                break;
             case "dumbDismantle":
                 var result = this.dumbDismantleTargetObject(creep);
                 break;
@@ -48,6 +52,20 @@ var tasks_combat = {
         }
         return result;
     },
+    /*
+     *  Goes to flag an attacks any hostiles within a certain radius around it
+     *  Radius can be set in memory, defaults to 6;
+     */
+    proximityAttack: function(creep, pos){
+        var range = creep.memory.radius || 6;
+        var targets = pos.findInRange(FIND_HOSTILE_CREEPS, range);
+        if(targets.length == 0){
+            creep.moveTo(pos)
+            return;
+        }
+        combat.fireEverything.call(creep, target[0]);
+        return;
+    }
     /*
      *  Dismantles all the walls in a given room
      *  @param {Creep} creep - dismantler
