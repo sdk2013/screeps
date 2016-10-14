@@ -200,7 +200,7 @@ var tasks = {
         if(creep.pos == target.pos && currentStage == creep.memory.waypoints.length - 1){
             return "ERR_NO_TARGETS"
         }
-    }
+    },
     /*
      *  Goes to room
      *  @param {Creep} creep
