@@ -12,6 +12,7 @@ This module grabs the role for each unit from memory, loads, and runs it
 
 
 */
+var _ = require("lodash");
 var output = require("output");
 module.exports = function(creeps){
     var roleManager = require('roleManager')
@@ -34,8 +35,9 @@ module.exports = function(creeps){
 		    continue;
 		}
 		role.setCreep(creep);
-		try { role.run(); } catch(e) { 
-		    output.log("command", 3, creep.name + " in room " + creep.room.name + " Encountered an error. ", e);
+		try { role.run(); } catch(e) {
+			var error = _.cloneDeep(e);
+		    output.log("command", 3, creep.name + " in room " + creep.room.name + " Encountered an error. ", error);
 		};
     }
     
