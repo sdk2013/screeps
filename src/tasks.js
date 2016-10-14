@@ -197,10 +197,10 @@ var tasks = {
             creep.memory.waypoints = Memory.chumpWaypoints;
         }
         var target = Game.flags[Memory.chumpWaypoints[creep.memory.currentStage]]
-        creep.moveTo(target);
         if(creep.pos == target.pos){
             creep.memory.currentStage++;
         }
+        creep.moveTo(target);
         if(creep.pos == target.pos && currentStage == Memory.chumpWaypoints.length - 1){
             return "ERR_NO_TARGETS"
         }
