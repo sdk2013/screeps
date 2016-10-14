@@ -190,7 +190,7 @@ var tasks = {
      */
     waypointMove: function(creep){
         if(creep.memory.currentStage == null){
-            creep.memory.currentStage == 0;
+            creep.memory.currentStage = 0;
         }
         var target = Game.flags[creep.memory.waypoints[creep.memory.currentStage]]
         creep.moveTo(target);
