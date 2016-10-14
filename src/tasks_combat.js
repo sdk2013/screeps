@@ -68,7 +68,8 @@ var tasks_combat = {
         if(targets.length == 0){
             targets = _(pos.findInRange(FIND_HOSTILE_STRUCTURES, range))
                         .filter(s => s.structureType != "storage"
-                                && s.structureType != "terminal")
+                                && s.structureType != "terminal"
+                                && s.structureType != "extractor")
                         .value();
 
         }
@@ -76,6 +77,7 @@ var tasks_combat = {
             creep.moveTo(pos)
             return;
         }
+        creep.moveto(targets[0]);
         combat.fireEverything.call(creep, targets[0]);
         return;
     },
