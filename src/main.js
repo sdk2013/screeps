@@ -189,8 +189,56 @@ function initialize(){
             return _.sample(Game.spawns);
         }
     }
+    /*
+     *  Now switching to Object.defineProperty() because I need seperate getters and setters
+     */
+    Object.defineProperty(RoomObject.prototype, "memory", {
+        get: function(){
+            if(Memory.objects == null){
+                Memory.objects = {};
+                return undefined;
+            }
+            return Memory.objects[this.id]
+        },
+        set: function(m){
+            if(Memory.objects == null){
+                Memory.objects = {};
+            }
+            if(Memory.objects[this.id] == null){
+                Memory.objects[this.id] = {};
+            }
+            return Memory.objects[this.id]
+        },
+        configurable: true,
+        enumerable: false
+    })
+    Object.defineProperty(StructureLink.prototype, "canSend", {
+        get: function(){
+            if(!this instanceof StructureLink){
+                throw "Cannot get send value of non-link object"
+            }
+            if(!!Memory.objects){
+                var send = Memory.objects[this.id].canSend;
+                if(send == undefined){
+                    return false;
+                }
+                return send;
+            }
+            Memory.objects = {};
+            return false;
+            
+        },
+        set: function(mode){
+            if(!this instanceof StructureLink){
+                throw "Cannot set Send value for nonlink object"
+            }
+            if(mode == true || mode == false){
+                Memory.objects[this.id].canSend = mode;
+            }else{
+                throw "canSend must be boolean";
+            }
+        },
+        configurable: true,
+        enumerable: false
+    })
 }
-/*KNOWN BUGS:
-
-Spawning a creep using priority queue deletes memory
-*/
