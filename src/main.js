@@ -212,62 +212,58 @@ function initialize(){
         configurable: true,
         enumerable: false
     })
-    try{
-        Object.defineProperties(StructureLink.prototype, 
-            "canSend": {
-                get: function(){
-                    if(!!Memory.objects){
-                        var send = Memory.objects[this.id].canSend;
-                        if(send == undefined){
-                            return false;
-                        }
-                        return send;
+    Object.defineProperties(StructureLink.prototype, {
+        "canSend": {
+            get: function(){
+                if(!!Memory.objects){
+                    var send = Memory.objects[this.id].canSend;
+                    if(send == undefined){
+                        return false;
                     }
-                    Memory.objects = {};
-                    return false;
-                    
-                },
-                set: function(mode){
-                    if(mode == true || mode == false){
-                        Memory.objects[this.id].canSend = mode;
-                    }else{
-                        throw "canSend must be boolean";
-                    }
-                },
-                configurable: true,
-                enumerable: false
+                    return send;
+                }
+                Memory.objects = {};
+                return false;
+                
             },
-            "canRecieve": {
-                get: function(){
-                    if(!!Memory.objects){
-                        var recieve = Memory.objects[this.id].canRecieve;
-                        if(send == undefined){
-                            return false;
-                        }
-                        return recieve;
-                    }
-                    Memory.objects = {};
-                    return false;
-                    
-                },
-                set: function(mode){
-                    if(mode == true || mode == false){
-                        Memory.objects[this.id].canRecieve = mode;
-                    }else{
-                        throw "canRecieve must be boolean";
-                    }
-                },
-                configurable: true,
-                enumerable: false
+            set: function(mode){
+                if(mode == true || mode == false){
+                    Memory.objects[this.id].canSend = mode;
+                }else{
+                    throw "canSend must be boolean";
+                }
             },
-            "sendOnly": {
-                get: function(){
-                    return (!this.canRecieve) && this.canSend;
-                },
-                writeable: false
-            }
-        )
-    }catch(e){
-        console.log(e)
-    }
+            configurable: true,
+            enumerable: false
+        },
+        "canRecieve": {
+            get: function(){
+                if(!!Memory.objects){
+                    var recieve = Memory.objects[this.id].canRecieve;
+                    if(send == undefined){
+                        return false;
+                    }
+                    return recieve;
+                }
+                Memory.objects = {};
+                return false;
+                
+            },
+            set: function(mode){
+                if(mode == true || mode == false){
+                    Memory.objects[this.id].canRecieve = mode;
+                }else{
+                    throw "canRecieve must be boolean";
+                }
+            },
+            configurable: true,
+            enumerable: false
+        },
+        "sendOnly": {
+            get: function(){
+                return (!this.canRecieve) && this.canSend;
+            },
+            writeable: false
+        }
+    })
 }
