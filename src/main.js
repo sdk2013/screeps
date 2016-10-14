@@ -97,6 +97,8 @@ function initialize(){
     Creep.prototype.goto = function(targetName, arguments){
         if(targetName instanceof Flag){
             var targetPos = targetName;
+        }else if(Game.flags[targetName] != null){
+            var targetPos = Game.flags[targetName];
         }else{
             var targetPos = new RoomPosition(25, 25, targetName)
             
