@@ -158,6 +158,7 @@ var tasks = {
              */
             case: "waypointMove":
                 result = this.waypointMove(creep);
+                break;
             /*
              * Harvest energy in the target room for self (usually for remote ops)
              * Preferences nearer, unoccupied sources
