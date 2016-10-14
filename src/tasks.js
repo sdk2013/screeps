@@ -156,7 +156,7 @@ var tasks = {
              *  Attempts to move to each flag in sequence
              *
              */
-            case: "waypointMove":
+            case "waypointMove":
                 result = this.waypointMove(creep);
                 break;
             /*
