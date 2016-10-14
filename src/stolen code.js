@@ -360,3 +360,138 @@ class Log
 }
 
 module.exports = Log;
+
+
+      
+//******************************************
+//Warinternal's constants
+global.RAMPART_UPKEEP    = RAMPART_DECAY_AMOUNT / REPAIR_POWER / RAMPART_DECAY_TIME;
+global.ROAD_UPKEEP        = ROAD_DECAY_AMOUNT / REPAIR_POWER /  ROAD_DECAY_TIME;
+global.CONTAINER_UPKEEP = CONTAINER_DECAY / REPAIR_POWER / CONTAINER_DECAY_TIME_OWNED;
+global.REMOTE_CONTAINER_UPKEEP = CONTAINER_DECAY / REPAIR_POWER / CONTAINER_DECAY_TIME;
+
+//******************* Sparr's tostring
+    RoomPosition.prototype.toString = function (html=true) {
+    if (html) {
+      return `<a href="#!/room/${ this.roomName }">[room ${ this.roomName } pos ${ this.x },${ this.y }]</a>`;
+    }
+    return `[room ${ this.roomName } pos ${ this.x },${ this.y }]`;
+    };
+    
+//Klapauciu's Tower Roomobject prototype
+Object.defineProperty(Room.prototype, "towers", { 
+    get: function () {
+        if (this._towers === undefined) {
+            if ( this.controller && this.controller.my )
+                this._towers = this.find(FIND_MY_STRUCTURES, {filter:{structureType:STRUCTURE_TOWER}});
+            else
+                this._towers = [];
+        }
+        return this._towers;
+    }});
+    
+//Dissi's cpu calculator
+function reportDuration(theMethod, theCpu)
+{
+    if(Memory.diag === undefined)
+    {
+        Memory.diag = {};
+    }
+    if(Memory.diag[theMethod] === undefined)
+    {
+        Memory.diag[theMethod] = {amount: 0, cpu: 0, lasttick: 0, times: 0};
+    }
+    if(Memory.diag[theMethod].lasttick == Game.time)
+    {
+        Memory.diag[theMethod].cpu += theCpu;
+        Memory.diag[theMethod].times++;
+    }
+    else
+    {
+        Memory.diag[theMethod].times++;
+        Memory.diag[theMethod].amount++;
+        Memory.diag[theMethod].cpu += theCpu;
+        Memory.diag[theMethod].lasttick = Game.time;
+    }
+}
+
+// AND ALSO
+
+global.printDiagWithPrefix = function(thePrefix)
+{
+    var widthSize = 0;
+    for(var d in Memory.diag )
+    {
+        if(d.indexOf(thePrefix) == -1)
+        {
+            continue;
+        }
+        if(d.length > widthSize)
+        {
+            widthSize = d.length;
+        }
+    }
+    for(var d in Memory.diag )
+    {
+        if(d.indexOf(thePrefix) == -1)
+        {
+            continue;
+        }
+        var avgCpu = Memory.diag[d].cpu / Memory.diag[d].amount;
+        var avgTimesReported = Memory.diag[d].times / Memory.diag[d].amount;
+        var avgActionTime = avgCpu / avgTimesReported;
+        log('Method ['+pad(widthSize, d, ' ')+']\t'+avgCpu.toFixed(2) + '\tAvg times/tick reported: '+avgTimesReported.toFixed(2)+' ticks: ' + Memory.diag[d].amount + ' Avg/action: ' + avgActionTime.toFixed(2), "diagnose");
+    } 
+}
+
+/// AND ALSO
+
+
+function doGameLoopMethod(theMethod)
+{
+    var cpuNow = Game.cpu.getUsed();
+    try
+    {
+        theMethod();
+    }
+    catch (err)
+    {
+        if(!isNullOrUndefined(err))
+        {
+            Game.notify("Error in main loop logic: \n" + err + "\n On line " + err.lineNumber);
+            log("Error in main loop logic\n" +err + "\n" + err.stack, "error");
+        }
+    }
+    var cpuSpend = Game.cpu.getUsed() - cpuNow;
+    reportDuration("GL_" + theMethod.name, cpuSpend);
+
+}
+
+
+// warinternal's code for caching FIND_STRUCTURES
+Object.defineProperty(Room.prototype, 'structures', {
+    get: function() {
+        if(this == undefined || this.name == undefined)
+            return;
+        if(!this._structures || _.isEmpty(this._structures)) {
+            // console.log('generating on tick ' + this.name + ' at ' + Game.time);
+            this._structures = this.find(FIND_STRUCTURES);
+        }
+        return this._structures;
+    },
+    enumerable: false,
+    configurable: true
+});    
+
+Object.defineProperty(Room.prototype, 'structuresByType', {
+    get: function() {
+        if(this == undefined || this.name == undefined)
+            return;
+        if(!this._structuresByType || _.isEmpty(this._structuresByType)) {
+            this._structuresByType = _.groupBy(this.structures, 'structureType');
+        }
+        return this._structuresByType;
+    },
+    enumerable: false,
+    configurable: true
+});

@@ -36,8 +36,6 @@ module.exports = function(creeps){
 		}
 		role.setCreep(creep);
 		try { role.run(); } catch(e) {
-			var error;
-			Object.assign(error, e);
 		    output.log("command", 3, creep.name + " in room " + creep.room.name + " Encountered an error. ", error);
 		};
     }
