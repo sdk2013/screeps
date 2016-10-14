@@ -147,7 +147,10 @@ var tasks_combat = {
             }
         }
         if(target == null){
-            target = creep.pos.findClosestByRange(FIND_HOSTILE_STRUCTURES, {filter: (s => s.structureType != "controller" && s.structureType != "storage")}); 
+            target = creep.pos.findClosestByRange(FIND_HOSTILE_STRUCTURES, {
+                filter: (s => s.structureType != "controller" 
+                    && s.structureType != "storage"
+                    && s.structureType != "terminal")}); 
         }
         creep.moveTo(target);
         creep.dismantle(target);
