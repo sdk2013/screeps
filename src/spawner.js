@@ -74,7 +74,7 @@ module.exports = {
             if((spawn.spawning == null || spawn.memory.Queue.length == 0) && spawn.room.controller.my){   //Only run if spawner is not currently in use                                   <<< THIS SHITS BROKE NO IDEA WHY
                 for(var h in Memory.spawnQueue){
                     var i = Memory.spawnQueue[h];
-                    if(Game.rooms[i.targetRoomName] == spawn.room || i.targetRoomName == -1){ //If this is the right room
+                    if(Game.rooms[i.targetRoomName] == spawn.room || i.targetRoomName == -1 || i.targetRoomName == null){ //If this is the right room
                         var backup = _.cloneDeep(i);
                         output.log("spawner", 7, " Assigning: " + JSON.stringify(backup) + "to spawn: " + spawn.room.name + " : " + spawn.name);
                         spawn.memory.Queue.unshift(backup);
