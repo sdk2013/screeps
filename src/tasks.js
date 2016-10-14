@@ -187,7 +187,7 @@ var tasks = {
     },
     /*
      *  Moves via waypoints
-     *
+     *  @param {Creep} creep to run it
      */
     waypointMove: function(creep){
         if(creep.memory.currentStage == null){
