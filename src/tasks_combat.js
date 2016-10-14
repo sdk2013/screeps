@@ -59,6 +59,13 @@ var tasks_combat = {
     proximityAttack: function(creep, pos){
         var range = creep.memory.radius || 6;
         var targets = pos.findInRange(FIND_HOSTILE_CREEPS, range);
+        if(targets.length = 0){
+            targets = _(pos.findInRange(FIND_HOSTILE_STRUCTURES, range))
+                        .filter(s => s.structureType != "storage"
+                                && s.structureType != "terminal")
+                        .value();
+
+        }
         if(targets.length == 0){
             creep.moveTo(pos)
             return;
