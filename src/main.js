@@ -207,7 +207,7 @@ function initialize(){
             if(Memory.objects[this.id] == null){
                 Memory.objects[this.id] = {};
             }
-            return Memory.objects[this.id]
+            return (Memory.objects[this.id] = m);
         },
         configurable: true,
         enumerable: false
