@@ -69,7 +69,8 @@ var tasks_combat = {
             targets = _(pos.findInRange(FIND_HOSTILE_STRUCTURES, range))
                         .filter(s => s.structureType != "storage"
                                 && s.structureType != "terminal"
-                                && s.structureType != "extractor")
+                                && s.structureType != "extractor"
+                                && s.structureType != "controller")
                         .value();
 
         }
