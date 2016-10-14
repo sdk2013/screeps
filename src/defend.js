@@ -30,7 +30,17 @@ function tower(tower){
     var combat = require("combat");
     var targets = combat.IFFSafeTargetList(tower);
     if(targets.length > 0){
-        tower.attack(tower.pos.findClosestByRange(targets))
+        let target = _(targets)
+            .sortBy(c=>
+                -(
+                  c.getActiveBodyparts(HEAL)*20 +
+                  c.getActiveBodyparts(ATTACK)*10 +
+                  c.getActiveBodyparts(RANGED_ATTACK)*5 +
+                  c.getActiveBodyparts(WORK)*8 -
+                  c.getActiveBodyparts(TOUGH)
+                )
+            ).first();;
+        tower.attack(target)
         return;
     }
     targets = tower.room.find(FIND_MY_CREEPS, {
