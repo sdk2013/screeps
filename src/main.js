@@ -215,9 +215,6 @@ function initialize(){
     Object.defineProperties(StructureLink.prototype, 
         "canSend": {
             get: function(){
-                if(!this instanceof StructureLink){
-                    throw "Cannot get Send value of non-link object"
-                }
                 if(!!Memory.objects){
                     var send = Memory.objects[this.id].canSend;
                     if(send == undefined){
@@ -230,9 +227,6 @@ function initialize(){
                 
             },
             set: function(mode){
-                if(!this instanceof StructureLink){
-                    throw "Cannot set Send value for nonlink object"
-                }
                 if(mode == true || mode == false){
                     Memory.objects[this.id].canSend = mode;
                 }else{
@@ -244,9 +238,6 @@ function initialize(){
         },
         "canRecieve": {
             get: function(){
-                if(!this instanceof StructureLink){
-                    throw "Cannot get Recieve value of non-link object"
-                }
                 if(!!Memory.objects){
                     var recieve = Memory.objects[this.id].canRecieve;
                     if(send == undefined){
@@ -259,9 +250,6 @@ function initialize(){
                 
             },
             set: function(mode){
-                if(!this instanceof StructureLink){
-                    throw "Cannot set Recieve value for nonlink object"
-                }
                 if(mode == true || mode == false){
                     Memory.objects[this.id].canRecieve = mode;
                 }else{
