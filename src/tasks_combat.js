@@ -57,6 +57,9 @@ var tasks_combat = {
      *  Radius can be set in memory, defaults to 6;
      */
     proximityAttack: function(creep, pos){
+        if(creep.hits < creep.hitsMax){
+            creep.heal(creep);
+        }
         var range = creep.memory.radius || 6;
         var targets = pos.findInRange(FIND_HOSTILE_CREEPS, range);
         if(targets.length = 0){
