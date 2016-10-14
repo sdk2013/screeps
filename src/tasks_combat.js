@@ -65,7 +65,7 @@ var tasks_combat = {
         }
         combat.fireEverything.call(creep, target[0]);
         return;
-    }
+    },
     /*
      *  Dismantles all the walls in a given room
      *  @param {Creep} creep - dismantler
