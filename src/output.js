@@ -20,7 +20,8 @@ var colorCodes = {  overlord:"blue",
                     produce:"green",
                     main: "white",
                     unknown: "white",
-                    utilities: "white"   };
+                    utilities: "white",
+                    time: "cyan"   };
 var levelCodes = {  0:"EMERGENCY",
                     1:"ALERT",
                     2:"CRITICAL",
