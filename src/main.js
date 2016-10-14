@@ -51,10 +51,10 @@ module.exports.loop = function () {
     Memory.stats.cpu.used = Game.cpu.getUsed();
 }
 function chumpCheck(){
-    if(Memory.chumpCount == null || Game.time % 59 != 0){
+    if(Memory.chumpCount == null || Game.time % 15 != 0){
         return;
     }
-    Empire.buildChump(Memory.chumpTargetRoom);
+    Empire.buildChump(Memory.chumpWaypoints);
     Memory.chumpCount--;
     if(Memory.chumpCount < 1){
         delete Memory.chumpCount;
@@ -87,8 +87,16 @@ function initialize(){
                 this.repair(road);
             }
         }
+        var path = 5
         if(this.memory.reusePath != null){
-            this.moveTo(target, {reusePath: this.memory.reusePath})
+            var path = this.memory.reusePath;
+        }
+        var ignore = false;
+        if(this.memory.ignoreCreeps != null){
+            var ignoreCreeps = this.memory.ignoreCreeps;
+        }
+        if(this.memory.reusePath != null){
+            this.moveTo(target, {reusePath: path, ignoreCreeps: ignore})
             return;
         }
         this.moveTo(target, arguments)

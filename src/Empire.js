@@ -82,16 +82,16 @@ module.exports = {
      *  Builds a little guy to burn tower energy
      *  @param {String} targetRoomName
      */
-    buildChump: function(targetRoomName){
+    buildChump: function(chumpWaypoints){
         var u = {};
         u.body = [MOVE]
-        u.memoryObject = {role:"basic", reusePath: 50, gotoRoomName: targetRoomName, task:"goto"};
+        u.memoryObject = {role:"basic", reusePath: 50, ignoreCreeps: true, waypoints: chumpWaypoints, task:"waypointMove"};
         u.targetRoomName = -1;
 
         Memory.spawnQueue.unshift(u) 
     },
-    queueChumps: function(number, room){
-        Memory.chumpTargetRoom = room;
+    queueChumps: function(number, waypoints){
+        Memory.chumpWaypoints = waypoints;
         Memory.chumpCount = number;
         return "For the swarm.";
     }

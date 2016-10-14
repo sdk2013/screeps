@@ -153,6 +153,12 @@ var tasks = {
                 result = this.gotoRoom(creep, gotoRoomName);
                 break;
             /*
+             *  Attempts to move to each flag in sequence
+             *
+             */
+            case: "waypointMove":
+                result = this.waypointMove(creep);
+            /*
              * Harvest energy in the target room for self (usually for remote ops)
              * Preferences nearer, unoccupied sources
              * Defualts to current room
@@ -178,6 +184,23 @@ var tasks = {
         }
         return result;
     },
+    /*
+     *
+     *
+     */
+    waypointMove: function(creep){
+        if(creep.memory.currentStage == null){
+            creep.memory.currentStage == 0;
+        }
+        var target = Game.flags[creep.memory.waypoints[creep.memory.currentStage]]
+        creep.moveTo(target);
+        if(creep.pos == target.pos && currentStage < creep.memory.waypoints.length - 1){
+            creep.memory.currentStage++;
+        }
+        if(creep.pos == target.pos && currentStage == creep.memory.waypoints.length - 1){
+            return "ERR_NO_TARGETS"
+        }
+    }
     /*
      *  Goes to room
      *  @param {Creep} creep
