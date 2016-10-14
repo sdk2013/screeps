@@ -198,7 +198,7 @@ var tasks = {
         }
         var target = Game.flags[Memory.chumpWaypoints[creep.memory.currentStage]]
         creep.moveTo(target);
-        if(creep.pos == target.pos && currentStage < Memory.chumpWaypoints.length - 1){
+        if(creep.pos == target.pos){
             creep.memory.currentStage++;
         }
         if(creep.pos == target.pos && currentStage == Memory.chumpWaypoints.length - 1){
