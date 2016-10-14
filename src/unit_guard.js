@@ -14,7 +14,7 @@ var guard = {
 	    }
 	    tasks.runTasks(creep);
 
-        if(creep.ticksToLive == 200){
+        if(creep.ticksToLive == 200 && creep.memory.combatTask == "watch"){
             var spawner = require('spawner')
             var creep = this.creep;
             spawner.addToQueue("guard", {role:"guard", watchRoomName: creep.memory.watchRoomName}, creep.memory.spawnRoom, false);
