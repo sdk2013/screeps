@@ -185,7 +185,7 @@ var tasks = {
         return result;
     },
     /*
-     *
+     *  Moves via waypoints
      *
      */
     waypointMove: function(creep){
