@@ -21,6 +21,9 @@ var collector = {
         if(total == 0 || creep.memory.task == null){
             creep.memory.task = "gatherEnergy";
         }
+        if(creep.memory.mode == "drain" && (total == 0 || creep.memory.task == null)){
+            creep.memory.task = "fetchEnergy"
+        }
         if(total == creep.carryCapacity && (creep.memory.task == "gatherEnergy" || creep.memory.task == "fetchEnergy")){
             delete creep.memory.potentialEnergySource;
             creep.memory.task = "fill";
