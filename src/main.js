@@ -96,7 +96,7 @@ function initialize(){
     }
     Creep.prototype.goto = function(targetName, arguments){
         if(Game.rooms[targetName]){
-            var targetPos = new RoomPosition(25, 25, targetRoomName)
+            var targetPos = new RoomPosition(25, 25, targetName)
         }else{
             var targetPos = Game.flags[targetName].pos
         }
