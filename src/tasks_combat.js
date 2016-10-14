@@ -60,7 +60,7 @@ var tasks_combat = {
         if(creep.hits < creep.hitsMax){
             creep.heal(creep);
         }
-        var range = 3;
+        var range = 6;
         if(creep.memory.range != null){
             range = creep.memory.range;
         }
@@ -78,7 +78,7 @@ var tasks_combat = {
             creep.moveTo(pos)
             return;
         }
-        if(range > 3){
+        if(range >= 3){
             creep.moveTo(targets[0]);
         }
         combat.fireEverything.call(creep, targets[0]);
