@@ -212,33 +212,70 @@ function initialize(){
         configurable: true,
         enumerable: false
     })
-    Object.defineProperty(StructureLink.prototype, "canSend", {
-        get: function(){
-            if(!this instanceof StructureLink){
-                throw "Cannot get send value of non-link object"
-            }
-            if(!!Memory.objects){
-                var send = Memory.objects[this.id].canSend;
-                if(send == undefined){
-                    return false;
+    Object.defineProperties(StructureLink.prototype, 
+        "canSend": {
+            get: function(){
+                if(!this instanceof StructureLink){
+                    throw "Cannot get Send value of non-link object"
                 }
-                return send;
-            }
-            Memory.objects = {};
-            return false;
-            
+                if(!!Memory.objects){
+                    var send = Memory.objects[this.id].canSend;
+                    if(send == undefined){
+                        return false;
+                    }
+                    return send;
+                }
+                Memory.objects = {};
+                return false;
+                
+            },
+            set: function(mode){
+                if(!this instanceof StructureLink){
+                    throw "Cannot set Send value for nonlink object"
+                }
+                if(mode == true || mode == false){
+                    Memory.objects[this.id].canSend = mode;
+                }else{
+                    throw "canSend must be boolean";
+                }
+            },
+            configurable: true,
+            enumerable: false
         },
-        set: function(mode){
-            if(!this instanceof StructureLink){
-                throw "Cannot set Send value for nonlink object"
-            }
-            if(mode == true || mode == false){
-                Memory.objects[this.id].canSend = mode;
-            }else{
-                throw "canSend must be boolean";
-            }
+        "canRecieve": {
+            get: function(){
+                if(!this instanceof StructureLink){
+                    throw "Cannot get Recieve value of non-link object"
+                }
+                if(!!Memory.objects){
+                    var recieve = Memory.objects[this.id].canRecieve;
+                    if(send == undefined){
+                        return false;
+                    }
+                    return recieve;
+                }
+                Memory.objects = {};
+                return false;
+                
+            },
+            set: function(mode){
+                if(!this instanceof StructureLink){
+                    throw "Cannot set Recieve value for nonlink object"
+                }
+                if(mode == true || mode == false){
+                    Memory.objects[this.id].canRecieve = mode;
+                }else{
+                    throw "canRecieve must be boolean";
+                }
+            },
+            configurable: true,
+            enumerable: false
         },
-        configurable: true,
-        enumerable: false
-    })
+        "sendOnly": {
+            get: function(){
+                return (!this.canRecieve) && this.canSend;
+            },
+            writeable: false
+        }
+    )
 }
