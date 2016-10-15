@@ -89,7 +89,7 @@ var scv = {
         }else if(e < 30){                                                      // 1300 max energy
             unitWeight = [["work", 5],["carry", 9],["move",7]];     // cost: 1300
         }else{                              //  2300 avail min
-            unitWeight = [["work", 10],["carry", 10],["move", 10];     // cost: 2000
+            unitWeight = [["work", 10],["carry", 10],["move", 10]];     // cost: 2000
         }
         return unitWeight;
     }
