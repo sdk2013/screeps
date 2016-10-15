@@ -32,8 +32,7 @@ var tasks_combat = {
                 var result = this.massWallDismantle(creep, mWDRoomName)
                 break;
             case "proximityAttack":
-                var pos = Game.flags[creep.memory.flag].pos || creep.pos;
-                var result = this.proximityAttack(creep, pos);
+                var result = this.proximityAttack(creep);
                 break;
             case "dumbDismantle":
                 var result = this.dumbDismantleTargetObject(creep);
@@ -58,12 +57,11 @@ var tasks_combat = {
      */
     proximityAttack: function(creep, pos){
         creep.toSay("PROX");
-        if(creep.room != pos.room){
-            console.log(pos.room)
-            console.log(creep.room)
-            creep.moveTo(pos)
+        if(!!Game.flags[creep.memory.flag] && creep.room != Game.flags[creep.memory.flag].room){
+            creep.moveTo(Game.flags[creep.memory.flag]);
             return;
         }
+        var pos = Game.flags[creep.memory.flag].pos || creep.pos;
         if(creep.hits < creep.hitsMax){
             creep.heal(creep);
         }
