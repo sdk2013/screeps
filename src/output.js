@@ -60,10 +60,8 @@ var output = {
         var levelhtml = "<font color='"+ levelColors[level] + "'>" + levelCodes[level] + "</font>";
         
         var errorstring;
-        
         if(e != null){
-            console.log("E IS VALID")
-            switch(debugLevel){
+            switch(level){
                 case 0:
                 case 1:
                 case 2:
@@ -74,7 +72,7 @@ var output = {
                     errorstring = e.message;
                     break;
                 default:
-                    errorstring = e.message;
+                    errorstring = "";
             }
         }else{
             errorstring = "";
