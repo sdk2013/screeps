@@ -68,8 +68,6 @@ module.exports = {
                             return 70;
                         case "extension":
                             return 70;
-                        case "road":
-                            return 60;
                         case "wall":
                         case "rampart":
                             return 30;
