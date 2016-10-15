@@ -22,7 +22,7 @@ var collector = {
         if(total == 0 || creep.memory.task == null){
             creep.memory.task = "gatherEnergy";
         }
-        if(creep.memory.mode == "drain" && (total == 0 || creep.memory.task == null)){
+        if((creep.memory.task == "supply" || creep.memory.mode == "drain") && (total == 0 || creep.memory.task == null)){
             creep.memory.task = "fetchEnergy"
         }
         if(total == creep.carryCapacity && (creep.memory.task == "gatherEnergy" || creep.memory.task == "fetchEnergy")){
