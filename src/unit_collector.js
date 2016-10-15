@@ -48,25 +48,25 @@ var collector = {
 
 	/**
      * Calculates the composition of a creep based on extensions in a room
-     * @param: {integer} extensionCount - Number of extensions availible to spawning spawn
+     * @param: {integer} e - Number of extensions availible to spawning spawn
      * returns: [[2darray]] of PARTS and NUMBER OF PARTS in form [[PART, {integer}],[PART, {integer}]]
      */
     partWeightsExt: function(e){
         var unitWeight;
         if(extensionCount <= 5){                                     // < 300 max energy avail
             unitWeight = [["carry", 3],["move",3]];     // cost: 300
-        }else if(extensionCount <= 10){                              // < 550 max energy avail
+        }else if(e <= 10){                              // < 550 max energy avail
             unitWeight = [["carry", 5],["move",5]];     // cost: 500 
-        }else if(extensionCount <= 20){                              // < 800 max energy avail
+        }else if(e <= 20){                              // < 800 max energy avail
             unitWeight = [["carry", 6],["move",6]];     // cost: 600
         }else{
             unitWeight = [["work", 1], ["carry", (e/2)-1], ["move", e/2]];
         }
 
         /*  OLD CODE KEPT IN CASE
-        }else if(extensionCount <=30){                                                      // 1300 max energy
+        }else if(e <=30){                                                      // 1300 max energy
             var unitWeight = [["work", 1], ["carry", 10],["move",11]];     // cost: 1150
-        }else if(extensionCount < 40){                             // 1800 energy avail
+        }else if(e < 40){                             // 1800 energy avail
             var unitWeight = [["work", 1],["carry", 15],["move",16]];   //1650 cost
         }else{
             var unitWeight = [["work", 1],["carry", 15],["move",16]];   //1650 cost
