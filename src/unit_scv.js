@@ -47,12 +47,12 @@ var scv = {
                 creep.memory.task = creep.memory.oldTask;
             }
         }else{
-            if(creep.memory.task == null || (creep.totalEnergy() == 0 && creep.memory.task != "gather") ){
+            if(creep.memory.task == null || (creep.totalEnergy() == 0 && creep.memory.task != "gather" && creep.memory.task != "harvest") ){
                 creep.memory.task = "gatherEnergy";
             }
-            if(creep.totalEnergy() == creep.carryCapacity && creep.memory.task == "harvest"){
+            if(creep.totalEnergy() == creep.carryCapacity && (creep.memory.task == "harvest" || creep.memory.task == "gatherEnergy")){
                 delete creep.memory.sourceid;
-                creep.memory.task = "construction"
+                creep.memory.task = "construction";
             }
         }
         var result = tasks.runTasks(creep);
