@@ -52,12 +52,18 @@ var collector = {
      * returns: [[2darray]] of PARTS and NUMBER OF PARTS in form [[PART, {integer}],[PART, {integer}]]
      */
     partWeightsExt: function(extensionCount){
+        var unitWeight;
         if(extensionCount <= 5){                                     // < 300 max energy avail
-            var unitWeight = [["carry", 3],["move",3]];     // cost: 300
+            unitWeight = [["carry", 3],["move",3]];     // cost: 300
         }else if(extensionCount <= 10){                              // < 550 max energy avail
-            var unitWeight = [["carry", 5],["move",5]];     // cost: 500 
+            unitWeight = [["carry", 5],["move",5]];     // cost: 500 
         }else if(extensionCount <= 20){                              // < 800 max energy avail
-            var unitWeight = [["carry", 6],["move",6]];     // cost: 600
+            unitWeight = [["carry", 6],["move",6]];     // cost: 600
+        }else{
+            unitWeight = [["work", 1], ["carry", (e/2)-1], ["move", e/2]];
+        }
+
+        /*  OLD CODE KEPT IN CASE
         }else if(extensionCount <=30){                                                      // 1300 max energy
             var unitWeight = [["work", 1], ["carry", 10],["move",11]];     // cost: 1150
         }else if(extensionCount < 40){                             // 1800 energy avail
@@ -65,6 +71,7 @@ var collector = {
         }else{
             var unitWeight = [["work", 1],["carry", 15],["move",16]];   //1650 cost
         }
+        */
         return unitWeight;
     }
 }
