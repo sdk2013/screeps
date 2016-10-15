@@ -28,8 +28,15 @@ module.exports.loop = function () {
     //CHUMP BLOCKERS
     chumpCheck();
 
-
-    //GARBAGE COLLECTION
+    if(Game.time % 777 == 0){
+        gc();
+    }
+    
+    var stats = require("collect_stats");
+    stats.run();
+    Memory.stats.cpu.used = Game.cpu.getUsed();
+}
+function gc(){
     try{
         for(var i in Memory.creeps) {
             if(!Game.creeps[i]) {
@@ -46,9 +53,6 @@ module.exports.loop = function () {
     }catch(e){
         output.log("main", 4, "Garbage Collection Failure: ", e);
     }
-    var stats = require("collect_stats");
-    stats.run();
-    Memory.stats.cpu.used = Game.cpu.getUsed();
 }
 function chumpCheck(){
     if(Memory.chumpCount == null || Game.time % 15 != 0){
