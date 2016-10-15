@@ -28,7 +28,7 @@ var scv = {
         var spawner = require('spawner')
         var creep = this.creep
         spawner.addToQueue("scv", {role:"scv", oldTask: creep.memory.oldTask, task: creep.memory.task, mode: creep.memory.mode, 
-            constructRoomName: creep.memory.constructRoomName, harvestRoomName: creep.memory.harvestRoomName}, creep.memory.spawnRoom, true)
+            constructRoomName: creep.memory.constructRoomName, harvestRoomName: creep.memory.harvestRoomName, energyRoomName: creep.memory.energyRoomName}, creep.memory.spawnRoom, true)
     },
     behavior: function(){
         var creep = this.creep;
