@@ -13,7 +13,7 @@ var collector = {
         var creep = this.creep;
         var spawner = require('spawner');
         spawner.addToQueue("collector", {role:"collector",gatherRoomName: creep.memory.gatherRoomName, mode: creep.memory.mode,
-                                        energyRoomName: creep.memory.energyRoomName}, creep.memory.spawnRoom, false)
+                                        energyRoomName: creep.memory.energyRoomName, fillRoomName: creep.memory.fillRoomName}, creep.memory.spawnRoom, false)
         delete creep.memory;
     },
 	behavior: function(){
