@@ -62,7 +62,7 @@ var scv = {
             }
         }else{
             if(result == "ERR_NO_TARGETS" && creep.memory.task == "construction"){
-                creep.memory.task = "upgrade"
+                creep.memory.task = "upgrade";
             }
         }
     },
@@ -72,21 +72,24 @@ var scv = {
     },
     /**
      * Calculates the composition of a creep based on extensions in a room
-     * @param: {integer} extensionCount - Number of extensions availible to spawning spawn
+     * @param: {integer} e - Number of extensions availible to spawning spawn
      * returns: [[2darray]] of PARTS and NUMBER OF PARTS in form [[PART, {integer}],[PART, {integer}]]
      */
-    partWeightsExt: function(extensionCount){
-        if(extensionCount <= 5){                                     // < 300 max energy avail
-            var unitWeight = [["work", 1],["carry", 2],["move",2]];     // cost: 300
-        }else if(extensionCount <= 10){                              // < 550 max energy avail
-            var unitWeight = [["work", 3],["carry", 2],["move",3]];     // cost: 550 
-        }else if(extensionCount <= 20){                              // < 800 max energy avail
-            var unitWeight = [["work", 3],["carry", 3],["move",5]];     // cost: 700
-        }else{                                                      // 1300 max energy
-            var unitWeight = [["work", 4],["carry", 4],["move",8]];     // cost: 1000
+    partWeightsExt: function(e){
+        var unitWeight;
+        if(e < 5){                                     // < 300 max energy avail
+            unitWeight = [["work", 1],["carry", 2],["move",2]];     // cost: 300
+        }else if(e < 10){                              // < 550 max energy avail
+            unitWeight = [["work", 2],["carry", 3],["move",3]];     // cost: 500 
+        }else if(e < 20){                              // < 800 max energy avail
+            unitWeight = [["work", 3],["carry", 5],["move",4]];     // cost: 750
+        }else if(e < 30){                                                      // 1300 max energy
+            unitWeight = [["work", 5],["carry", 9],["move",7]];     // cost: 1300
+        }else{
+            unitWeight = [["work", Math.ceil(e/5)],["carry", Math.floor(e/2.35)],["move", Math.ceil(e/3)]];     // cost: Variable
         }
         return unitWeight;
     }
-}
+};
 
-module.exports = scv
+module.exports = scv;
