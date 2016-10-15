@@ -14,7 +14,7 @@ module.exports = function(structures){
             try{
                 tower(s);
             }catch(e){
-                output.log("defend", 3, "Tower: " + tower.room.name + tower.id, e)
+                output.log("defend", 3, "Tower: " + tower.id, e)
             }
         }
         if(s instanceof StructureSpawn){
