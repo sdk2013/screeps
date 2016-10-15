@@ -47,8 +47,8 @@ var scv = {
                 creep.memory.task = creep.memory.oldTask;
             }
         }else{
-            if(creep.memory.task == null || (creep.totalEnergy() == 0 && creep.memory.task != "harvest") ){
-                creep.memory.task = "harvest";
+            if(creep.memory.task == null || (creep.totalEnergy() == 0 && creep.memory.task != "gather") ){
+                creep.memory.task = "gatherEnergy";
             }
             if(creep.totalEnergy() == creep.carryCapacity && creep.memory.task == "harvest"){
                 delete creep.memory.sourceid;
@@ -63,6 +63,9 @@ var scv = {
         }else{
             if(result == "ERR_NO_TARGETS" && creep.memory.task == "construction"){
                 creep.memory.task = "upgrade";
+            }
+            if(result == "ERR_NO_TARGETS" && creep.memory.task == "gatherEnergy"){
+                creep.memory.task = "harvest";
             }
         }
     },
