@@ -7,6 +7,7 @@
  * mod.thing == 'a thing'; // true
  */
 var output = require("output");
+var _ = require("lodash");
 module.exports = function(structures){
     for(var id in structures){
         var s = Game.getObjectById(id)
@@ -29,6 +30,7 @@ module.exports = function(structures){
 function tower(tower){
     var combat = require("combat");
     var targets = combat.IFFSafeTargetList(tower);
+    var _ = require("lodash");
     if(targets.length > 0){
         let target = _(targets)
             .sortBy(c=>

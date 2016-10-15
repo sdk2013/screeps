@@ -29,6 +29,12 @@ var collector = {
             delete creep.memory.potentialEnergySource;
             creep.memory.task = "fill";
         }
+        if(total == creep.carryCapacity && creep.memory.mode == "drain"){
+            var target = Game.rooms[creep.memory.spawnRoom].storage;
+            if(creep.transfer(target, energy) == ERR_NOT_IN_RANGE){
+                creep.moveTo(target);
+            }
+        }
         var result = tasks.runTasks(creep);
         if(result == "ERR_NO_TARGETS" && creep.memory.task == "fill"){
             creep.memory.fillRoomName = creep.memory.spawnRoom;
