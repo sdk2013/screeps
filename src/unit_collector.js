@@ -60,7 +60,7 @@ var collector = {
         }else if(e <= 20){                              // < 800 max energy avail
             unitWeight = [["carry", 6],["move",6]];     // cost: 600
         }else{
-            unitWeight = [["work", 1], ["carry", (e/2)-1], ["move", e/2]];
+            unitWeight = [["work", 1], ["carry", Math.floor((e/2)-1)], ["move", Math.floor(e/2)]];
         }
 
         /*  OLD CODE KEPT IN CASE
