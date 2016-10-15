@@ -109,7 +109,6 @@ function initialize(){
             var targetPos = Game.flags[targetName];
         }else{
             var targetPos = new RoomPosition(25, 25, targetName)
-            
         }
         this.repairMoveTo(targetPos, arguments);
     }
