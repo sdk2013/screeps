@@ -57,7 +57,10 @@ var tasks_combat = {
      *  Radius can be set in memory, defaults to 6;
      */
     proximityAttack: function(creep, pos){
+        creep.toSay("PROX");
         if(creep.room != pos.room){
+            console.log(pos.room)
+            console.log(creep.room)
             creep.moveTo(pos)
             return;
         }
