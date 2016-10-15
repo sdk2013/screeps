@@ -88,8 +88,8 @@ var scv = {
             unitWeight = [["work", 3],["carry", 5],["move",4]];     // cost: 750
         }else if(e < 30){                                                      // 1300 max energy
             unitWeight = [["work", 5],["carry", 9],["move",7]];     // cost: 1300
-        }else{
-            unitWeight = [["work", Math.floor(e/5)],["carry", Math.floor(e/2.35)],["move", Math.ceil(e/3)]];     // cost: Variable
+        }else{                              //  2300 avail min
+            unitWeight = [["work", 10],["carry", 10],["move", 10];     // cost: 2000
         }
         return unitWeight;
     }
