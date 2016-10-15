@@ -51,7 +51,7 @@ var collector = {
      * @param: {integer} extensionCount - Number of extensions availible to spawning spawn
      * returns: [[2darray]] of PARTS and NUMBER OF PARTS in form [[PART, {integer}],[PART, {integer}]]
      */
-    partWeightsExt: function(extensionCount){
+    partWeightsExt: function(e){
         var unitWeight;
         if(extensionCount <= 5){                                     // < 300 max energy avail
             unitWeight = [["carry", 3],["move",3]];     // cost: 300
