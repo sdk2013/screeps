@@ -31,7 +31,7 @@ var collector = {
         }
         if(total == creep.carryCapacity && creep.memory.mode == "drain"){
             var target = Game.rooms[creep.memory.spawnRoom].storage;
-            if(creep.transfer(target, energy) == ERR_NOT_IN_RANGE){
+            if(creep.transfer(target, "energy") == ERR_NOT_IN_RANGE){
                 creep.moveTo(target);
             }
         }
