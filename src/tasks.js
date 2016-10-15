@@ -121,8 +121,12 @@ var tasks = {
              * RETURN Errorcode
              */
             case "fill":
-                var fillRoomName = creep.memory.fillRoomName;
-                if(fillRoomName == null) {fillRoomName = creep.room.name;}
+                var fillRoomName;
+                if(creep.memory.fillRoomName != null){
+                    fillRoomName = creep.memory.fillRoomName;
+                }else{
+                    fillRoomName = creep.room.name;
+                }
                 result =  this.fillTargetRoom(creep, fillRoomName);
                 break;
             /*
