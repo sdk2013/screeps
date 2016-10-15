@@ -57,6 +57,10 @@ var tasks_combat = {
      *  Radius can be set in memory, defaults to 6;
      */
     proximityAttack: function(creep, pos){
+        if(creep.room != pos.room){
+            creep.moveTo(pos)
+            return;
+        }
         if(creep.hits < creep.hitsMax){
             creep.heal(creep);
         }

@@ -27,8 +27,7 @@ var overlord = {
 	calculateRoomStates: function(roomName){
 		var errorstring = "Room " + roomName + "Encountered an error initializing memory";
         try{
-            var room = Game.rooms[roomName]
-            if()
+            var room = Game.rooms[roomName];
             // 	Initialize room in memory if it doesn't exist
             this.initOverlordRoomMemory(roomName);
             // 	Need to have distances to other rooms for proximity based behavior
@@ -52,7 +51,7 @@ var overlord = {
 		var oRDists = [];
 		for(var name in Memory.overlord.coreRooms){
 			var distance = Game.map.getRoomLinearDistance(roomName, name);
-			oRDists.push({name:name, distance:distance})
+			oRDists.push({name:name, distance:distance});
 		}
 		Memory.overlord[roomName].oRDists = oRDists;
 		return oRDists;
@@ -108,6 +107,12 @@ var overlord = {
      *					1500 ticks
      *		Behavior: 	Strike Teams deployed based on hostile threatscore
      *					Remote mining in those rooms halted
+     *
+     *	STANDBY:
+     *		Status: 	Room conducting normal operations
+     *		Trigger: 	Default state
+     *		Timeout: 	None
+     *		Behavior: 	Determined by economic state
 	 */
 	determineStance: function(roomName, rooms){
 		var old = Memory.overlord[roomName];		//	Short for OverlordData
@@ -115,18 +120,15 @@ var overlord = {
 	    var room = Game.rooms[roomName];
 	    //  Nuke check is most important, so it's first
 	    if(room.find(FIND_NUKES).length > 0){
-	        old.setStance("NUKE")
-	        return;
+	        return old.setStance("NUKE");
 	    }
 	    //  Check if anyone else is in NUKE stance
-        if(nearbyRoomsInRangeInStance(roomName, old.nukeProxDist, "NUKE")){
-
-                old.setStance("NUKE_THREAT", true);
-                return;
-            }
+	    var nukeProx = nearbyRoomsInRangeInStance(roomName, old.nukeProxDist, "NUKE");
+        if(!!nukeProx){
+            return old.setStance("NUKE_THREAT", nukeProx);
         }
 	    //  If I'm still in NUKE_THREAT, check for timeout
-	    if(old.stance = "NUKE_THREAT"){
+	    if(old.stance == "NUKE_THREAT"){
 	        if(Game.time >= (old.stanceTime + nukeThreatTimeOut)){
 	            old.setStance("NO_STANCE");
 	        }else{
@@ -135,27 +137,32 @@ var overlord = {
 	    }
 	    //  If I'm under attack, go into UNDER_ASSAULT stance
 	    if(roomIsUnderAttack(roomName)){
-	        old.setStance("UNDER_ASSAULT");
-            return old.stanceTime = Game.time;
+	        return old.setStance("UNDER_ASSAULT");
         }
         //	If I'm not IMMEDITALY under attack, check the UNDER_ASSAULT timeout
 	    if(old.stance == "UNDER_ASSAULT"){
-            if(Game.time >= (old.stanceTime + underAssaultTimeOut))){
+            if(Game.time >= (old.stanceTime + underAssaultTimeOut)){
                 return old.setStance("ALERT");
+            }else{
+            	return;
             }
 	    }
 	    //	TODO:
 	    //	If I'm under attack, determine the direction of the assault (Possibly under the mode specific functions?)
 	    //	If I'm not under attack, check if my neighbors are-
-	    if(nearbyRoomsInRangeInStance(roomName, old.alertProxDist, "UNDER_ASSAULT")){
-	    	return old.setStance("ALERT", true);
+	    var alertProx = nearbyRoomsInRangeInStance(roomName, old.alertProxDist, "UNDER_ASSAULT");
+	    if(!!alertProx){
+	    	return old.setStance("ALERT", alertProx);
+	    }
+	    if(supportRoomsAreInStance(roomName, "SEIGE")){
+	    	return old.stanceTime("SEIGE");
 	    }
 	    //	If I'm in siege mode, check to see if I'm still being besieged
 	    //	If I'm in standby and there's no need to update, just return, 
 	    if(old.stance == "STANDBY"){
 	    	return;
 	    }
-	    return old.setStance("STANDBY")
+	    return old.setStance("STANDBY");
 	},
 
 	/*
@@ -169,11 +176,11 @@ var overlord = {
             	//	High Level stuff
 	            stance: null,       	//  Determines defensive behavior
 	            stanceTime: 0,      	//  When room entered stance
-	            stanceProx: false,		//	Whether current stance was triggered by proximity behavior
+	            stanceProx: false,		//	Whether current stance was triggered by proximity behavior (otherwise the name of the trigger room)
 	            mode: null,         	//  Economic mode
 	            modeTime: 0,			//	When room entered mode
 	            RCL: 0,					// 	Level of room controller
-	            wallPerc: 0				//	Ideal Percentage of wall capacity for room
+	            wallPerc: 0,			//	Ideal Percentage of wall capacity for room
 				remoteRooms: [],   		//  List of remote mining room names
 				oRDists: [],			// 	Array of other HQ rooms and the distances to them
 				dBuff: 0,				//	Desired energy buffer for the room
@@ -206,12 +213,12 @@ var overlord = {
 
 	            //	Overlord Behavior Defaults
 	            nukeThreatTimeout: 10000,     		//	Timeout in ticks for nuke threat
-	            nukeProxDist: 5
+	            nukeProxDist: 5,
 	    		underAssaultTimeout: 100,			//	Timeout in ticks for room to no longer be under assault
 	    		alertTimeout: 1500,					//	Timeout in ticks for a room to stand down from alert
 	    		alertProxDist: 5,					//	Default linear range in which an assault will trigger that room's alert
 	    		siegeTimeout: 1000 					//	Timeout for 
-	        }
+	        };
 	        Memory.overlord[roomName] = roomData;
         }
     },
@@ -223,10 +230,10 @@ var overlord = {
 		
 	}
 
-}
+};
 module.exports = overlord;
 /*
- *	Initializes setters for 
+ *	Initializes setters for the overlord data object's stances
  */
 function initialize(overlordDataObject){
 	overlordDataObject.setStance = function(stance, proxTriggered = false){
@@ -236,9 +243,9 @@ function initialize(overlordDataObject){
 			old.stanceProx = proxTriggered;
 			return stance;
 		}else{
-			throw "INVALID STANCE";
+			throw new Error("INVALID STANCE");
 		}
-	}
+	};
 }
 /*
  *	Determines if any self-HQs within the given range are in a certain stance
@@ -249,11 +256,11 @@ function initialize(overlordDataObject){
 function nearbyRoomsInRangeInStance(roomName, range, stance){
 	var old = Memory.overlord[roomName];
 	if(!validStances.includes(stance)){
-		throw "INVALID STANCE"
+		throw new Error("INVALID STANCE");
 	}
 	for(var i in old.oRDists){
 		if(i.distance <= range && roomIsInStance(i.name, stance)){
-			return true;
+			return i.name;
 		}
 	}
 	return false;
@@ -263,7 +270,7 @@ function nearbyRoomsInRangeInStance(roomName, range, stance){
  *	@param {String} roomName
  *	@param {String} stance
  */
-function supportRoomIsInStance(roomName, stance){
+function supportRoomsAreInStance(roomName, stance){
 	var old = Memory.overlord[roomName];
 	for(var i in old.remoteRooms){
 		if(roomIsInStance(i.name, stance)){
@@ -299,8 +306,8 @@ function roomIsUnderAttack(roomName){
 	var nearbyRooms = Game.map.describeExits(roomName);
 	for (const key of Object.keys(nearbyRooms)) {
 	    const nearbyRoom = obj[key];
-	    if((!nearbyRoom.controller || nearbyRoom.controller.my)
-	    	&& (combat.IFFSafeTargetList(nearbyRoom, false).length != 0)) {
+	    if((!nearbyRoom.controller || nearbyRoom.controller.my) 
+	    	&& (combat.IFFSafeTargetList(nearbyRoom, false).length !== 0)) {
 	    	return true;
 	    }
 	}
