@@ -17,13 +17,13 @@ var collector = {
         delete creep.memory;
     },
 	behavior: function(){
-        var creep = this.creep
+        var creep = this.creep;
         var total = _.sum(creep.carry);
         if(total == 0 || creep.memory.task == null){
             creep.memory.task = "gatherEnergy";
         }
         if((creep.memory.mode == "supply" || creep.memory.mode == "drain") && (total == 0 || creep.memory.task == null)){
-            creep.memory.task = "fetchEnergy"
+            creep.memory.task = "fetchEnergy";
         }
         if(total == creep.carryCapacity && (creep.memory.task == "gatherEnergy" || creep.memory.task == "fetchEnergy")){
             delete creep.memory.potentialEnergySource;
@@ -36,11 +36,11 @@ var collector = {
             }
         }
         var result = tasks.runTasks(creep);
-        if(result == "ERR_NO_TARGETS" && creep.memory.task == "fill"){
+        if(result == "ERR_NO_TARGETS" && creep.memory.task == "fill" && creep.memory.mode != "supply"){
             creep.memory.fillRoomName = creep.memory.spawnRoom;
         }
         if(result == "ERR_NO_TARGETS" && creep.memory.task == "gatherEnergy" && creep.room.name == creep.memory.spawnRoom){
-            creep.memory.task = "fetchEnergy"
+            creep.memory.task = "fetchEnergy";
         }
 	},
 	
