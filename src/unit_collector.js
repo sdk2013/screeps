@@ -53,7 +53,7 @@ var collector = {
      */
     partWeightsExt: function(e){
         var unitWeight;
-        if(extensionCount <= 5){                                     // < 300 max energy avail
+        if(e <= 5){                                     // < 300 max energy avail
             unitWeight = [["carry", 3],["move",3]];     // cost: 300
         }else if(e <= 10){                              // < 550 max energy avail
             unitWeight = [["carry", 5],["move",5]];     // cost: 500 
