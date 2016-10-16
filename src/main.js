@@ -8,15 +8,16 @@ TODO: Develop/Finalize Overlord AI
 
 
 */
-var command = require('command')
-var produce = require('produce')
-var defend = require('defend')
-var spawner = require('spawner')
-var statWrapper = require('stat_wrapper')
-var output = require("output")
-global._ = require('lodash')
-global.utilities = require('utilities')
-global.Empire = require('Empire')
+var command = require('command');
+var produce = require('produce');
+var defend = require('defend');
+var spawner = require('spawner');
+var statWrapper = require('stat_wrapper');
+var output = require("output");
+global._ = require('lodash');
+global.utilities = require('utilities');
+global.Empire = require('Empire');
+var badRooms = ["E6N29"];
 
 module.exports.loop = function () {
     Memory.stats = {};
@@ -98,6 +99,9 @@ function initialize(){
         var ignore = false;
         if(this.memory.ignoreCreeps != null){
             var ignoreCreeps = this.memory.ignoreCreeps;
+        }
+        if(badRooms.includes(this.room.name)){
+            ignore = true;
         }
         if(this.memory.reusePath != null){
             this.moveTo(target, {reusePath: path, ignoreCreeps: ignore})
