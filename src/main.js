@@ -29,14 +29,14 @@ module.exports.loop = function () {
     //CHUMP BLOCKERS
     chumpCheck();
 
-    if(Game.time % 777 == 0){
+    if(Game.time % 777 === 0){
         gc();
     }
     
     var stats = require("collect_stats");
     stats.run();
     Memory.stats.cpu.used = Game.cpu.getUsed();
-}
+};
 function gc(){
     try{
         for(var i in Memory.creeps) {
@@ -56,7 +56,7 @@ function gc(){
     }
 }
 function chumpCheck(){
-    if(Memory.chumpCount == null || Game.time % 15 != 0){
+    if(Memory.chumpCount == null || Game.time % 15 !== 0){
         return;
     }
     Empire.buildChump(Memory.chumpWaypoints);
@@ -79,47 +79,49 @@ function initialize(){
             }
         }
         return false;
-    }
-    Creep.prototype.repairMoveTo = function(target, arguments){
+    };
+    Creep.prototype.repairMoveTo = function(target, args){
         if(!this.hasPart(WORK)){
             this.moveTo(target);
         }
         var road = _(this.pos.lookFor(LOOK_STRUCTURES))
                     .filter(s => s.structureType == "road")
-                    .first()
+                    .first();
         if(road != null){
             if(this.totalEnergy() > 0){
                 this.repair(road);
             }
         }
-        var path = 5
+        var path = 5;
         if(this.memory.reusePath != null){
-            var path = this.memory.reusePath;
+            path = this.memory.reusePath;
         }
         var ignore = false;
         if(this.memory.ignoreCreeps != null){
             var ignoreCreeps = this.memory.ignoreCreeps;
         }
         if(badRooms.includes(this.room.name)){
+            console.log(this.name + " using ignore!");
             ignore = true;
         }
         if(this.memory.reusePath != null){
-            this.moveTo(target, {reusePath: path, ignoreCreeps: ignore})
+            this.moveTo(target, {reusePath: path, ignoreCreeps: ignore});
             return;
         }
-        this.moveTo(target, arguments)
+        this.moveTo(target, args);
         return;
-    }
-    Creep.prototype.goto = function(targetName, arguments){
+    };
+    Creep.prototype.goto = function(targetName, args){
+        var targetPos;
         if(targetName instanceof Flag){
-            var targetPos = targetName;
+            targetPos = targetName;
         }else if(Game.flags[targetName] != null){
-            var targetPos = Game.flags[targetName];
+            targetPos = Game.flags[targetName];
         }else{
-            var targetPos = new RoomPosition(25, 25, targetName)
+            targetPos = new RoomPosition(25, 25, targetName);
         }
-        this.repairMoveTo(targetPos, arguments);
-    }
+        this.repairMoveTo(targetPos, args);
+    };
 
     
     // remove lodash and function call overhead from original
@@ -138,67 +140,68 @@ function initialize(){
     return count;
     };
     Creep.prototype.pull = function(target, resource = RESOURCE_ENERGY){
-        var creep = this
+        var creep = this;
+        var result;
         if(target instanceof Structure){
-            var result = creep.withdraw(target, resource)
+            result = creep.withdraw(target, resource);
         }else if(target instanceof Creep){
-            var result = target.transfer(creep, resource)
+            result = target.transfer(creep, resource);
         }else if(target instanceof Resource){
-            var result = creep.pickup(target);
+            result = creep.pickup(target);
         }else if(target instanceof Source){
-            var result = creep.harvest(target);
+            result = creep.harvest(target);
         }
         if(result == -7){
             output.log("command", 3, creep.name + " pull failed. Target: " + target.id + "  Resource: " + resource);
         }
         return result;
-    }
+    };
     RoomObject.prototype.capacity = function(){
         var s = this;
         if(s instanceof StructureTower || s instanceof StructureExtension || 
             s instanceof StructureLab || s instanceof StructureLink || 
             s instanceof StructureNuker || s instanceof StructurePowerSpawn ||
             s instanceof StructureSpawn){
-            return s.energyCapacity
+            return s.energyCapacity;
         }
         if(s instanceof StructureStorage || s instanceof StructureContainer ||
             s instanceof StructureTerminal){
-            return s.storeCapacity
+            return s.storeCapacity;
         }
         if(s instanceof Creep){
-            return s.carryCapacity
+            return s.carryCapacity;
         }
         return null;
-    }
+    };
     RoomObject.prototype.totalEnergy = function(){
         var s = this;
         if(s instanceof StructureTower || s instanceof StructureExtension || 
             s instanceof StructureLab || s instanceof StructureLink || 
             s instanceof StructureNuker || s instanceof StructurePowerSpawn ||
             s instanceof StructureSpawn){
-            return s.energy
+            return s.energy;
         }
         if(s instanceof StructureStorage || s instanceof StructureContainer ||
             s instanceof StructureTerminal){
-            return s.store["energy"]
+            return s.store["energy"];
         }
         if(s instanceof Creep){
-            return s.carry["energy"]
+            return s.carry["energy"];
         }
         if(s instanceof Resource){
             return s.amount;
         }
         return null;
-    }
+    };
     Creep.prototype.toSay = function(thingToSay){
-        var creep = this
-        creep.memory.toSay = creep.memory.toSay + thingToSay
-    }
+        var creep = this;
+        creep.memory.toSay = creep.memory.toSay + thingToSay;
+    };
     Creep.prototype.total = function(){
         var creep = this;
         var total = _.sum(creep.carry);
         return total;
-    }
+    };
     RoomPosition.prototype.findClosestSpawn = function() {
         var result = PathFinder.search(this, _.map(Game.spawns, s => ({pos: s.pos, range: 0})), {maxOps: 8000});
         if(result && result.path) {
@@ -210,7 +213,7 @@ function initialize(){
             output.log("command", 3, "FindClosestSpawn failed to find closest spawn. Data: " + this.room.name + this);
             return _.sample(Game.spawns);
         }
-    }
+    };
     /*
      *  Now switching to Object.defineProperty() because I need seperate getters and setters
      */
@@ -220,7 +223,7 @@ function initialize(){
                 Memory.objects = {};
                 return undefined;
             }
-            return Memory.objects[this.id]
+            return Memory.objects[this.id];
         },
         set: function(m){
             if(Memory.objects == null){
@@ -233,7 +236,7 @@ function initialize(){
         },
         configurable: true,
         enumerable: false
-    })
+    });
     Object.defineProperties(StructureLink.prototype, {
         "canSend": {
             get: function(){
@@ -281,5 +284,5 @@ function initialize(){
             configurable: true,
             enumerable: false
         }
-    })
+    });
 }
