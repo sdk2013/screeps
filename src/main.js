@@ -101,7 +101,6 @@ function initialize(){
             var ignoreCreeps = this.memory.ignoreCreeps;
         }
         if(badRooms.includes(this.room.name)){
-            console.log(this.name + " using ignore!");
             ignore = true;
         }
         if(this.memory.reusePath != null){
