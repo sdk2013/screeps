@@ -366,9 +366,9 @@ var tasks = {
                     creep.drop("energy");
                 }else{
                     var result = creep.transfer(target, "energy");
+                    creep.repairMoveTo(target);
                     if(result == ERR_NOT_IN_RANGE){
                         creep.toSay(":->T");
-                        creep.repairMoveTo(target);
                     }
                     return result;
                 }
