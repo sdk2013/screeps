@@ -279,7 +279,7 @@ var tasks = {
         var target = Game.getObjectById(creep.memory.mineEnergyTarget);
         if(target != null){
             creep.toSay("$T")
-            var result = creep.harvest(target)
+            var result = creep.harvest(target);
             if(result == ERR_NOT_IN_RANGE){
                 creep.toSay(":->T");
                 creep.repairMoveTo(target);
@@ -287,13 +287,13 @@ var tasks = {
             return result;
         }
         if(target == null){
-            target == Game.flags[creep.memory.mineEnergyTarget]
+            target == Game.flags[creep.memory.mineEnergyTarget];
         }
         if(target != null){
             creep.toSay("$T");
             creep.toSay(":->F");
             creep.repairMoveTo(target);
-            return "ERR_NOT_IN_ROOM"
+            return "ERR_NOT_IN_ROOM";
         }
         //Ok, now we have to navigate to the room if there is no flag or target
         var targetRoomName = creep.memory.mineEnergyRoomName;
@@ -301,12 +301,12 @@ var tasks = {
             creep.toSay("!T");
             creep.toSay(":->R");
             creep.goto(targetRoomName);
-            return "ERR_NOT_IN_ROOM"
+            return "ERR_NOT_IN_ROOM";
         }
         //This only needs to run if I don't have a source
-        var target = Game.getObjectById(creep.memory.mineEnergyTarget);
+        target = Game.getObjectById(creep.memory.mineEnergyTarget);
         if(target == null){
-            creep.toSay("?T-")
+            creep.toSay("?T-");
             creep.memory.mineEnergyRoomName = creep.room.name;
             var search = require("search");
             var sources = search.findPriorityEnergyNodes.call(creep);
