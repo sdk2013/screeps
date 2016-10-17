@@ -1,11 +1,3 @@
-/*
- * Module code goes here. Use 'module.exports' to export things:
- * module.exports.thing = 'a thing';
- *
- * You can import it from another modules like this:
- * var mod = require('unit_miner');
- * mod.thing == 'a thing'; // true
- */
 var tasks = require("tasks");
 var miner = {
     beforeAge: function(){
@@ -17,7 +9,7 @@ var miner = {
 	behavior: function(){
 	    var creep = this.creep;
 
-	    if(creep.carry["energy"] == creep.carryCapacity){
+	    if(creep.carry["energy"] >=  creep.carryCapacity - (creep.getActiveBodyParts(WORK)*2)){
             creep.memory.task = "offload";
         }
         if(creep.carry["energy"] == 0){
