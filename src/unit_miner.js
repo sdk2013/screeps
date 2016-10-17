@@ -9,7 +9,7 @@ var miner = {
 	behavior: function(){
 	    var creep = this.creep;
 
-	    if(creep.carry["energy"] >=  creep.carryCapacity - (creep.getActiveBodyParts(WORK)*2)){
+	    if(creep.carry["energy"] >=  creep.carryCapacity - (creep.getActiveBodyparts(WORK)*2)){
             creep.memory.task = "offload";
         }
         if(creep.carry["energy"] == 0){
