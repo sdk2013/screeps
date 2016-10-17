@@ -1,6 +1,19 @@
+/*
+TODO:
+New prototypes to manage Projected Energy will be necessary
+creep.pull needs modified with projected energy counter
+creep.push needs built to replace creep.transfer
+
+Move direct overlord memory access to prototype module "overlordData"
+OR
+Switch to an `old` object to handle accessing the overlord data
+ 
+*/
+
 var output = require("output");
 var config = require("config");
 var validStances = ["NUKE", "NUKE_THREAT", "UNDER_ASSAULT", "ALERT", "SIEGE", "STANDBY", "NO_STANCE"];
+var validModes = ["FORTIFY", "MIL-IND", "EXPAND", "SIEGE_DEFENSE", "STOCKPILE", "BALANCED", "NO_MODE"];
 var overlord = {
 	/*
 	 * returns an array of HQ rooms
@@ -25,27 +38,159 @@ var overlord = {
 	 *                      Needed for reactive behavior
 	 */
 	calculateRoomStates: function(roomName){
-		var errorstring = "Room " + roomName + "Encountered an error initializing memory";
+		var errorstring = "Room " + roomName + " encountered an error calculating states";
         try{
             var room = Game.rooms[roomName];
             // 	Initialize room in memory if it doesn't exist
+            errorstring = "Room " + roomName + " encountered an error initializing memory";
             this.initOverlordRoomMemory(roomName);
+            //	Check the cahced data to see if it's up to date;
+            errorstring = "Room " + roomName + " encountered an error during data verification";
+            this.verifyData(roomName);
             // 	Need to have distances to other rooms for proximity based behavior
-            errorstring = "Room " + roomName + "Encountered an error finding allied locations";
+            errorstring = "Room " + roomName + " encountered an error finding allied locations";
             this.findAlliedLocations(roomName);
             // 	Military stance check
-            errorstring = "Room " + roomName + "Encountered an error determining combat stance";
+            errorstring = "Room " + roomName + " encountered an error determining combat stance";
             this.determineStance(roomName);
             //	Economic stance check
+            errorstring = "Room " + roomName + " encountered an error determining economic mode";
+            this.determineMode(roomName);
         }catch(e){
             output.log("overlord", 2, errorstring, e); 
         }
 	},
-	/* TODO
+	//TODO
+	verifyData: function(roomName){
+		var old = Memory.overlord[roomName];
+		var room = Game.rooms[roomName];
+		var creepCache = room.find(FIND_CREEPS);
+		//	Structure caches
+		var structureCache = room.find(FIND_STRUCTURES);
+		if(structureCache.length != old.strCount){
+			old.strCount = structureCache.length;
+			old.wallCache  = _(structureCache)
+						.remove(s => s.structureType == STRUCTURE_WALL)
+						.pluck(id);
+			old.rampCache =  _(structureCache)
+						.remove(s => s.structureType == STRUCTURE_RAMPART)
+						.pluck(id);
+			old.strCache = _(structureCache).pluck(id);
+		}
+		//	Source Cache
+		if(old.srcCache.length == 0){
+			var sourceCache = room.find(FIND_SOURCES);
+			for(var source in sourceCache){
+				let s = {
+					id: 	source.id,
+					pos: 	source.pos,
+					e: 		source.energy,
+					ttr: 	source.ticksToRegeneration
+				};
+				s.id = source.id;
+				s.pos = source.pos;
+				s.e = source.energy;
+				s.ttr = source.ticksToRegeneration;
+				old.srcCache.push(s);
+			}
+		}
+		//	Mineral Checks
+		var liveMineral = room.find(FIND_MINERALS)[0];
+		if(old.mineral == null){
+			var m = {
+				type: 	liveMineral.mineralType,
+				pos: 	liveMineral.pos,
+			}
+			old.mineral = m;
+		}
+		old.mineral.amt = liveMineral.amount;
+		old.mineral.ttr = liveMineral.ticksToRegeneration;
+		return OK;
+	},
+	/*
+	 *	Determines the economic mode of the room
+	 *	@param 	{String} roomName
+	 *
+	 *	FORTIFY:
+	 *		Status: 	Room is undergoing rapid fortification
+	 *		Trigger: 	RCL >= 5 && Walls below stored limit TODO
+	 *					Stance == NUKE;
+	 *		Timeout: 	Recalculate on exiting alert status
+	 *		Behavior: 	Excess projected resources spent on wall and rampart fortification
+	 *					Resource cap doubled
+	 *		
+	 *
+	 *	MIL-IND:
+	 *		Status: 	Room is undergoing military build-up
+	 *		Trigger: 	Current or nearby (alert range) room UNDER_ASSAULT
+	 *					Stance == UNDER_ASSAULT 
+	 * 					Stance == ALERT (proximity triggered)
+	 *		Timeout: 	No rooms need military assistance (old.stance != alert)
+	 *		Behavior: 	Excess projected resources spent on military creep production and wall fortification
+	 *					If prox triggered, creeps attempt to move to besieged room via safe rooms
+	 *
+	 *	EXPAND:
+	 *		Status: 	Room is undergoing rapid infrastructure expansion
+	 *		Trigger: 	RCL < 5
+	 *					TODO
+	 *		Timeout: 	No further structures to build
+	 *		Behavior: 	Excess projected resources spent on construction creeps and construction
+	 *
+	 *	SIEGE_DEFENSE:
+	 *		Status: 	Room is under siege and is attempting to survive
+	 *		Trigger: 	Stance == SIEGE
+	 *		Timeout: 	Trigger no longer valid 
+	 *		Behavior: 	Collectors en route to sieged subroom pulled back
+	 *					Miner replacements no longer ordered to sieged room
+	 *					Depending on incursion threat size:
+	 *						Muster strike squad to counter attack
+	 *						Shut down remote operations
+	 *					Scouts sent to besieged room
+	 *					upgrader cap == 1, upgrader size limit minimized
+	 *
+	 *	STOCKPILE:
+	 *		Status: 	Room is storing all availble resources for future use
+	 *		Trigger: 	Room projected resources falling below 50k
+	 *		Timeout: 	Trigger no longer valid
+	 *		Behavior: 	Resource cap removed
+	 *
+	 *	BALANCED:
+	 *		Status: 	Room is operating normally with no changes
+	 *		Trigger: 	Default State
+	 * 		Timeout: 	None
+	 * 		Behavior: 	Maintains an even distribution of civilian creeps
+	 * 					
+	 */
+	determineMode: function(roomName){
+		var old = Memory.overlord[roomName];
+		initialize(old);
+		var room = Game.rooms[roomName];
+		//	Nuke check is most important
+		if(old.stance == "NUKE"){
+			return old.setMode("FORTIFY");
+		}
+		//	If I'm under attack, military production is vital
+		if(old.stance == "UNDER_ASSAULT" || (old.stance == "ALERT" && old.stanceProx == true)){
+			return old.setMode("MIL-IND");
+		}
+		//	Makes sure that I'm not being indirectly attacked
+		if(old.stance == "SIEGE"){
+			return old.setMode("SIEGE_DEFENSE");
+		}
+		//	After that, it's important that I don't run out of resources in storage
+		if(old.projS !== null && old.RCL >= 5 && old.projS < old.storMin){
+			return old.setMode("STOCKPILE");
+		}
+		//	If I'm not immediately out of resources, rapid expansion is important
+		// 	TODO
+
+		
+		return old.setMode("BALANCED");
+	},
+	/* 
 	 * Establishes stance for room (typically autogenerated)
 	 *  Determined by hostile activity (and determines other behavior)
 	 * @param {String} roomName - name of room to determine stance for
-	 * @param {Set} rooms - set of all HQ rooms (for reactive behavior)
 	 * Stance States:
 	 *
 	 *  NUKE:
@@ -85,11 +230,12 @@ var overlord = {
      *					Small numbers of defensive ralliers spawn
      *					All ramparts lock
      *
-     *	SEIGE:
+     *	SIEGE:
      *		Status: 	Remote mining operations under attack
-     *		Trigger: 	Baron AIs for remote rooms going into SEIGE stance
+     *		Trigger: 	Baron AIs for remote rooms going into SIEGE stance
      *		Timeout: 	Hostile Units Killed
      *					1500 ticks
+     *					Rooms clear
      *		Behavior: 	Strike Teams deployed based on hostile threatscore
      *					Remote mining in those rooms halted
      *
@@ -139,17 +285,16 @@ var overlord = {
 	    if(!!alertProx){
 	    	return old.setStance("ALERT", alertProx);
 	    }
-	    if(supportRoomsAreInStance(roomName, "SEIGE")){
-	    	return old.stanceTime("SEIGE");
-	    }
 	    //	If I'm in siege mode, check to see if I'm still being besieged
+	    if(supportRoomsAreInStance(roomName, "SIEGE")){
+	    	return old.stanceTime("SIEGE");
+	    }
 	    //	If I'm in standby and there's no need to update, just return, 
 	    if(old.stance == "STANDBY"){
 	    	return;
 	    }
 	    return old.setStance("STANDBY");
 	},
-
 	/*
 	 * 	Part reference module - creates framework for overlord memory use later
 	 * 	Doesn't overwrite anything that doesn't exist
@@ -169,6 +314,7 @@ var overlord = {
 				remoteRooms: [],   		//  List of remote mining room names
 				oRDists: [],			// 	Array of other HQ rooms and the distances to them
 				dBuff: 0,				//	Desired energy buffer for the room
+				projS: null,			//	Projected Energy storage after completion of actions and creep life
 
 				//	Defense Related Data
 				thLim: 0,				//	Enemy threat limit before response
@@ -176,16 +322,19 @@ var overlord = {
 	            tdmode: null,			//	Tower Defense Mode (Determines targetting);
 	            tdtarget: null,			//	Id of current target
 	            tdlasthits: 0,			//	Hits of target last tick (for stalemate checking);
-	            tdlast: null,			//	Id of last target (used when tdtarget is null to prevent reselecting the same target)
+	            tdprev: null,			//	Id of prevoius target (used when tdtarget is null to prevent reselecting the same target)
 
 	            //	TaskList related data
 	            spwnQueue: [],			//	SpawnQueue for the room
 	            taskList: [],			//	What needs building. Objects are {id, amount required, type (extension, storage, military, etc.), pos}
 
 	            //	Caches
-	            strCache: [],			//	List of all structure ids in the room
+	            strCache: [],			//	List of all non-wall/rampart structure ids in the room
+	            strCount: 0,			//	Count of ALL structures in room (used to trigger strCacheUpdate)
 	            srcCache: [],			//	Cache of source information objects
 	            wallCache: [],			//	Cache of all wall ids in room
+	            rampCache: [],			// 	Cache of all rampart ids in the room
+	            mineralCache: {},		//	Cache of mineral type, location, amount, ticks-to-regen, and density
 
 				//	Creep related Data
 	            creepCount: 0,       	//  Creeps owned by this room
@@ -198,11 +347,12 @@ var overlord = {
 
 	            //	Overlord Behavior Defaults
 	            nukeThreatTimeout: 10000,     		//	Timeout in ticks for nuke threat
-	            nukeProxDist: 5,
+	            nukeProxDist: 5,					//	Default linear range in which nukes will trigger nuke_threat
 	    		underAssaultTimeout: 100,			//	Timeout in ticks for room to no longer be under assault
 	    		alertTimeout: 1500,					//	Timeout in ticks for a room to stand down from alert
 	    		alertProxDist: 5,					//	Default linear range in which an assault will trigger that room's alert
-	    		siegeTimeout: 1000 					//	Timeout for 
+	    		siegeTimeout: 1000,					//	Timeout for siege for HQ room
+	    		storMin: 45000						//	Low energy alert trigger
 	        };
 	        Memory.overlord[roomName] = roomData;
         }
@@ -227,6 +377,15 @@ function initialize(overlordDataObject){
 			old.stanceTime = Game.time;
 			old.stanceProx = proxTriggered;
 			return stance;
+		}else{
+			throw new Error("INVALID STANCE");
+		}
+	};
+	overlordDataObject.setMode = function(mode){
+		if(validModes.includes(mode)){
+			old.mode = mode;
+			old.modeTime = Game.time;
+			return mode;
 		}else{
 			throw new Error("INVALID STANCE");
 		}
