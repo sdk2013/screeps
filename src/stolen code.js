@@ -501,32 +501,32 @@ global.ticksTillDead = (level, currentTimer) => _.sum(_.slice(_.values(CONTROLLE
 
 // Warinternal's find stuff outside room 
 /**
- * @param [Object] goals - collection of RoomPositions or targets
- * @param Function itr - iteratee function, called per goal object
+ * @param {Object} goals - collection of RoomPositions or targets
+ * @param {function} itr - iteratee function, called per goal object
  */
-RoomPosition.prototype.findClosestByPathFinder = function(goals, itr=_.identity) {  
-  let mapping = _.map(goals, itr);
-  if(_.isEmpty(mapping))  
-    return {goal: null};
-  let result = PathFinder.search(this, mapping, {maxOps: 16000});
-  let last = _.last(result.path);
-  let goal = _.min(goals, g => last.getRangeTo(g.pos));
-  return {
-    goal: (Math.abs(goal)!==Infinity)?goal:null,
-    cost: result.cost,
-    ops: result.ops,
-    incomplete: result.incomplete
-  } 
-}
+RoomPosition.prototype.findClosestByPathFinder = function(goals, itr=_.identity) {
+    let mapping = _.map(goals, itr);
+    if(_.isEmpty(mapping))
+        return {goal: null};
+    let result = PathFinder.search(this, mapping, {maxOps: 16000});
+    let last = _.last(result.path);
+    let goal = _.min(goals, g => last.getRangeTo(g.pos));
+    return {
+        goal: (Math.abs(goal)!==Infinity)?goal:null,
+        cost: result.cost,
+        ops: result.ops,
+        incomplete: result.incomplete
+    }
+};
 
 RoomPosition.prototype.findClosestSpawn = function() {
-  return this.findClosestByPathFinder(Game.spawns, (spawn) => ({pos: spawn.pos, range: 1})).goal;
-}
+    return this.findClosestByPathFinder(Game.spawns, (spawn) => ({pos: spawn.pos, range: 1})).goal;
+};
 
 RoomPosition.prototype.findClosestConstructionSite = function() {
-  return this.findClosestByPathFinder(Game.constructionSites,
-      (cs) => ({pos: cs.pos, range: 3})).goal;
-}
+    return this.findClosestByPathFinder(Game.constructionSites,
+        (cs) => ({pos: cs.pos, range: 3})).goal;
+};
 
 
 //  Prototype for giving spawns access to roomqueue;
