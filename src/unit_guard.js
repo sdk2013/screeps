@@ -41,10 +41,10 @@ var guard = {
         }else if (extensionCount < 30){                                                      // 1250 max energy
             var unitWeight = [["move", 4],["attack", 3],["ranged_attack",2],["heal", 1],["move",2]];     // cost: 1090
         }else if (extensionCount < 40){                              // 1800 avail
-            var unitWeight = [["move", 4],["attack", 3],["ranged_attack",2],["heal", 1],["move",2]];     // cost: 1090
+            var unitWeight = [["move", 8],["attack", 3],["ranged_attack",3],["heal", 2]];     // cost: 1590
             //var unitWeight = [["move", 8],["attack", 6],["ranged_attack",2],["heal", 2],["move",2]];     // cost: 1780
         }else{          // 2250 energy avail
-            var unitWeight = [["move", 4],["attack", 3],["ranged_attack",2],["heal", 1],["move",2]];     // cost: 1090
+            var unitWeight = [["move", 8],["attack", 3],["ranged_attack",3],["heal", 2]];     // cost: 1590
             //var unitWeight = [["move", 11],["attack", 8],["ranged_attack",3],["heal", 2],["move",2]];     // cost: 2240
         }
         return unitWeight;
