@@ -78,7 +78,7 @@ var overlord = {
 			old.strCache = _(structureCache).pluck(id);
 		}
 		//	Source Cache
-		if(old.srcCache.length == 0){
+		if(old.srcCache.length === 0){
 			var sourceCache = room.find(FIND_SOURCES);
 			for(var source in sourceCache){
 				let s = {
@@ -100,7 +100,7 @@ var overlord = {
 			var m = {
 				type: 	liveMineral.mineralType,
 				pos: 	liveMineral.pos,
-			}
+			};
 			old.mineral = m;
 		}
 		old.mineral.amt = liveMineral.amount;
@@ -326,7 +326,7 @@ var overlord = {
 
 	            //	TaskList related data
 	            spwnQueue: [],			//	SpawnQueue for the room
-	            taskList: [],			//	What needs building. Objects are {id, amount required, type (extension, storage, military, etc.), pos}
+	            taskList: [],			//	What needs doing. Objects are {id, amount required, type (extension, storage, military, etc.), pos}
 
 	            //	Caches
 	            strCache: [],			//	List of all non-wall/rampart structure ids in the room
@@ -335,6 +335,7 @@ var overlord = {
 	            wallCache: [],			//	Cache of all wall ids in room
 	            rampCache: [],			// 	Cache of all rampart ids in the room
 	            mineralCache: {},		//	Cache of mineral type, location, amount, ticks-to-regen, and density
+	            conSites: [],			//	Cache of construction sites in room
 
 				//	Creep related Data
 	            creepCount: 0,       	//  Creeps owned by this room
