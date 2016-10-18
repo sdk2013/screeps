@@ -20,7 +20,7 @@ var overlord = {
 	 * RETURN {Set} rooms - names of rooms running overlord AI
 	 */
 	getRoomsForAnalysis: function(spawns){
-		var rooms;
+		var rooms = [];
 		for(var name in spawns){
 			var spawn = Game.spawns[name];
 			if(spawn.room.controller && spawn.room.controller.my){
