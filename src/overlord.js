@@ -147,6 +147,8 @@ var overlord = {
 			var link = Game.getObjectById(id);
 			console.log(link);
 			//	Can't send or recieve means the link hasn't been configured
+			console.log("linkcanrecieve" + link.canRecieve);
+			console.log("linkcansend" + link.canSend);
 			if(!link.canRecieve && !link.canSend){
 				if(link.pos.findInRange(FIND_SOURCES, 2).length !== 0){
 					link.canRecieve = false;
