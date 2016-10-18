@@ -112,7 +112,7 @@ var overlord = {
 		}
 		//	Mineral Checks
 		var liveMineral = room.find(FIND_MINERALS)[0];
-		if(old.mineral === null){
+		if(old.mineralCache === null){
 			var m = {
 				type: 	liveMineral.mineralType,
 				pos: 	liveMineral.pos,
