@@ -27,6 +27,9 @@ var overlord = {
 				rooms.push(spawn.room.name);
 			}
 		}
+		if(Memory.overlord === undefined){
+			Memory.overlord = {};
+		}
 		Memory.overlord.coreRooms = rooms;
 		return rooms;
 	},
