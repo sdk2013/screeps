@@ -363,6 +363,9 @@ var overlord = {
 	 * 	@param {string} roomName - Name of room for which to initialize memory.
 	 */
     initOverlordRoomMemory: function(roomName){
+    	if(!Memory.overlord){
+    		Memory.overlord = {};
+    	}
         if(!Memory.overlord[roomName]){
             var roomData = {
             	//	High Level stuff
