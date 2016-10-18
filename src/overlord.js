@@ -40,6 +40,7 @@ var overlord = {
 	 *                      Needed for reactive behavior
 	 */
 	calculateRoomStates: function(roomName){
+		console.log("WHAT THE FUCK");
 		var errorstring = "Room " + roomName + " encountered an error calculating states";
 		console.log("1");
         try{
