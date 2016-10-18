@@ -41,21 +41,27 @@ var overlord = {
 	 */
 	calculateRoomStates: function(roomName){
 		var errorstring = "Room " + roomName + " encountered an error calculating states";
+		console.log("1");
         try{
             var room = Game.rooms[roomName];
             // 	Initialize room in memory if it doesn't exist
+            console.log("2");
             errorstring = "Room " + roomName + " encountered an error initializing memory";
             this.initOverlordRoomMemory(roomName);
             //	Check the cached data to see if it's up to date;
+            console.log("3");
             errorstring = "Room " + roomName + " encountered an error during data verification";
             this.verifyData(roomName);
             // 	Need to have distances to other rooms for proximity based behavior
+            console.log("4");
             errorstring = "Room " + roomName + " encountered an error finding allied locations";
             findAlliedLocations(roomName);
             // 	Military stance check
+            console.log("5");
             errorstring = "Room " + roomName + " encountered an error determining combat stance";
             this.determineStance(roomName);
             //	Economic stance check
+            console.log("6");
             errorstring = "Room " + roomName + " encountered an error determining economic mode";
             this.determineMode(roomName);
         }catch(e){
