@@ -107,8 +107,10 @@ var overlord = {
 		console.log(room.find(FIND_SOURCES)[0].id);
 		if(old.srcCache.length === 0){
 			var sourceCache = room.find(FIND_SOURCES);
-			for(var source in sourceCache){
+			for(var i = sourceCache.length; i-- > 0;){
+				var source = sourceCache[i];
 				console.log(source.id);
+
 				var s = {
 					id: 	source.id,
 					pos: 	source.pos,
