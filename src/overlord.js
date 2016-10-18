@@ -86,7 +86,7 @@ var overlord = {
 			old.rampCache =  _(structureCache)
 						.remove(s => s.structureType == STRUCTURE_RAMPART)
 						.map(s => s.id);
-			old.strCache = _(structureCache).map(s => s.id);
+			old.strCache = _(structureCache).map(s =>id);
 			//	Link Cache
 			var links = _(structureCache)
 						.filter(s => s.structureType == STRUCTURE_LINK)
@@ -117,10 +117,10 @@ var overlord = {
 				type: 	liveMineral.mineralType,
 				pos: 	liveMineral.pos,
 			};
-			old.mineral = m;
+			old.mineralCache = m;
 		}
-		old.mineral.amt = liveMineral.amount;
-		old.mineral.ttr = liveMineral.ticksToRegeneration;
+		old.mineralCache.amt = liveMineral.amount;
+		old.mineralCache.ttr = liveMineral.ticksToRegeneration;
 
 		return OK;
 	},
