@@ -11,7 +11,6 @@ Switch to an `old` object to handle accessing the overlord data
 */
 
 var output = require("output");
-var config = require("config");
 var validStances = ["NUKE", "NUKE_THREAT", "UNDER_ASSAULT", "ALERT", "SIEGE", "STANDBY", "NO_STANCE"];
 var validModes = ["FORTIFY", "MIL-IND", "EXPAND", "SIEGE_DEFENSE", "STOCKPILE", "BALANCED", "NO_MODE"];
 var overlord = {
