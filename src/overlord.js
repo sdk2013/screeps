@@ -136,6 +136,7 @@ var overlord = {
 	 *	@param {String} roomName
 	 */
 	determineLinkModes: function(roomName){
+		setLinkProto();
 		var old = Memory.overlord[roomName];
 		var links = old.links;
 		for(var id in links){
@@ -553,4 +554,54 @@ function findAlliedLocations(roomName){
 	}
 	Memory.overlord[roomName].oRDists = oRDists;
 	return oRDists;
+}
+function setLinkProto(){
+	    Object.defineProperties(StructureLink.prototype, {
+        "canSend": {
+            get: function(){
+                if(!!Memory.objects){
+                    var send = Memory.objects[this.id].canSend;
+                    if(send === undefined){
+                        return false;
+                    }
+                    return send;
+                }
+                Memory.objects = {};
+                return false;
+                
+            },
+            set: function(mode){
+                if(mode === true || mode === false){
+                    Memory.objects[this.id].canSend = mode;
+                }else{
+                    throw "canSend must be boolean";
+                }
+            },
+            configurable: true,
+            enumerable: false
+        },
+        "canRecieve": {
+            get: function(){
+                if(!!Memory.objects){
+                    var recieve = Memory.objects[this.id].canRecieve;
+                    if(send === undefined){
+                        return false;
+                    }
+                    return recieve;
+                }
+                Memory.objects = {};
+                return false;
+                
+            },
+            set: function(mode){
+                if(mode === true || mode === false){
+                    Memory.objects[this.id].canRecieve = mode;
+                }else{
+                    throw "canRecieve must be boolean";
+                }
+            },
+            configurable: true,
+            enumerable: false
+        }
+    });
 }
