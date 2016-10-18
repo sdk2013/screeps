@@ -74,8 +74,8 @@ var overlord = {
 			old.siteCache = _(sites).map(s => s.id);
 		}
 		//	Structure caches
-		var structureCache = room.find(FIND_STRUCTURES);
-		if(structureCache.length != old.strCount){
+		if(room.find(FIND_STRUCTURES).length != old.strCount){
+			var structureCache = room.find(FIND_STRUCTURES);
 			old.strCount = structureCache.length;
 			old.roadCache = _(structureCache)
 						.remove(s => s.structureType == STRUCTURE_ROAD)
@@ -99,6 +99,7 @@ var overlord = {
 		}
 		//	Source Cache
 		console.log("Line 108, srcCache.length: " + old.srcCache.length);
+		console.log(room.find(FIND_SOURCES));
 		if(old.srcCache.length === 0){
 			var sourceCache = room.find(FIND_SOURCES);
 			for(var source in sourceCache){
@@ -139,6 +140,7 @@ var overlord = {
 				if(link.pos.findInRange(FIND_SOURCES, 2).length !== 0){
 					link.canRecieve = false;
 					link.canSend = true;
+					old.sndLinks.push(link.id);
 					continue;
 				}
 				if(link.pos.getRangeTo(link.room.controller.pos) <= 4){
@@ -155,6 +157,7 @@ var overlord = {
 				if(link.pos.findInRange(FIND_EXIT, 5).length !== 0){
 					link.canRecieve = false;
 					link.canSend = true;
+					old.sndLinks.push(link.id);
 					continue;
 				}
 				output.log("overlord", 4, "Error in room " + link.room.name + " : Link mode could not be determined for link - " + link.id);
