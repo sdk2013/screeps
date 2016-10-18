@@ -141,7 +141,8 @@ var overlord = {
 		setLinkProto();
 		var old = Memory.overlord[roomName];
 		var links = old.links;
-		for(var id in links){
+		for(var i = links.length; i-- > 0;){
+			var id = links[i];
 			console.log(id);
 			var link = Game.getObjectById(id);
 			console.log(link);
