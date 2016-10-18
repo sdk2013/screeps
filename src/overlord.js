@@ -93,7 +93,7 @@ var overlord = {
 			old.rampCache =  _(structureCache)
 						.remove(s => s.structureType == STRUCTURE_RAMPART)
 						.map(s => s.id);
-			old.strCache = _(structureCache).map(s =>id);
+			old.strCache = _(structureCache).map(s => s.id);
 			//	Link Cache
 			var links = _(structureCache)
 						.filter(s => s.structureType == STRUCTURE_LINK)
