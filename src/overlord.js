@@ -97,7 +97,7 @@ var overlord = {
 						.map(s => s.id);
 			if(links.length != old.links){
 				old.links = links;
-				this.determineLinkModes(roomName);
+				//this.determineLinkModes(roomName);
 			}
 
 		}
