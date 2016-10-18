@@ -454,9 +454,9 @@ module.exports = overlord;
 function initialize(overlordDataObject){
 	overlordDataObject.setStance = function(stance, proxTriggered = false){
 		if(validStances.includes(stance)){
-			old.stance = stance;
-			old.stanceTime = Game.time;
-			old.stanceProx = proxTriggered;
+			overlordDataObject.stance = stance;
+			overlordDataObject.stanceTime = Game.time;
+			overlordDataObject.stanceProx = proxTriggered;
 			return stance;
 		}else{
 			throw new Error("INVALID STANCE");
@@ -464,8 +464,8 @@ function initialize(overlordDataObject){
 	};
 	overlordDataObject.setMode = function(mode){
 		if(validModes.includes(mode)){
-			old.mode = mode;
-			old.modeTime = Game.time;
+			overlordDataObject.mode = mode;
+			overlordDataObject.modeTime = Game.time;
 			return mode;
 		}else{
 			throw new Error("INVALID STANCE");
