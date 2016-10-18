@@ -108,12 +108,11 @@ var overlord = {
 		if(old.srcCache.length === 0){
 			var sourceCache = room.find(FIND_SOURCES);
 			for(var source in sourceCache){
-				let s = {
-					id: 	source.id,
-					pos: 	source.pos,
-					e: 		source.energy,
-					ttr: 	source.ticksToRegeneration
-				};
+				let s = {};
+				s.id = source.id;
+				s.pos = source.pos;
+				s.e = source.energy;
+				s.ttr = source.ticksToRegeneration;
 				old.srcCache.push(s);
 			}
 		}
@@ -128,7 +127,6 @@ var overlord = {
 		}
 		old.mineralCache.amt = liveMineral.amount;
 		old.mineralCache.ttr = liveMineral.ticksToRegeneration;
-
 		return OK;
 	},
 	/*
