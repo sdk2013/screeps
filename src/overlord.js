@@ -114,6 +114,7 @@ var overlord = {
 					e: 		source.energy,
 					ttr: 	source.ticksToRegeneration
 				};
+				console.log(s.id);
 				old.srcCache.push(s);
 			}
 		}
