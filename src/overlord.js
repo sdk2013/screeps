@@ -79,18 +79,18 @@ var overlord = {
 			old.strCount = structureCache.length;
 			old.roadCache = _(structureCache)
 						.remove(s => s.structureType == STRUCTURE_ROAD)
-						.pluck(id);
+						.map(s => s.id);
 			old.wallCache  = _(structureCache)
 						.remove(s => s.structureType == STRUCTURE_WALL)
-						.pluck(id);
+						.map(s => s.id);
 			old.rampCache =  _(structureCache)
 						.remove(s => s.structureType == STRUCTURE_RAMPART)
-						.pluck(id);
-			old.strCache = _(structureCache).pluck(id);
+						.map(s => s.id);
+			old.strCache = _(structureCache).map(s => s.id);
 			//	Link Cache
 			var links = _(structureCache)
 						.filter(s => s.structureType == STRUCTURE_LINK)
-						.pluck(id);
+						.map(s => s.id);
 			if(links.length != old.links){
 				old.links = links;
 				determineLinkModes(roomName);
