@@ -51,7 +51,7 @@ var overlord = {
             this.verifyData(roomName);
             // 	Need to have distances to other rooms for proximity based behavior
             errorstring = "Room " + roomName + " encountered an error finding allied locations";
-            this.findAlliedLocations(roomName);
+            findAlliedLocations(roomName);
             // 	Military stance check
             errorstring = "Room " + roomName + " encountered an error determining combat stance";
             this.determineStance(roomName);
