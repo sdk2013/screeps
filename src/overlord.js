@@ -142,6 +142,7 @@ var overlord = {
 		var old = Memory.overlord[roomName];
 		var links = old.links;
 		for(var id in links){
+			console.log(id);
 			var link = Game.getObjectById(id);
 			console.log(link);
 			//	Can't send or recieve means the link hasn't been configured
