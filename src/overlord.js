@@ -519,7 +519,7 @@ function roomIsUnderAttack(roomName){
 	}
 	var nearbyRooms = Game.map.describeExits(roomName);
 	for (const key of Object.keys(nearbyRooms)) {
-	    const nearbyRoom = obj[key];
+	    const nearbyRoom = nearbyRooms[key];
 	    if((!nearbyRoom.controller || nearbyRoom.controller.my) && (combat.IFFSafeTargetList(nearbyRoom, false).length !== 0)) {
 	    	return true;
 	    }
