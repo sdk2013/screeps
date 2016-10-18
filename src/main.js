@@ -241,7 +241,7 @@ function initialize(){
             get: function(){
                 if(!!Memory.objects){
                     var send = Memory.objects[this.id].canSend;
-                    if(send == undefined){
+                    if(send === undefined){
                         return false;
                     }
                     return send;
@@ -251,7 +251,7 @@ function initialize(){
                 
             },
             set: function(mode){
-                if(mode == true || mode == false){
+                if(mode === true || mode === false){
                     Memory.objects[this.id].canSend = mode;
                 }else{
                     throw "canSend must be boolean";
@@ -264,7 +264,7 @@ function initialize(){
             get: function(){
                 if(!!Memory.objects){
                     var recieve = Memory.objects[this.id].canRecieve;
-                    if(send == undefined){
+                    if(send === undefined){
                         return false;
                     }
                     return recieve;
@@ -274,7 +274,7 @@ function initialize(){
                 
             },
             set: function(mode){
-                if(mode == true || mode == false){
+                if(mode === true || mode === false){
                     Memory.objects[this.id].canRecieve = mode;
                 }else{
                     throw "canRecieve must be boolean";
