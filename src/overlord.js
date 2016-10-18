@@ -535,7 +535,9 @@ function roomIsUnderAttack(roomName){
 			continue;
 		}
 	    console.log(nearbyRoom);
-	    if((!nearbyRoom.controller || nearbyRoom.controller.my) && (combat.IFFSafeTargetList(nearbyRoom, false).length !== 0)) {
+	    console.log(Game.rooms[nearbyRoom]);
+
+	    if((!nearbyRoom.controller || nearbyRoom.controller.my) && (combat.hostileTargetList(nearbyRoom).length !== 0)) {
 	    	return true;
 	    }
 	}

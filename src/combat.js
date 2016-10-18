@@ -1,6 +1,12 @@
 var notHostile = ["Dissi"]
 var notInvading  = ["Dissi", "Source Keeper", "Invader"]
 var combat = {
+	hostileTargetList: function(roomName){
+		var targets = _(Game.rooms[roomName].find(FIND_HOSTILE_CREEPS))
+					.filter(c => !notInvading.includes(c.owner.name))
+					.value();
+		return targets;
+	},
     /*
      *  Generates a "Safe" target list based on the Nonhostiles array
      *  @param {RoomObject} OR {Room} - where to call the search
