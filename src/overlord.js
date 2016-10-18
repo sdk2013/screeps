@@ -44,7 +44,7 @@ var overlord = {
             // 	Initialize room in memory if it doesn't exist
             errorstring = "Room " + roomName + " encountered an error initializing memory";
             this.initOverlordRoomMemory(roomName);
-            //	Check the cahced data to see if it's up to date;
+            //	Check the cached data to see if it's up to date;
             errorstring = "Room " + roomName + " encountered an error during data verification";
             this.verifyData(roomName);
             // 	Need to have distances to other rooms for proximity based behavior
@@ -60,15 +60,24 @@ var overlord = {
             output.log("overlord", 2, errorstring, e); 
         }
 	},
-	//TODO
 	verifyData: function(roomName){
 		var old = Memory.overlord[roomName];
 		var room = Game.rooms[roomName];
+
+		//	TODO - Do I want to actually _use_ this?
 		var creepCache = room.find(FIND_CREEPS);
+		//	Construction Site Cache
+		var sites = room.find(FIND_CONSTRUCTION_SITES);
+		if(sites.length != old.siteCount){
+			old.siteCache = _(sites).pluck(id);
+		}
 		//	Structure caches
 		var structureCache = room.find(FIND_STRUCTURES);
 		if(structureCache.length != old.strCount){
 			old.strCount = structureCache.length;
+			old.roadCache = _(structureCache)
+						.remove(s => s.structureType == STRUCTURE_ROAD)
+						.pluck(id);
 			old.wallCache  = _(structureCache)
 						.remove(s => s.structureType == STRUCTURE_WALL)
 						.pluck(id);
@@ -76,6 +85,15 @@ var overlord = {
 						.remove(s => s.structureType == STRUCTURE_RAMPART)
 						.pluck(id);
 			old.strCache = _(structureCache).pluck(id);
+			//	Link Cache
+			var links = _(structureCache)
+						.filter(s => s.structureType == STRUCTURE_LINK)
+						.pluck(id);
+			if(links.length != old.links){
+				old.links = links;
+				determineLinkModes(roomName);
+			}
+
 		}
 		//	Source Cache
 		if(old.srcCache.length === 0){
@@ -87,16 +105,12 @@ var overlord = {
 					e: 		source.energy,
 					ttr: 	source.ticksToRegeneration
 				};
-				s.id = source.id;
-				s.pos = source.pos;
-				s.e = source.energy;
-				s.ttr = source.ticksToRegeneration;
 				old.srcCache.push(s);
 			}
 		}
 		//	Mineral Checks
 		var liveMineral = room.find(FIND_MINERALS)[0];
-		if(old.mineral == null){
+		if(old.mineral === null){
 			var m = {
 				type: 	liveMineral.mineralType,
 				pos: 	liveMineral.pos,
@@ -105,7 +119,44 @@ var overlord = {
 		}
 		old.mineral.amt = liveMineral.amount;
 		old.mineral.ttr = liveMineral.ticksToRegeneration;
+
 		return OK;
+	},
+	/*
+	 *	Determines which modes are possible for links (Send, recieve, or both)
+	 *		for the given room.
+	 *	@param {String} roomName
+	 */
+	determineLinkModes: function(roomName){
+		var old = Memory.overlord[roomName];
+		var links = old.links;
+		for(var id in links){
+			var link = Game.getObjectById(id);
+			//	Can't send or recieve means the link hasn't been configured
+			if(!link.canRecieve && !link.canSend){
+				if(link.pos.findInRange(FIND_SOURCES, 2).length !== 0){
+					link.canRecieve = false;
+					link.canSend = true;
+					continue;
+				}
+				if(link.pos.getRangeTo(link.room.controller.pos) <= 4){
+					link.canRecieve = true;
+					link.canSend = false;
+					continue;
+				}
+				if(link.pos.findInRange(link.room.storage) <= 3){
+					link.canRecieve = true;
+					link.canSend = true;
+					continue;
+				}
+				if(link.pos.findInRange(FIND_EXIT, 5).length !== 0){
+					link.canRecieve = false;
+					link.canSend = true;
+					continue;
+				}
+				output.log("overlord", 4, "Error in room " + link.room.name + " : Link mode could not be determined for link - " + link.id);
+			}
+		}
 	},
 	/*
 	 *	Determines the economic mode of the room
@@ -131,8 +182,7 @@ var overlord = {
 	 *
 	 *	EXPAND:
 	 *		Status: 	Room is undergoing rapid infrastructure expansion
-	 *		Trigger: 	RCL < 5
-	 *					TODO
+	 *		Trigger: 	RCL <= old.RCL &&  construction sites / structure count > old.conPer
 	 *		Timeout: 	No further structures to build
 	 *		Behavior: 	Excess projected resources spent on construction creeps and construction
 	 *
@@ -170,7 +220,7 @@ var overlord = {
 			return old.setMode("FORTIFY");
 		}
 		//	If I'm under attack, military production is vital
-		if(old.stance == "UNDER_ASSAULT" || (old.stance == "ALERT" && old.stanceProx == true)){
+		if(old.stance == "UNDER_ASSAULT" || (old.stance == "ALERT" && old.stanceProx === true)){
 			return old.setMode("MIL-IND");
 		}
 		//	Makes sure that I'm not being indirectly attacked
@@ -178,13 +228,23 @@ var overlord = {
 			return old.setMode("SIEGE_DEFENSE");
 		}
 		//	After that, it's important that I don't run out of resources in storage
-		if(old.projS !== null && old.RCL >= 5 && old.projS < old.storMin){
+		if(old.projS !== null && old.RCL >= 5 && old.projS < old.storLo){
 			return old.setMode("STOCKPILE");
 		}
+		//	If I'm stockpiling, I want to get a buffer up before I do other things
+		if(old.projS !== null && old.mode == "STOCKPILE" && old.projS < old.storHi){
+			return "STOCKPILE";
+		}
 		//	If I'm not immediately out of resources, rapid expansion is important
-		// 	TODO
-
-		
+		// 		if I have more than a certain percentage of sites to build and RCL
+		//		is higher than a certain trigger level
+		if(old.RCL >= old.conRCL && (old.siteCount / old.strCount) > old.conHiPer ){
+			return old.setMode("EXPAND");
+		}
+		//	If I recently triggered EXPAND mode, I want to stay in it if reasonable
+		if(old.mode == "EXPAND" && (old.siteCount / old.strCount) > old.conLoPer){
+			return "EXPAND";
+		}
 		return old.setMode("BALANCED");
 	},
 	/* 
@@ -263,7 +323,7 @@ var overlord = {
 	        if(Game.time >= (old.stanceTime + nukeThreatTimeOut)){
 	            old.setStance("NO_STANCE");
 	        }else{
-	            return;
+	            return old.stance;
 	        }
 	    }
 	    //  If I'm under attack, go into UNDER_ASSAULT stance
@@ -275,7 +335,7 @@ var overlord = {
             if(Game.time >= (old.stanceTime + underAssaultTimeOut)){
                 return old.setStance("ALERT");
             }else{
-            	return;
+            	return old.stance;
             }
 	    }
 	    //	TODO:
@@ -318,7 +378,7 @@ var overlord = {
 
 				//	Defense Related Data
 				thLim: 0,				//	Enemy threat limit before response
-	            dexits: {},				//	Dangerous (attacked) exits (directions not to mine in)
+	            dexits: [],				//	Dangerous (attacked) exits (directions not to mine in)
 	            tdmode: null,			//	Tower Defense Mode (Determines targetting);
 	            tdtarget: null,			//	Id of current target
 	            tdlasthits: 0,			//	Hits of target last tick (for stalemate checking);
@@ -329,22 +389,25 @@ var overlord = {
 	            taskList: [],			//	What needs doing. Objects are {id, amount required, type (extension, storage, military, etc.), pos}
 
 	            //	Caches
-	            strCache: [],			//	List of all non-wall/rampart structure ids in the room
 	            strCount: 0,			//	Count of ALL structures in room (used to trigger strCacheUpdate)
+	            strCache: [],			//	List of all non-wall/rampart structure ids in the room
 	            srcCache: [],			//	Cache of source information objects
 	            wallCache: [],			//	Cache of all wall ids in room
+	            roadCache: [],			// 	Cache of all road ids in room
 	            rampCache: [],			// 	Cache of all rampart ids in the room
-	            mineralCache: {},		//	Cache of mineral type, location, amount, ticks-to-regen, and density
-	            conSites: [],			//	Cache of construction sites in room
-
-				//	Creep related Data
+	            mineralCache: null,		//	Cache of mineral type, location, amount, ticks-to-regen, and density
+	            siteCount: 0,			//	Count of construction sites in room
+	            siteCache: [],			//	Cache of construction site ids in room
 	            creepCount: 0,       	//  Creeps owned by this room
-	            creepIds: [],			//	Ids of all creeps based in this room
+	            creepCache: [],			//	Cache of all creep ids for those based in this room
 
 	            //	Link Related Data
 	            links: [],				//	ObjectIds of all links in the room
 	            sndLinks: [],			// 	ObjectIds of send only links
 	            ctlLink: null,			// 	ObjectId of controller link (essentially receive only)
+
+	            //	Lab Related Data
+	            labs: [],				// 	Objects of all labs in the room containing: Id, mode
 
 	            //	Overlord Behavior Defaults
 	            nukeThreatTimeout: 10000,     		//	Timeout in ticks for nuke threat
@@ -353,7 +416,11 @@ var overlord = {
 	    		alertTimeout: 1500,					//	Timeout in ticks for a room to stand down from alert
 	    		alertProxDist: 5,					//	Default linear range in which an assault will trigger that room's alert
 	    		siegeTimeout: 1000,					//	Timeout for siege for HQ room
-	    		storMin: 45000						//	Low energy alert trigger
+	    		storLo: 45000,						//	Low energy alert trigger
+	    		storHi: 150000,						//	Trigger to go back into regular operations
+	    		conHiPer: 0.35,						//	Percentage of construction sites to trigger expand mode
+	    		conLoPer: 0.1,						//	Percentage of construction sites to leave expand mode
+	    		conRCL: 5 							//	Minimum RCL to trigger expand mode
 	        };
 	        Memory.overlord[roomName] = roomData;
         }
