@@ -520,6 +520,9 @@ function roomIsUnderAttack(roomName){
 	var nearbyRooms = Game.map.describeExits(roomName);
 	for (const key of Object.keys(nearbyRooms)) {
 	    const nearbyRoom = nearbyRooms[key];
+	    if(Game.rooms[nearbyRoom] === null){
+			continue;
+		}
 	    console.log(nearbyRoom);
 	    if((!nearbyRoom.controller || nearbyRoom.controller.my) && (combat.IFFSafeTargetList(nearbyRoom, false).length !== 0)) {
 	    	return true;
