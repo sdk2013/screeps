@@ -86,14 +86,18 @@ var overlord = {
 			old.rampCache =  _(structureCache)
 						.remove(s => s.structureType == STRUCTURE_RAMPART)
 						.map(s => s.id);
-			old.strCache = _(structureCache).map(s => s.id);
+			old.strCache = _(structureCache)
+						.filter(s => s.structureType != STRUCTURE_ROAD)
+						.filter(s => s.structureType != STRUCTURE_WALL)
+						.filter(s => s.structureType != STRUCTURE_RAMPART)
+						.map(s => s.id);
 			//	Link Cache
 			var links = _(structureCache)
 						.filter(s => s.structureType == STRUCTURE_LINK)
 						.map(s => s.id);
 			if(links.length != old.links){
 				old.links = links;
-				//determineLinkModes(roomName);
+				this.determineLinkModes(roomName);
 			}
 
 		}
@@ -103,7 +107,7 @@ var overlord = {
 		if(old.srcCache.length === 0){
 			var sourceCache = room.find(FIND_SOURCES);
 			for(var source in sourceCache){
-				let s = {
+				var s = {
 					id: 	source.id,
 					pos: 	source.pos,
 					e: 		source.energy,
