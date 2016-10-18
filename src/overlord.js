@@ -151,13 +151,13 @@ var overlord = {
 				if(link.pos.findInRange(FIND_SOURCES, 2).length !== 0){
 					link.canRecieve = false;
 					link.canSend = true;
-					old.sndLinks.push(link.id);
+					old.sndLinks.push(id);
 					continue;
 				}
 				if(link.pos.getRangeTo(link.room.controller.pos) <= 4){
 					link.canRecieve = true;
 					link.canSend = false;
-					old.ctlLink = link.id;
+					old.ctlLink = id;
 					continue;
 				}
 				if(link.pos.findInRange(link.room.storage) <= 3){
@@ -168,7 +168,7 @@ var overlord = {
 				if(link.pos.findInRange(FIND_EXIT, 5).length !== 0){
 					link.canRecieve = false;
 					link.canSend = true;
-					old.sndLinks.push(link.id);
+					old.sndLinks.push(id);
 					continue;
 				}
 				output.log("overlord", 4, "Error in room " + link.room.name + " : Link mode could not be determined for link - " + link.id);
@@ -577,6 +577,9 @@ function setLinkProto(){
             },
             set: function(mode){
                 if(mode === true || mode === false){
+                	if(Memory.objects[this.id] === undefined){
+                		Memory.objects[this.id] = null;
+                	}
                     Memory.objects[this.id].canSend = mode;
                 }else{
                     throw "canSend must be boolean";
@@ -600,6 +603,9 @@ function setLinkProto(){
             },
             set: function(mode){
                 if(mode === true || mode === false){
+                	if(Memory.objects[this.id] === undefined){
+                		Memory.objects[this.id] = null;
+                	}
                     Memory.objects[this.id].canRecieve = mode;
                 }else{
                     throw "canRecieve must be boolean";
