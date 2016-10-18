@@ -40,29 +40,22 @@ var overlord = {
 	 *                      Needed for reactive behavior
 	 */
 	calculateRoomStates: function(roomName){
-		console.log("WHAT THE FUCK");
 		var errorstring = "Room " + roomName + " encountered an error calculating states";
-		console.log("1");
         try{
             var room = Game.rooms[roomName];
             // 	Initialize room in memory if it doesn't exist
-            console.log("2");
             errorstring = "Room " + roomName + " encountered an error initializing memory";
             this.initOverlordRoomMemory(roomName);
             //	Check the cached data to see if it's up to date;
-            console.log("3");
             errorstring = "Room " + roomName + " encountered an error during data verification";
             this.verifyData(roomName);
             // 	Need to have distances to other rooms for proximity based behavior
-            console.log("4");
             errorstring = "Room " + roomName + " encountered an error finding allied locations";
             findAlliedLocations(roomName);
             // 	Military stance check
-            console.log("5");
             errorstring = "Room " + roomName + " encountered an error determining combat stance";
             this.determineStance(roomName);
             //	Economic stance check
-            console.log("6");
             errorstring = "Room " + roomName + " encountered an error determining economic mode";
             this.determineMode(roomName);
         }catch(e){
@@ -105,14 +98,16 @@ var overlord = {
 
 		}
 		//	Source Cache
+		console.log("Line 108, srcCache.length: " + old.srcCache.length);
 		if(old.srcCache.length === 0){
 			var sourceCache = room.find(FIND_SOURCES);
 			for(var source in sourceCache){
-				let s = {};
-				s.id = source.id;
-				s.pos = source.pos;
-				s.e = source.energy;
-				s.ttr = source.ticksToRegeneration;
+				let s = {
+					id: 	source.id,
+					pos: 	source.pos,
+					e: 		source.energy,
+					ttr: 	source.ticksToRegeneration
+				};
 				old.srcCache.push(s);
 			}
 		}
@@ -138,7 +133,6 @@ var overlord = {
 		var old = Memory.overlord[roomName];
 		var links = old.links;
 		for(var id in links){
-			console.log(id);
 			var link = Game.getObjectById(id);
 			//	Can't send or recieve means the link hasn't been configured
 			if(!link.canRecieve && !link.canSend){
@@ -150,6 +144,7 @@ var overlord = {
 				if(link.pos.getRangeTo(link.room.controller.pos) <= 4){
 					link.canRecieve = true;
 					link.canSend = false;
+					old.ctlLink = link.id;
 					continue;
 				}
 				if(link.pos.findInRange(link.room.storage) <= 3){
@@ -532,9 +527,6 @@ function roomIsUnderAttack(roomName){
 	    if(Game.rooms[nearbyRoom] === null){
 			continue;
 		}
-	    console.log(nearbyRoom);
-	    console.log(Game.rooms[nearbyRoom]);
-
 	    if((!nearbyRoom.controller || nearbyRoom.controller.my) && (combat.hostileTargetList(nearbyRoom).length !== 0)) {
 	    	return true;
 	    }
