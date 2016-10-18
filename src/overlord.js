@@ -78,7 +78,7 @@ var overlord = {
 		//	Construction Site Cache
 		var sites = room.find(FIND_CONSTRUCTION_SITES);
 		if(sites.length != old.siteCount){
-			old.siteCache = _(sites).pluck(id);
+			old.siteCache = _(sites).map(s => s.id);
 		}
 		//	Structure caches
 		var structureCache = room.find(FIND_STRUCTURES);
