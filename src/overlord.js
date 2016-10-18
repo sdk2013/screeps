@@ -102,22 +102,16 @@ var overlord = {
 
 		}
 		//	Source Cache
-		console.log("Line 108, srcCache.length: " + old.srcCache.length);
-		console.log(room.find(FIND_SOURCES));
-		console.log(room.find(FIND_SOURCES)[0].id);
 		if(old.srcCache.length === 0){
 			var sourceCache = room.find(FIND_SOURCES);
 			for(var i = sourceCache.length; i-- > 0;){
 				var source = sourceCache[i];
-				console.log(source.id);
-
 				var s = {
 					id: 	source.id,
 					pos: 	source.pos,
 					e: 		source.energy,
 					ttr: 	source.ticksToRegeneration
 				};
-				console.log(s.id);
 				old.srcCache.push(s);
 			}
 		}
@@ -127,6 +121,8 @@ var overlord = {
 			var m = {
 				type: 	liveMineral.mineralType,
 				pos: 	liveMineral.pos,
+				amt: 	liveMineral.amount,
+				ttr: 	ticksToRegeneration
 			};
 			old.mineralCache = m;
 		}
