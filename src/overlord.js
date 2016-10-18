@@ -97,7 +97,7 @@ var overlord = {
 						.map(s => s.id);
 			if(links.length != old.links){
 				old.links = links;
-				//this.determineLinkModes(roomName);
+				this.determineLinkModes(roomName);
 			}
 
 		}
@@ -143,6 +143,7 @@ var overlord = {
 		var links = old.links;
 		for(var id in links){
 			var link = Game.getObjectById(id);
+			console.log(link);
 			//	Can't send or recieve means the link hasn't been configured
 			if(!link.canRecieve && !link.canSend){
 				if(link.pos.findInRange(FIND_SOURCES, 2).length !== 0){
