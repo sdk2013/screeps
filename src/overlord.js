@@ -122,7 +122,8 @@ var overlord = {
 			var m = {
 				type: 	liveMineral.mineralType,
 				pos: 	liveMineral.pos,
-				amt: 	liveMineral.amount,
+				amt: 	liveMineral.mineralAmount,
+				den: 	liveMineral.density,
 				ttr: 	liveMineral.ticksToRegeneration
 			};
 			old.mineralCache = m;
