@@ -142,6 +142,7 @@ var overlord = {
 		setLinkProto();
 		console.log("Prototype Set");
 		var old = Memory.overlord[roomName];
+		console.log("Old.links.length: " + old.links.length);
 		for(var i = old.links.length; i-- > 0;){
 			var id = old.links[i];
 			console.log("146 id: " + id);
