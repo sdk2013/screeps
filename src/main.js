@@ -269,7 +269,7 @@ function initialize(){
             get: function(){
                 if(!!Memory.objects[this.id]){
                     var recieve = Memory.objects[this.id].canRecieve;
-                    if(send === undefined){
+                    if(recieve === undefined){
                         return false;
                     }
                     return recieve;
