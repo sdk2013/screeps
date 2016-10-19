@@ -98,6 +98,7 @@ var overlord = {
 			if(links.length != old.links.length){
 				old.links = links;
 				console.log("Running link mode determininer");
+				console.log("Line 101, roomName: " + roomName);
 				this.determineLinkModes(roomName);
 			}
 
@@ -138,6 +139,7 @@ var overlord = {
 	 *	@param {String} roomName
 	 */
 	determineLinkModes: function(roomName){
+		console.log("Line 142, roomName: " + roomName);
 		console.log("Determining Link Modes");		
 		var old = Memory.overlord[roomName];
 		console.log("Old.links.length: " + old.links.length);
