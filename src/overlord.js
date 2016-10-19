@@ -138,9 +138,7 @@ var overlord = {
 	 *	@param {String} roomName
 	 */
 	determineLinkModes: function(roomName){
-		console.log("Determining Link Modes");
-		setLinkProto();
-		console.log("Prototype Set");
+		console.log("Determining Link Modes");		
 		var old = Memory.overlord[roomName];
 		console.log("Old.links.length: " + old.links.length);
 		for(var i = old.links.length; i-- > 0;){
