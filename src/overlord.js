@@ -100,7 +100,7 @@ var overlord = {
 				console.log("Running link mode determininer");
 				console.log("Line 101, roomName: " + roomName);
 				this.determineLinkModes(roomName);
-				//	this.setLinks(roomName);
+				this.setLinks(roomName);
 			}
 
 		}
@@ -135,15 +135,18 @@ var overlord = {
 		return OK;
 	},
 	/*
-	 *	Sets the send-only links (May not be needed)
+	 *	Sets the send-only and control links
 	 *
-	 *
+	 */
 	setLinks(roomName){
 		var old = Memory.overlord[roomName];
 		old.sndLinks = [];
 		for(var i = old.links.length; i-- > 0;){
 			if(Game.getObjectById(old.links[i]).canSend && !Game.getObjectById(old.links[i]).canRecieve){
 				old.sndLinks.push(i);
+			}
+			if(Game.getObjectById(old.links[i]).canRecieve){
+				old.ctlLink = i;
 			}
 		}
 	},
@@ -162,13 +165,11 @@ var overlord = {
 				if(link.pos.findInRange(FIND_SOURCES, 2).length !== 0){
 					link.canRecieve = false;
 					link.canSend = true;
-					old.sndLinks.push(link.id);
 					continue;
 				}
 				if(link.pos.getRangeTo(link.room.controller.pos) <= 4){
 					link.canRecieve = true;
 					link.canSend = false;
-					old.ctlLink = link.id;
 					continue;
 				}
 				if(link.pos.findInRange(link.room.storage, 3).length === 1){
@@ -179,7 +180,6 @@ var overlord = {
 				if(link.pos.findInRange(FIND_EXIT, 6).length >= 1){
 					link.canRecieve = false;
 					link.canSend = true;
-					old.sndLinks.push(link.id);
 					continue;
 				}
 				output.log("overlord", 4, "Error in room " + link.room.name + " : Link mode could not be determined for link - " + link.id);
