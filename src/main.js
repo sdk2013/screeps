@@ -239,18 +239,20 @@ function initialize(){
     Object.defineProperties(StructureLink.prototype, {
         "canSend": {
             get: function(){
-                if(!!Memory.objects){
+                if(!!Memory.objects[this.id]){
                     var send = Memory.objects[this.id].canSend;
                     if(send === undefined){
                         return false;
                     }
                     return send;
                 }
-                Memory.objects = {};
                 return false;
                 
             },
             set: function(mode){
+                if(!Memory.objects){
+                    Memory.objects = {};
+                }
                 if(mode === true || mode === false){
                     Memory.objects[this.id].canSend = mode;
                 }else{
@@ -262,18 +264,20 @@ function initialize(){
         },
         "canRecieve": {
             get: function(){
-                if(!!Memory.objects){
+                if(!!Memory.objects[this.id]){
                     var recieve = Memory.objects[this.id].canRecieve;
                     if(send === undefined){
                         return false;
                     }
                     return recieve;
                 }
-                Memory.objects = {};
                 return false;
                 
             },
             set: function(mode){
+                if(!Memory.objects){
+                    Memory.objects = {};
+                }
                 if(mode === true || mode === false){
                     Memory.objects[this.id].canRecieve = mode;
                 }else{
