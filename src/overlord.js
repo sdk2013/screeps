@@ -100,6 +100,7 @@ var overlord = {
 				console.log("Running link mode determininer");
 				console.log("Line 101, roomName: " + roomName);
 				this.determineLinkModes(roomName);
+				//	this.setLinks(roomName);
 			}
 
 		}
@@ -133,35 +134,41 @@ var overlord = {
 		old.mineralCache.ttr = liveMineral.ticksToRegeneration;
 		return OK;
 	},
+	/*
+	 *	Sets the send-only links (May not be needed)
+	 *
+	 *
+	setLinks(roomName){
+		var old = Memory.overlord[roomName];
+		old.sndLinks = [];
+		for(var i = old.links.length; i-- > 0;){
+			if(Game.getObjectById(old.links[i]).canSend && !Game.getObjectById(old.links[i]).canRecieve){
+				old.sndLinks.push(i);
+			}
+		}
+	},
 	/* 
 	 *	Determines which modes are possible for links (Send, recieve, or both)
 	 *		for the given room.
 	 *	@param {String} roomName
 	 */
 	determineLinkModes: function(roomName){
-		console.log("Line 142, roomName: " + roomName);
-		console.log("Determining Link Modes");		
 		var old = Memory.overlord[roomName];
-		console.log("Old.links.length: " + old.links.length);
 		for(var i = old.links.length; i-- > 0;){
 			var id = old.links[i];
-			console.log("146 id: " + id);
 			var link = Game.getObjectById(id);
-			console.log("148 link; " + link);
 			//	Can't send or recieve means the link hasn't been configured
-			console.log("linkcanrecieve" + link.canRecieve);
-			console.log("linkcansend" + link.canSend);
 			if(!link.canRecieve && !link.canSend){
 				if(link.pos.findInRange(FIND_SOURCES, 2).length !== 0){
 					link.canRecieve = false;
 					link.canSend = true;
-					old.sndLinks.push(id);
+					old.sndLinks.push(link.id);
 					continue;
 				}
 				if(link.pos.getRangeTo(link.room.controller.pos) <= 4){
 					link.canRecieve = true;
 					link.canSend = false;
-					old.ctlLink = id;
+					old.ctlLink = link.id;
 					continue;
 				}
 				if(link.pos.findInRange(link.room.storage, 3).length === 1){
@@ -172,7 +179,7 @@ var overlord = {
 				if(link.pos.findInRange(FIND_EXIT, 6).length >= 1){
 					link.canRecieve = false;
 					link.canSend = true;
-					old.sndLinks.push(id);
+					old.sndLinks.push(link.id);
 					continue;
 				}
 				output.log("overlord", 4, "Error in room " + link.room.name + " : Link mode could not be determined for link - " + link.id);
