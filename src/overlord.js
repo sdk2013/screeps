@@ -132,7 +132,7 @@ var overlord = {
 		old.mineralCache.ttr = liveMineral.ticksToRegeneration;
 		return OK;
 	},
-	/*
+	/* 
 	 *	Determines which modes are possible for links (Send, recieve, or both)
 	 *		for the given room.
 	 *	@param {String} roomName
@@ -140,7 +140,7 @@ var overlord = {
 	determineLinkModes: function(roomName){
 		console.log("Determining Link Modes");
 		setLinkProto();
-		console.log("Prototype Set")
+		console.log("Prototype Set");
 		var old = Memory.overlord[roomName];
 		for(var i = old.links.length; i-- > 0;){
 			var id = old.links[i];
