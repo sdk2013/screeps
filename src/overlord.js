@@ -95,8 +95,9 @@ var overlord = {
 			var links = _(structureCache)
 						.filter(s => s.structureType == STRUCTURE_LINK)
 						.map(s => s.id);
-			if(links.length != old.links){
+			if(links.length != old.links.length){
 				old.links = links;
+				console.log("Running link mode determininer");
 				this.determineLinkModes(roomName);
 			}
 
@@ -118,7 +119,6 @@ var overlord = {
 		//	Mineral Checks
 		var liveMineral = room.find(FIND_MINERALS)[0];
 		if(old.mineralCache === null){
-			console.log(JSON.stringify(liveMineral));
 			var m = {
 				type: 	liveMineral.mineralType,
 				pos: 	liveMineral.pos,
@@ -138,7 +138,9 @@ var overlord = {
 	 *	@param {String} roomName
 	 */
 	determineLinkModes: function(roomName){
+		console.log("Determining Link Modes");
 		setLinkProto();
+		console.log("Prototype Set")
 		var old = Memory.overlord[roomName];
 		for(var i = old.links.length; i-- > 0;){
 			var id = old.links[i];
