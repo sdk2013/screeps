@@ -52,7 +52,7 @@ var output = {
         if(Memory.debugLevel == null){
             Memory.debugLevel = 3;
         }
-        var debugLevel = Memory.debugLevel
+        var debugLevel = Memory.debugLevel;
         if(level > debugLevel) return;
         var modstring = "["+module.toUpperCase()+"]"
         var modcolor = colorCodes[module.toLowerCase()]
@@ -66,10 +66,10 @@ var output = {
                 case 1:
                 case 2:
                 case 3:
-                    errorstring = e.message + " : " + e.stack;
+                    errorstring = "... Error Data: " + e.message + " : " + e.stack;
                     break;
                 case 4:
-                    errorstring = e.message;
+                    errorstring = "... Error Data: " + e.message;
                     break;
                 default:
                     errorstring = "";
@@ -77,7 +77,7 @@ var output = {
         }else{
             errorstring = "";
         }
-        console.log(Game.time, modhtml, levelhtml, logString, "... Error Data: " + errorstring)
+        console.log(Game.time, modhtml, levelhtml, logString,  errorstring);
         return OK;
     }
 };
