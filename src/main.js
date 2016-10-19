@@ -253,6 +253,9 @@ function initialize(){
                 if(!Memory.objects){
                     Memory.objects = {};
                 }
+                if(!Memory.objects[this.id]){
+                    Memory.objects[this.id] = {};
+                }
                 if(mode === true || mode === false){
                     Memory.objects[this.id].canSend = mode;
                 }else{
@@ -277,6 +280,9 @@ function initialize(){
             set: function(mode){
                 if(!Memory.objects){
                     Memory.objects = {};
+                }
+                if(!Memory.objects[this.id]){
+                    Memory.objects[this.id] = {};
                 }
                 if(mode === true || mode === false){
                     Memory.objects[this.id].canRecieve = mode;
