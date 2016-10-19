@@ -162,12 +162,12 @@ var overlord = {
 					old.ctlLink = id;
 					continue;
 				}
-				if(link.pos.findInRange(link.room.storage) <= 3){
+				if(link.pos.findInRange(link.room.storage, 3).length === 1){
 					link.canRecieve = true;
 					link.canSend = true;
 					continue;
 				}
-				if(link.pos.findInRange(FIND_EXIT, 5).length !== 0){
+				if(link.pos.findInRange(FIND_EXIT, 6).length >= 1){
 					link.canRecieve = false;
 					link.canSend = true;
 					old.sndLinks.push(id);
