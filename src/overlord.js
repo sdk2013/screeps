@@ -143,9 +143,9 @@ var overlord = {
 		var links = old.links;
 		for(var i = links.length; i-- > 0;){
 			var id = links[i];
-			console.log(id);
+			console.log("146 id: " + id);
 			var link = Game.getObjectById(id);
-			console.log(link);
+			console.log("148 link; " + link);
 			//	Can't send or recieve means the link hasn't been configured
 			console.log("linkcanrecieve" + link.canRecieve);
 			console.log("linkcansend" + link.canSend);
