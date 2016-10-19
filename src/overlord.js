@@ -140,9 +140,8 @@ var overlord = {
 	determineLinkModes: function(roomName){
 		setLinkProto();
 		var old = Memory.overlord[roomName];
-		var links = old.links;
-		for(var i = links.length; i-- > 0;){
-			var id = links[i];
+		for(var i = old.links.length; i-- > 0;){
+			var id = old.links[i];
 			console.log("146 id: " + id);
 			var link = Game.getObjectById(id);
 			console.log("148 link; " + link);
