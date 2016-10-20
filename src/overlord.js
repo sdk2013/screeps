@@ -145,6 +145,8 @@ var overlord = {
 		console.log("Setting Links");
 		var old = Memory.overlord[roomName];
 		console.log("old " + JSON.stringify(old));
+		console.log("old.links " + JSON.stringify(old.links));
+		console.log("_.size(old.links)" + _.size(old.links));
 		var sndLinks = [];
 		var ctlLink = null;
 		console.log("Links length: " + old.links.length);
