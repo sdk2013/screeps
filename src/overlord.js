@@ -192,7 +192,7 @@ var overlord = {
 				output.log("overlord", 4, "Error in room " + link.room.name + " : Link mode could not be determined for link - " + link.id);
 			}
 		}
-		old.sndLinks = _(old.links).filter(l => l.canSend && !l.canRecieve).value();
+		old.sndLinks = _(old.links).filter(l => Game.getObjectById(l).canSend && !Game.getObjectById(l).canRecieve).value();
 	},
 	/*
 	 *	Determines the economic mode of the room
