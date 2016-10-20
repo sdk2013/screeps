@@ -97,10 +97,12 @@ var overlord = {
 						.map(s => s.id);
 			if(links.length != old.links.length){
 				old.links = links;
+				//	TODO (This section not assigning sndLinks or ctlLink properly)
 				console.log("Running link mode determininer");
 				console.log("Line 101, roomName: " + roomName);
 				this.determineLinkModes(roomName);
 				this.setLinks(roomName);
+				//	END TODO
 			}
 
 		}
@@ -140,15 +142,17 @@ var overlord = {
 	 */
 	setLinks(roomName){
 		var old = Memory.overlord[roomName];
-		old.sndLinks = [];
+		var sndLinks = [];
 		for(var i = old.links.length; i-- > 0;){
 			if(Game.getObjectById(old.links[i]).canSend && !Game.getObjectById(old.links[i]).canRecieve){
-				old.sndLinks.push(i);
+				sndLinks.push(i);
 			}
 			if(Game.getObjectById(old.links[i]).canRecieve){
-				old.ctlLink = i;
+				ctlLink = i;
 			}
 		}
+		old.sndLinks = sndLinks;
+		old.ctlLink = ctlLink;
 	},
 	/* 
 	 *	Determines which modes are possible for links (Send, recieve, or both)
