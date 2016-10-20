@@ -141,22 +141,20 @@ var overlord = {
 	 *
 	 */
 	setLinks(roomName){
+		console.log("Line 144 roomName: " + roomName);
 		console.log("Setting Links");
 		var old = Memory.overlord[roomName];
+		console.log("old" + old);
 		var sndLinks = [];
-		var ctlLink;
+		var ctlLink = null;
 		console.log("Links length: " + old.links.length);
 		console.log("Memory length:" + Memory.overlord[roomName].links.length);
 		for(var i = old.links.length; i-- > 0;){
 			if(Game.getObjectById(old.links[i]).canSend && !Game.getObjectById(old.links[i]).canRecieve){
 				sndLinks.push(i);
 			}
-			if(Game.getObjectById(old.links[i]).canRecieve){
-				ctlLink = i;
-			}
 		}
 		old.sndLinks = sndLinks;
-		old.ctlLink = ctlLink;
 	},
 	/* 
 	 *	Determines which modes are possible for links (Send, recieve, or both)
