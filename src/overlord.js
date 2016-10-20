@@ -101,7 +101,7 @@ var overlord = {
 				console.log("Running link mode determininer");
 				console.log("Line 101, roomName: " + roomName);
 				this.determineLinkModes(roomName);
-				this.setLinks(roomName);
+				this.setLinks("E6N28");
 				//	END TODO
 			}
 
