@@ -106,7 +106,7 @@ var overlord = {
 				console.log("Running link mode determininer");
 				console.log("Line 101, roomName: " + roomName);
 				this.determineLinkModes(roomName);
-				this.setLinks(roomName);
+				//this.setLinks(roomName);
 				//	END TODO
 			}
 
@@ -192,6 +192,7 @@ var overlord = {
 				output.log("overlord", 4, "Error in room " + link.room.name + " : Link mode could not be determined for link - " + link.id);
 			}
 		}
+		old.sndLinks = _(old.links).filter(l => l.canSend && !l.canRecieve).value();
 	},
 	/*
 	 *	Determines the economic mode of the room
