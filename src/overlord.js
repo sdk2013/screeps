@@ -143,6 +143,7 @@ var overlord = {
 	setLinks(roomName){
 		var old = Memory.overlord[roomName];
 		var sndLinks = [];
+		var ctlLink;
 		for(var i = old.links.length; i-- > 0;){
 			if(Game.getObjectById(old.links[i]).canSend && !Game.getObjectById(old.links[i]).canRecieve){
 				sndLinks.push(i);
