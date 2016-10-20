@@ -176,6 +176,7 @@ var overlord = {
 				if(link.pos.getRangeTo(link.room.controller.pos) <= 4){
 					link.canRecieve = true;
 					link.canSend = false;
+					old.ctlLink = link.id;
 					continue;
 				}
 				if(link.pos.findInRange(link.room.storage, 3).length === 1){
