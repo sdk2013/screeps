@@ -239,7 +239,7 @@ function initialize(){
     Object.defineProperties(StructureLink.prototype, {
         "canSend": {
             get: function(){
-                if(!!Memory.objects[this.id]){
+                if(!!Memory.objects && !!Memory.objects[this.id]){
                     var send = Memory.objects[this.id].canSend;
                     if(send === undefined){
                         return false;
@@ -267,7 +267,7 @@ function initialize(){
         },
         "canRecieve": {
             get: function(){
-                if(!!Memory.objects[this.id]){
+                if(!!Memory.objects && !!Memory.objects[this.id]){
                     var recieve = Memory.objects[this.id].canRecieve;
                     if(recieve === undefined){
                         return false;
