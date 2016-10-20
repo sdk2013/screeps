@@ -79,22 +79,27 @@ var overlord = {
 			old.strCount = structureCache.length;
 			old.roadCache = _(structureCache)
 						.remove(s => s.structureType == STRUCTURE_ROAD)
-						.map(s => s.id);
+						.map(s => s.id)
+						.value();
 			old.wallCache  = _(structureCache)
 						.remove(s => s.structureType == STRUCTURE_WALL)
-						.map(s => s.id);
+						.map(s => s.id)
+						.value();
 			old.rampCache =  _(structureCache)
 						.remove(s => s.structureType == STRUCTURE_RAMPART)
-						.map(s => s.id);
+						.map(s => s.id)
+						.value();
 			old.strCache = _(structureCache)
 						.filter(s => s.structureType != STRUCTURE_ROAD)
 						.filter(s => s.structureType != STRUCTURE_WALL)
 						.filter(s => s.structureType != STRUCTURE_RAMPART)
-						.map(s => s.id);
+						.map(s => s.id)
+						.value();
 			//	Link Cache
 			var links = _(structureCache)
 						.filter(s => s.structureType == STRUCTURE_LINK)
-						.map(s => s.id);
+						.map(s => s.id)
+						.value();
 			if(links.length != old.links.length){
 				old.links = links;
 				//	TODO (This section not assigning sndLinks or ctlLink properly)
