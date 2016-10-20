@@ -106,7 +106,7 @@ var overlord = {
 				console.log("Running link mode determininer");
 				console.log("Line 101, roomName: " + roomName);
 				this.determineLinkModes(roomName);
-				this.setLinks("E6N28");
+				this.setLinks(roomName);
 				//	END TODO
 			}
 
@@ -146,17 +146,9 @@ var overlord = {
 	 *
 	 */
 	setLinks(roomName){
-		console.log("Line 144 roomName: " + roomName);
-		console.log("Setting Links");
 		var old = Memory.overlord[roomName];
-		console.log("old " + JSON.stringify(old));
-		console.log("old.links " + JSON.stringify(old.links));
-		console.log("_.size(old.links)" + _.size(old.links));
 		var sndLinks = [];
 		var ctlLink = null;
-		console.log("Links length: " + old.links.length);
-		console.log("Memory length:" + Memory.overlord[roomName].links.length);
-		console.log("HardCode length:" + Memory.overlord.E6N28.links.length);
 		for(var i = old.links.length; i-- > 0;){
 			if(Game.getObjectById(old.links[i]).canSend && !Game.getObjectById(old.links[i]).canRecieve){
 				sndLinks.push(old.links[i]);
