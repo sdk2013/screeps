@@ -8,16 +8,16 @@ var miner = {
     },
 	behavior: function(){
 	    var creep = this.creep;
-
-	    if(creep.carry["energy"] >=  creep.carryCapacity - (creep.getActiveBodyparts(WORK)*2)){
-            creep.memory.task = "offload";
-        }
         if(creep.carry["energy"] == 0){
             creep.memory.task = "mineEnergy";
         }
         var result = tasks.runTasks(creep);
         if(result == "ERR_NOT_IN_ROOM" && creep.memory.task == "offload"){
             creep.memory.builtcan == true;
+        }
+        if(creep.carry["energy"] >=  creep.carryCapacity - (creep.getActiveBodyparts(WORK)*2)){
+            creep.memory.task = "offload";
+            tasks.runTasks(creep);
         }
         if(creep.memory.builtcan == true && creep.memory.supportOrdered != true){
             creep.memory.supportOrdered = true;
