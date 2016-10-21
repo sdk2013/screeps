@@ -53,12 +53,12 @@ var collector = {
      */
     partWeightsExt: function(e){
         var unitWeight;
-        if(e <= 5){                                     // < 300 max energy avail
+        if(e < 5){                                     // < 300 max energy avail
             unitWeight = [["carry", 3],["move",3]];     // cost: 300
-        }else if(e <= 10){                              // < 550 max energy avail
+        }else if(e < 10){                              // < 550 max energy avail
             unitWeight = [["carry", 5],["move",5]];     // cost: 500 
-        }else if(e <= 20){                              // < 800 max energy avail
-            unitWeight = [["carry", 6],["move",6]];     // cost: 600
+        }else if(e < 20){                              // < 800 max energy avail
+            unitWeight = [["work", 1],["carry", 6],["move",7]];     // cost: 750
         }else{
             unitWeight = [["work", 1], ["carry", Math.floor((e/2)-2)], ["move", Math.floor(e/2)]];
         }
