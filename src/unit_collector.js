@@ -41,7 +41,7 @@ var collector = {
         }
         if(result == "ERR_NO_TARGETS" && creep.memory.task == "gatherEnergy" && creep.room.name == creep.memory.spawnRoom){
             creep.memory.task = "fetchEnergy";
-        }else if(result == "ERR_NO_TARGETS" && creep.memory.task == "fetchEnergy" && creep.room.name == creep.memory.spawnRoom){
+        }else if(result == "ERR_INVALID_TARGET" && creep.memory.task == "fetchEnergy" && creep.room.name == creep.memory.spawnRoom){
             creep.memory.task = "gatherEnergy";
         }
 	},
