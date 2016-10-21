@@ -39,11 +39,11 @@ var miner = {
      */
     partWeightsExt: function(extensionCount){
         var unitWeight;
-        if(extensionCount <= 5){                                     // < 300 max energy avail
+        if(extensionCount < 5){                                     // < 300 max energy avail
             unitWeight = [["work", 2],["carry", 1],["move",1]];     // cost: 300
-        }else if(extensionCount <= 10){                              // < 550 max energy avail
+        }else if(extensionCount < 10){                              // < 550 max energy avail
             unitWeight = [["work", 3],["carry", 1],["move",3]];     // cost: 500 
-        }else if(extensionCount <= 20){                              // < 800 max energy avail
+        }else if(extensionCount < 20){                              // < 800 max energy avail
             unitWeight = [["work", 5],["carry", 1],["move",3]];     // cost: 700
         }else{                                                      // 1300 max energy
             unitWeight = [["work", 5],["carry", 1],["move",5]];     // cost: 700
