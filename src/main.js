@@ -294,4 +294,57 @@ function initialize(){
             enumerable: false
         }
     });
+    Object.defineProperties(Structure.prototype, {
+        "projectedHits": {
+            get: function(){
+                if(!!Memory.objects && !!Memory.objects[this.id]){
+                    var hits = Memory.objects[this.id].projectedHits;
+                    return hits;
+                }
+                return undefined;
+                
+            },
+            set: function(hits){
+                if(!Memory.objects){
+                    Memory.objects = {};
+                }
+                if(!Memory.objects[this.id]){
+                    Memory.objects[this.id] = {};
+                }
+                if(_.isNumber(hits)){
+                    Memory.objects[this.id].projectedHits = hits;
+                }else{
+                    throw new Exception("projectedHits must be a number");
+                }
+            },
+            configurable: true,
+            enumerable: true
+        },
+        "projectedEnergy": {
+            get: function(){
+                if(!!Memory.objects && !!Memory.objects[this.id]){
+                    var energy = Memory.objects[this.id].projectedEnergy;
+                    return energy;
+                }
+                return undefined;
+                
+            },
+            set: function(energy){
+                if(!Memory.objects){
+                    Memory.objects = {};
+                }
+                if(!Memory.objects[this.id]){
+                    Memory.objects[this.id] = {};
+                }
+                if(_.isNumber(energy)){
+                    Memory.objects[this.id].projectedEnergy = energy;
+                }else{
+                    throw new Exception("projectedEnergy must be a number");
+                }
+            },
+            configurable: true,
+            enumerable: true
+        }
+    });
+
 }
