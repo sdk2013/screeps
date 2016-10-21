@@ -42,7 +42,7 @@ var miner = {
         if(extensionCount < 5){                                     // < 300 max energy avail
             unitWeight = [["work", 2],["carry", 1],["move",1]];     // cost: 300
         }else if(extensionCount < 10){                              // < 550 max energy avail
-            unitWeight = [["work", 3],["carry", 1],["move",3]];     // cost: 500 
+            unitWeight = [["work", 4],["carry", 1],["move",2]];     // cost: 550
         }else if(extensionCount < 20){                              // < 800 max energy avail
             unitWeight = [["work", 5],["carry", 1],["move",3]];     // cost: 700
         }else{                                                      // 1300 max energy
