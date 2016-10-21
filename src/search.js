@@ -110,7 +110,8 @@ module.exports = {
         var creep = this;
         var targets = _(creep.room.find(FIND_STRUCTURES))
                         .filter(s => s.structureType == "container"
-                            || s.structureType == "storage")
+                            || s.structureType == "storage"
+                            || s.structureType == "terminal")
                         .sortBy(s => s.totalEnergy() )
                         .value()
         return targets;
